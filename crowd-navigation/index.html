@@ -3,26 +3,59 @@
         <script src='/_ah/channel/jsapi'></script>
     </head>
     <body>
-	    <script type='text/javascript'>
-		    channel = new goog.appengine.Channel('{{ token }}');
-		    socket = channel.open();
-		    socket.onopen = onOpened;
-		    socket.onmessage = onMessage;
-		    socket.onerror = onError;
-		    socket.onclose = onClose;
-		    
-		    sendMessage = function(path, opt_param) {
-			    var xhr = new XMLHttpRequest();
-			    xhr.open('POST', path, true);
-			    xhr.send();
-			};
-			
-			onOpened = function() {
-			    connected = true;
-			    sendMessage('opened');
-			    updateBoard();
-			};
-	    </script>
-        <img src = '/images/sidewalk.jpg' />
+        <script type='text/javascript'>
+        	getPosition()
+        	{
+        		var the_source = document.getElementById('the_source');
+        		var offset = the_source.offset();
+        	    alert(e.clientX - offset.left);
+        	    alert(e.clientY - offset.top);
+        	}
+        
+            onOpened = function()
+            {
+                sendMessage('/opened');
+            };
+              
+            onMessage = function(m)
+            {
+                //Handle when retreiving messages.
+                /*
+                newState = JSON.parse(m.data);
+                state.board = newState.board || state.board;
+                state.userX = newState.userX || state.userX;
+                state.userO = newState.userO || state.userO;
+                state.moveX = newState.moveX;
+                state.winner = newState.winner || "";
+                state.winningBoard = newState.winningBoard || "";
+                updateGame();
+                */
+            }
+        
+            openChannel = function()
+            {
+                var token = '{{ token }}';
+                var channel = new goog.appengine.Channel(token);
+                var handler = {
+                    'onopen': onOpened,
+                    'onmessage': onMessage,
+                    'onerror': function() {},
+                    'onclose': function() {}
+                };
+                var socket = channel.open(handler);
+                socket.onopen = onOpened;
+                socket.onmessage = onMessage;
+            }
+        
+            initialize = function()
+            {
+                openChannel();
+                var the_source = document.getElementById('the_source');
+                the_source.onclick = new Function('getPosition()');
+            }  
+        
+            setTimeout(initialize, 100);
+        </script>
+        <img id = 'the_source' src = '/images/sidewalk.jpg' />
     </body>
 </html>

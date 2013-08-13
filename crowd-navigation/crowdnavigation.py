@@ -1,5 +1,5 @@
 import jinja2
-import simplejson
+import json
 import os
 import webapp2
 from google.appengine.api import users
@@ -66,7 +66,7 @@ class SourceUpdater():
             'x_position': self.source.x_position,
             'y_position': self.source.y_position
         }
-        return simplejson.dumps(sourceUpdate)
+        return json.dumps(sourceUpdate)
 
     def send_update(self):
         message = self.get_source_message()
