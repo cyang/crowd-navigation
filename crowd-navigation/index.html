@@ -4,13 +4,23 @@
     </head>
     <body>
         <script type='text/javascript'>
-        	getPosition()
+        	var state = {
+                current_user: '{{ current_user }}'
+            };
+        
+        	getPosition = function()
         	{
         		var the_source = document.getElementById('the_source');
         		var offset = the_source.offset();
         	    alert(e.clientX - offset.left);
         	    alert(e.clientY - offset.top);
         	}
+        	
+        	sendMessage = function(path, opt_param) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', path, true);
+                xhr.send();
+            };
         
             onOpened = function()
             {
@@ -19,17 +29,11 @@
               
             onMessage = function(m)
             {
-                //Handle when retreiving messages.
-                /*
                 newState = JSON.parse(m.data);
-                state.board = newState.board || state.board;
-                state.userX = newState.userX || state.userX;
-                state.userO = newState.userO || state.userO;
-                state.moveX = newState.moveX;
-                state.winner = newState.winner || "";
-                state.winningBoard = newState.winningBoard || "";
-                updateGame();
-                */
+                state.current_user = newState.current_user || state.current_user;
+                state.x_position = newState.x_position || state.x_position;
+                state.y_position = newState.y_position || state.y_position;
+                updateSource();
             }
         
             openChannel = function()
@@ -52,6 +56,7 @@
                 openChannel();
                 var the_source = document.getElementById('the_source');
                 the_source.onclick = new Function('getPosition()');
+                onMessage({data: '{{ initial_message }}'});
             }  
         
             setTimeout(initialize, 100);
