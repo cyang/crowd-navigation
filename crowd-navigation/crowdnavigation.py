@@ -9,13 +9,10 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 
 class Source(db.Model):
-    """All the data we store for a game"""
-    userX = db.UserProperty()
-    userO = db.UserProperty()
-    board = db.StringProperty()
-    moveX = db.BooleanProperty()
-    winner = db.StringProperty()
-    winning_board = db.StringProperty()
+    """All the data we store for a source"""
+    user = db.UserProperty()
+    x_position = db.IntegerProperty()
+    y_position = db.IntegerProperty()
 
 class MainPage(webapp2.RequestHandler):
     
@@ -35,41 +32,41 @@ class MainPage(webapp2.RequestHandler):
             
 class MovePage(webapp2.RequestHandler):
 
-  def post(self):
-    source = SourceFromRequest(self.request).get_source()
-    user = users.get_current_user()
-    if source and user:
-      id = int(self.request.get('i'))
-      SourceUpdater(source).make_move(id, user)
+    def post(self):
+        source = SourceFromRequest(self.request).get_source()
+        user = users.get_current_user()
+        if source and user:
+            id = int(self.request.get('i'))
+            SourceUpdater(source).make_move(id, user)
       
 class SourceFromRequest():
-  source = None;
+    source = None;
 
-  def __init__(self, request):
-    user = users.get_current_user()
-    source_key = request.get('sourcekey')
-    if user and source_key:
-      self.source = Source.get_by_key_name(source_key)
+    def __init__(self, request):
+        user = users.get_current_user()
+        source_key = request.get('sourcekey')
+        if user and source_key:
+            self.source = Source.get_by_key_name(source_key)
 
-  def get_source(self):
-    return self.source
+    def get_source(self):
+        return self.source
 
 class SourceUpdater():
-  """Creates an object to store the source's state, and handles validating moves
-  and broadcasting updates to the source."""
-  source = None
+    """Creates an object to store the source's state, and handles validating moves
+    and broadcasting updates to the source."""
+    source = None
 
-  def __init__(self, source):
-    self.source = source
+    def __init__(self, source):
+        self.source = source
 
-  def get_source_message(self):
-    # The sourceUpdate object is sent to the client to render the state of a source.
-    sourceUpdate = {
-      'user': self.source.current_user.user_id(),
-      'x_position': self.source.x_position,
-      'y_position': self.source.y_position
-    }
-    return simplejson.dumps(sourceUpdate)
+    def get_source_message(self):
+        # The sourceUpdate object is sent to the client to render the state of a source.
+        sourceUpdate = {
+            'user': self.source.current_user.user_id(),
+            'x_position': self.source.x_position,
+            'y_position': self.source.y_position
+        }
+        return simplejson.dumps(sourceUpdate)
 
     def send_update(self):
         message = self.get_source_message()
