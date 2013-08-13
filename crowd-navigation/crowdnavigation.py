@@ -5,12 +5,9 @@ import webapp2
 from google.appengine.api import users
 from google.appengine.api import channel
 from google.appengine.ext import db
-from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 
-
 class Source(db.Model):
-    """All the data we store for a source"""
     current_user = db.UserProperty()
     x_position = db.IntegerProperty()
     y_position = db.IntegerProperty()
@@ -28,16 +25,14 @@ class MainPage(webapp2.RequestHandler):
                             y_position = None
                             )
             source.put()
+            print(source.current_user.user_id())
             token = channel.create_channel(user.user_id())
             template_values = {'token': token,
                                'current_user': user.user_id(),
                                'initial_message': SourceUpdater(source).get_source_message()
                                }
-            #template = jinja_environment.get_template('index.html')
-            #self.response.out.write(template.render(template_values))
-            
-            path = os.path.join(os.path.dirname(__file__), 'index.html')
-            self.response.out.write(template.render(path, template_values))
+            template = jinja_environment.get_template('index.html')
+            self.response.out.write(template.render(template_values))
         else:
             self.redirect(users.create_login_url(self.request.uri))
 
@@ -59,12 +54,12 @@ class SourceFromRequest():
         return self.source
 
 class SourceUpdater():
-    """Creates an object to store the source's state, and handles validating moves
-    and broadcasting updates to the source."""
     source = None
 
     def __init__(self, source):
+        print(source.x_position)
         self.source = source
+        print(source.current_user.user_id())
 
     def send_update(self):
         message = self.get_source_message()
