@@ -56,7 +56,6 @@
               
             onMessage = function(m)
             {
-            	alert(m.data);
                 newState = JSON.parse(m.data);
                 state.current_user = newState.current_user || state.current_user;
                 state.x_position = newState.x_position || state.x_position;
