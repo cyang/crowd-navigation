@@ -7,6 +7,33 @@
         	var state = {
                 current_user: '{{ current_user }}'
             };
+        	
+        	updateSource = function()
+        	{
+        		//Will set the display stuff.
+                /*for (i = 0; i < 9; i++)
+                {
+                    var square = document.getElementById(i);
+                    square.innerHTML = state.board[i];
+                    if(state.winner != '' && state.winningBoard != '')
+                    {
+                        if(state.winningBoard[i] == state.board[i])
+                        {
+                            if (state.winner == state.me)
+                            {
+                                square.style.background = "green";
+                        	} 
+                            else
+                            {
+                            	square.style.background = "red";
+                        	}
+                    	} 
+                    else
+                    {
+                        square.style.background = "white";
+                   	}
+                }*/
+            }
         
         	getPosition = function()
         	{
@@ -29,6 +56,7 @@
               
             onMessage = function(m)
             {
+            	alert(m.data);
                 newState = JSON.parse(m.data);
                 state.current_user = newState.current_user || state.current_user;
                 state.x_position = newState.x_position || state.x_position;

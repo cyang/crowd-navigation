@@ -5,6 +5,7 @@ import webapp2
 from google.appengine.api import users
 from google.appengine.api import channel
 from google.appengine.ext import db
+from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 
@@ -21,6 +22,7 @@ class MainPage(webapp2.RequestHandler):
 
         if user:
             source = Source(
+                            key_name = 'test',
                             current_user = user,
                             x_position = None,
                             y_position = None
@@ -31,19 +33,13 @@ class MainPage(webapp2.RequestHandler):
                                'current_user': user.user_id(),
                                'initial_message': SourceUpdater(source).get_source_message()
                                }
-            template = jinja_environment.get_template('index.html')
-            self.response.out.write(template.render(template_values))
+            #template = jinja_environment.get_template('index.html')
+            #self.response.out.write(template.render(template_values))
+            
+            path = os.path.join(os.path.dirname(__file__), 'index.html')
+            self.response.out.write(template.render(path, template_values))
         else:
             self.redirect(users.create_login_url(self.request.uri))
-            
-class MovePage(webapp2.RequestHandler):
-
-    def post(self):
-        source = SourceFromRequest(self.request).get_source()
-        user = users.get_current_user()
-        if source and user:
-            id = int(self.request.get('i'))
-            SourceUpdater(source).make_move(id, user)
 
 class OpenedPage(webapp2.RequestHandler):
     def post(self):
@@ -70,6 +66,10 @@ class SourceUpdater():
     def __init__(self, source):
         self.source = source
 
+    def send_update(self):
+        message = self.get_source_message()
+        channel.send_message(self.source.current_user.user_id() + self.source.key().id_or_name(), message)
+
     def get_source_message(self):
         # The sourceUpdate object is sent to the client to render the state of a source.
         sourceUpdate = {
@@ -78,25 +78,6 @@ class SourceUpdater():
             'y_position': self.source.y_position
         }
         return json.dumps(sourceUpdate)
-
-    def send_update(self):
-        message = self.get_source_message()
-        channel.send_message(self.source.userX.user_id() + self.source.key().name(), message)
-        if self.source.userO:
-            channel.send_message(self.source.userO.user_id() + self.source.key().name(), message)
-
-    def make_move(self, position, user):
-        if position >= 0 and user == self.source.userX or user == self.source.userO:
-            if self.source.moveX == (user == self.source.userX):
-                boardList = list(self.source.board)
-            if (boardList[position] == ' '):
-                boardList[position] = 'X' if self.source.moveX else 'O'
-                self.source.board = "".join(boardList)
-                self.source.moveX = not self.source.moveX
-                self.check_win()
-                self.source.put()
-                self.send_update()
-                return
 
 
 jinja_environment = jinja2.Environment(
