@@ -18,11 +18,14 @@ class MainPage(webapp2.RequestHandler):
         user = users.get_current_user()
 
         if user:
+            source_key = self.request.get('g')
+            if not source_key:
+                source_key = user.user_id()
             source = Source(
-                            key_name = 'test',
+                            key_name = source_key,
                             current_user = user,
-                            x_position = None,
-                            y_position = None
+                            x_position = -1,
+                            y_position = -1
                             )
             source.put()
             print(source.current_user.user_id())
