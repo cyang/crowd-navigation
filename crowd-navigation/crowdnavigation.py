@@ -11,36 +11,28 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 class Source(db.Model):
     """All the data we store for a source"""
-    userX = db.UserProperty()
-    userO = db.UserProperty()
-    board = db.StringProperty()
-    moveX = db.BooleanProperty()
-    winner = db.StringProperty()
-    winning_board = db.StringProperty()
+    current_user = db.UserProperty()
+    x_position = db.IntegerProperty()
+    y_position = db.IntegerProperty()
 
 class SourceUpdater():
     source = None
 
     def __init__(self, source):
-        logging.warning(source.userX.user_id())
+        logging.warning(source.current_user.user_id())
         self.source = source
 
     def get_source_message(self):
         sourceUpdate = {
-                      'board': self.source.board,
-                      'userX': self.source.userX.user_id(),
-                      'userO': '' if not self.source.userO else self.source.userO.user_id(),
-                      'moveX': self.source.moveX,
-                      'winner': self.source.winner,
-                      'winningBoard': self.source.winning_board
+                      'current_user_id': self.source.current_user.user_id(),
+                      'x_position': self.source.x_position,
+                      'y_position': self.source.y_position
                       }
         return simplejson.dumps(sourceUpdate)
 
     def send_update(self):
         message = self.get_source_message()
-        channel.send_message(self.source.userX.user_id() + self.source.key().id_or_name(), message)
-        if self.source.userO:
-            channel.send_message(self.source.userO.user_id() + self.source.key().id_or_name(), message)
+        channel.send_message(self.source.current_user.user_id() + self.source.key().id_or_name(), message)
 
 class SourceFromRequest():
     source = None;
@@ -74,9 +66,9 @@ class MainPage(webapp.RequestHandler):
             if not source_key:
                 source_key = user.user_id()
                 source = Source(key_name = source_key,
-                            userX = user,
-                            moveX = True,
-                            board = '         ')
+                            current_user = user,
+                            x_position = None,
+                            y_position = None)
                 source.put()
             else:
                 source = Source.get_by_key_name(source_key)
