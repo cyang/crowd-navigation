@@ -7,6 +7,9 @@ threadsafe: no
 handlers:
 - url: /images
   static_dir: static/images
+
+- url: /js
+  static_dir: js
   
 - url: /.*
   script: crowdnavigation.py
@@ -17,5 +20,6 @@ inbound_services:
 libraries:                                                                      
 - name: jinja2                                                                  
   version: latest                                                               
+
 - name: markupsafe                                                              
   version: latest
