@@ -13,6 +13,7 @@ class Source(db.Model):
     current_user = db.UserProperty()
 
 class SourceMember(db.Model):
+    p_key = db.ReferenceProperty()
     c_user = db.UserProperty()
     x_position = db.IntegerProperty()
     y_position = db.IntegerProperty()
@@ -38,14 +39,20 @@ class MainPage(webapp2.RequestHandler):
             if source:
                 sourceMember = SourceMember.get_by_key_name(user.user_id() + source_key)
                 if not sourceMember:
+                    logging.warning("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW")
                     sourceMember = SourceMember(key_name = user.user_id() + source_key,
-                                                parent = source.key(),
+                                                p_key = source.key(),
                                                 c_user = user,
                                                 x_position = None,
                                                 y_position = None)
+                    logging.warning(sourceMember.c_user.user_id())
+                    logging.warning(sourceMember.is_saved())
                     sourceMember.put()
+                    logging.warning(sourceMember.is_saved())
                 sourceMember = None
                 sourceMember = SourceMember.get_by_key_name(user.user_id() + source_key)
+                logging.warning(user)
+                logging.warning(source.key().name())
                 logging.warning(sourceMember.c_user)
                 if sourceMember:
                     token = channel.create_channel(user.user_id() + source_key)
@@ -120,6 +127,7 @@ class SourceUpdater():
         message = self.get_source_message()
         sourceMemberList = SourceMember.all().ancestor(self.source.key())
         for sourceMember in sourceMemberList:
+            logging.warning(sourceMember.key().name())
             channel.send_message(sourceMember.c_user.user_id() + self.source.key().id_or_name(), message)
         
     def make_move(self, user, x_position, y_position):
