@@ -1,20 +1,5 @@
-#!/usr/bin/python2.4
-#
-# Copyright 2010 Google Inc. All Rights Reserved.
-
-# pylint: disable-msg=C6310
-
-"""Channel Tic Tac Toe
-
-This module demonstrates the App Engine Channel API by implementing a
-simple tic-tac-toe game.
-"""
-
-import datetime
 import logging
 import os
-import random
-import re
 from django.utils import simplejson
 from google.appengine.api import channel
 from google.appengine.api import users
@@ -32,28 +17,12 @@ class Game(db.Model):
     moveX = db.BooleanProperty()
     winner = db.StringProperty()
     winning_board = db.StringProperty()
-  
-
-class Wins():
-    x_win_patterns = ['XXX......',
-                      '...XXX...',
-                      '......XXX',
-                      'X..X..X..',
-                      '.X..X..X.',
-                      '..X..X..X',
-                      'X...X...X',
-                      '..X.X.X..']
-
-    o_win_patterns = map(lambda s: s.replace('X','O'), x_win_patterns)
-  
-    x_wins = map(lambda s: re.compile(s), x_win_patterns)
-    o_wins = map(lambda s: re.compile(s), o_win_patterns)
-
 
 class GameUpdater():
     game = None
 
     def __init__(self, game):
+        logging.warning(game.userX.user_id())
         self.game = game
 
     def get_game_message(self):
@@ -73,36 +42,6 @@ class GameUpdater():
         if self.game.userO:
             channel.send_message(self.game.userO.user_id() + self.game.key().id_or_name(), message)
 
-    def check_win(self):
-        if self.game.moveX:
-            # O just moved, check for O wins
-            wins = Wins().o_wins
-            potential_winner = self.game.userO.user_id()
-        else:
-            # X just moved, check for X wins
-            wins = Wins().x_wins
-            potential_winner = self.game.userX.user_id()
-      
-        for win in wins:
-            if win.match(self.game.board):
-                self.game.winner = potential_winner
-                self.game.winning_board = win.pattern
-                return
-
-    def make_move(self, position, user):
-        if position >= 0 and user == self.game.userX or user == self.game.userO:
-            if self.game.moveX == (user == self.game.userX):
-                boardList = list(self.game.board)
-                if (boardList[position] == ' '):
-                    boardList[position] = 'X' if self.game.moveX else 'O'
-                    self.game.board = "".join(boardList)
-                    self.game.moveX = not self.game.moveX
-                    self.check_win()
-                    self.game.put()
-                    self.send_update()
-                    return
-
-
 class GameFromRequest():
     game = None;
 
@@ -114,16 +53,6 @@ class GameFromRequest():
 
     def get_game(self):
         return self.game
-
-
-class MovePage(webapp.RequestHandler):
-
-    def post(self):
-        game = GameFromRequest(self.request).get_game()
-        user = users.get_current_user()
-        if game and user:
-            id = int(self.request.get('i'))
-            GameUpdater(game).make_move(id, user)
 
 
 class OpenedPage(webapp.RequestHandler):
@@ -176,8 +105,7 @@ class MainPage(webapp.RequestHandler):
 
 application = webapp.WSGIApplication([
                                       ('/', MainPage),
-                                      ('/opened', OpenedPage),
-                                      ('/move', MovePage)], debug=True)
+                                      ('/opened', OpenedPage)], debug=True)
 
 
 def main():
