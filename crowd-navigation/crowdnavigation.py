@@ -32,7 +32,7 @@ class MainPage(webapp2.RequestHandler):
             if source:
                 token = channel.create_channel(user.user_id() + source_key)
                 template_values = {'token': token,
-                                   'me': user.user_id(),
+                                   'current_user_id': user.user_id(),
                                    'source_key': source_key,
                                    'initial_message': SourceUpdater(source).get_source_message()
                                    }
