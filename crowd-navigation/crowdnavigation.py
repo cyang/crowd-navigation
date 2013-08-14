@@ -15,7 +15,7 @@ class Source(db.Model):
     y_position = db.IntegerProperty()
 
 class SourceMember(db.Model):
-    current_user = db.UserProperty()
+    user = db.UserProperty()
     
 class MainPage(webapp2.RequestHandler):
 
@@ -35,6 +35,10 @@ class MainPage(webapp2.RequestHandler):
                 source = Source.get_by_key_name(source_key)
 
             if source:
+                sourceMember = SourceMember(key_name = user.user_id() + source_key,
+                                            parent = source.key(),
+                                            user = user)
+                sourceMember.put()
                 token = channel.create_channel(user.user_id() + source_key)
                 template_values = {'token': token,
                                    'current_user_id': user.user_id(),
@@ -91,7 +95,9 @@ class SourceUpdater():
 
     def send_update(self):
         message = self.get_source_message()
-        channel.send_message(self.source.current_user.user_id() + self.source.key().id_or_name(), message)
+        sourceMemberList = SourceMember.all().ancestor(self.source.key())
+        for sourceMember in sourceMemberList:
+            channel.send_message(sourceMember.user.user_id() + self.source.key().id_or_name(), message)
         
     def make_move(self, user, x_position, y_position):
         self.source.x_position = x_position
