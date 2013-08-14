@@ -7,13 +7,28 @@
     <script type="text/javascript" >
       var state = {
         source_key: '{{ source_key }}',
-        current_user_id: '{{ current_user_id }}'
+        current_user_id: '{{ current_user_id }}',
+        member_list: {}
       };
+      
+      drawDotList = function(input_array){
+    	  drawImage();
+    	  x_total = 0;
+    	  y_total = 0;
+    	  users = 0;
+    	  $.each(input_array, function(index, value) {
+    		  drawDot(value[0], value[1]);
+    		  x_total += value[0];
+    		  y_total += value[1];
+    		  users += 1;
+    	  });
+    	  drawAverageDot(x_total/users, y_total/users);
+      }
 
       updateSource = function() {
-    	  $("#x_pos").html(state.x_position);
-    	  $("#y_pos").html(state.y_position);
-    	  drawDot(state.x_position, state.y_position)
+    	  $("#x_pos").html(state.c_x_position);
+    	  $("#y_pos").html(state.c_y_position);
+    	  drawDotList(state.member_list);
       };
 
       sendMessage = function(path, opt_param) {
@@ -32,7 +47,7 @@
   	    var x_position = e.clientX - offset.left;
   	    var y_position = e.clientY - offset.top;
   	    sendMessage('/move', 'x=' + x_position + "&y=" + y_position);
-      }
+      };
       
       onOpened = function() {
         sendMessage('/opened');
@@ -40,9 +55,14 @@
       
       onMessage = function(m) {
         newState = JSON.parse(m.data);
-        state.current_user_id = newState.current_user_id || state.current_user_id;
+        state.c_user_id = newState.c_user_id || state.c_user_id;
+        c_u = state.c_user_id;
         state.x_position = newState.x_position || state.x_position;
         state.y_position = newState.y_position || state.y_position;
+        if(c_u in state.member_list){
+        	delete state.member_list[c_u];
+        }
+        state.member_list[c_u] = [state.x_position, state.y_position];
         updateSource();
       }
       
@@ -78,19 +98,30 @@
 	
 	      imageObj.src = '/images/sidewalk.jpg';
 	      
-	      var radius = 25;
+	      var small_radius = 12;
+	      var large_radius = 25
 	      
 	      imageObj.onload = function() {
 		    context.drawImage(imageObj, 0, 0);
 		  };
 		  
-		  drawDot = function(centerX, centerY){
+		  drawImage = function(){
 			    context.drawImage(imageObj, 0, 0);
+		  };
+		  
+		  drawAverageDot = function(centerX, centerY){
 			    context.beginPath();
-				context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+				context.arc(centerX, centerY, large_radius, 0, 2 * Math.PI, false);
+				context.fillStyle = 'red';
+				context.fill();
+		  };
+		  
+		  drawDot = function(centerX, centerY){
+			    context.beginPath();
+				context.arc(centerX, centerY, small_radius, 0, 2 * Math.PI, false);
 				context.fillStyle = 'yellow';
 				context.fill();
-		  }
+		  };
 	    </script>
     </div>
     <div>

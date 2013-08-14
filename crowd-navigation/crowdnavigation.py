@@ -106,7 +106,7 @@ class SourceUpdater():
 
     def get_source_message(self):
         sourceUpdate = {
-                      'current_user_id': self.sourceMember.c_user.user_id(),
+                      'c_user_id': self.sourceMember.c_user.user_id(),
                       'x_position': self.sourceMember.x_position,
                       'y_position': self.sourceMember.y_position
                       }
@@ -119,9 +119,9 @@ class SourceUpdater():
             channel.send_message(sourceMember.c_user.user_id() + self.source.key().id_or_name(), message)
         
     def make_move(self, user, x_position, y_position):
-        self.source.x_position = x_position
-        self.source.y_position = y_position
-        self.source.put()
+        self.sourceMember.x_position = x_position
+        self.sourceMember.y_position = y_position
+        self.sourceMember.put()
         self.send_update()
 
 
