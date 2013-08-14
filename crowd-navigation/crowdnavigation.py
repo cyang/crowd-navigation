@@ -1,10 +1,11 @@
 import logging
 import os
 import json
+import webapp2
+import jinja2
 from google.appengine.api import channel
 from google.appengine.api import users
 from google.appengine.ext import db
-from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 
@@ -47,13 +48,13 @@ class SourceFromRequest():
         return self.source
 
 
-class OpenedPage(webapp.RequestHandler):
+class OpenedPage(webapp2.RequestHandler):
     def post(self):
         source = SourceFromRequest(self.request).get_source()
         SourceUpdater(source).send_update()
 
 
-class MainPage(webapp.RequestHandler):
+class MainPage(webapp2.RequestHandler):
     """The main UI page, renders the 'index.html' template."""
 
     def get(self):
@@ -95,7 +96,7 @@ class MainPage(webapp.RequestHandler):
             self.redirect(users.create_login_url(self.request.uri))
 
 
-application = webapp.WSGIApplication([
+application = webapp2.WSGIApplication([
                                       ('/', MainPage),
                                       ('/opened', OpenedPage)], debug=True)
 
