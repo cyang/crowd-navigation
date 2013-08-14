@@ -28,11 +28,6 @@ class MainPage(webapp2.RequestHandler):
                             x_position = None,
                             y_position = None)
                 source.put()
-            else:
-                source = Source.get_by_key_name(source_key)
-                if not source.userO:
-                    source.userO = user
-                    source.put()
 
             if source:
                 token = channel.create_channel(user.user_id() + source_key)
