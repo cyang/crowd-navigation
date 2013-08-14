@@ -1,4 +1,3 @@
-import logging
 import jinja2
 import json
 import os
