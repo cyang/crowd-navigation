@@ -15,15 +15,12 @@ class Source(db.Model):
     y_position = db.IntegerProperty()
     
 class MainPage(webapp2.RequestHandler):
-    """The main UI page, renders the 'index.html' template."""
 
     def get(self):
-        """Renders the main page. When this page is shown, we create a new
-        channel to push asynchronous updates to the client."""
         user = users.get_current_user()
-        source_key = self.request.get('g')
-        source = None
+
         if user:
+            source_key = self.request.get('g')
             if not source_key:
                 source_key = user.user_id()
                 source = Source(key_name = source_key,
@@ -37,14 +34,11 @@ class MainPage(webapp2.RequestHandler):
                     source.userO = user
                     source.put()
 
-            source_link = 'http://localhost:8080/?g=' + source_key
-
             if source:
                 token = channel.create_channel(user.user_id() + source_key)
                 template_values = {'token': token,
                                    'me': user.user_id(),
                                    'source_key': source_key,
-                                   'source_link': source_link,
                                    'initial_message': SourceUpdater(source).get_source_message()
                                    }
                 template = jinja_environment.get_template('index.html')
