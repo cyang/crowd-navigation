@@ -34,26 +34,18 @@ class MainPage(webapp2.RequestHandler):
                 source = Source.get_by_key_name(source_key)
             source = None
             source = Source.get_by_key_name(source_key)
-            logging.warning(source.current_user)
 
             if source:
                 sourceMember = SourceMember.get_by_key_name(user.user_id() + source_key)
                 if not sourceMember:
-                    logging.warning("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW")
                     sourceMember = SourceMember(key_name = user.user_id() + source_key,
                                                 p_key = source.key().name(),
                                                 c_user = user,
                                                 x_position = None,
                                                 y_position = None)
-                    logging.warning(sourceMember.c_user.user_id())
-                    logging.warning(sourceMember.is_saved())
                     sourceMember.put()
-                    logging.warning(sourceMember.is_saved())
                 sourceMember = None
                 sourceMember = SourceMember.get_by_key_name(user.user_id() + source_key)
-                logging.warning(user)
-                logging.warning(source.key().name())
-                logging.warning(sourceMember.c_user)
                 if sourceMember:
                     token = channel.create_channel(user.user_id() + source_key)
                     template_values = {'token': token,
@@ -83,18 +75,14 @@ class SourceFromRequest():
     def __init__(self, request):
         user = users.get_current_user()
         source_key = request.get('g')
-        c_u_i = request.get('u')
-        logging.warning('check1')
-        logging.warning(c_u_i)
         if user and source_key:
-            self.sourceMember = SourceMember.get_by_key_name(c_u_i + source_key)
+            self.sourceMember = SourceMember.get_by_key_name(user.user_id() + source_key)
             self.source = Source.get_by_key_name(source_key)
 
     def get_source(self):
         return self.source
     
     def get_source_member(self):
-        logging.warning(self.sourceMember.c_user.user_id())
         return self.sourceMember
     
 class MovePage(webapp2.RequestHandler):
@@ -128,7 +116,6 @@ class SourceUpdater():
         message = self.get_source_message()
         sourceMemberList = SourceMember.all().filter("p_key", self.source.key().name())
         for sourceMember in sourceMemberList:
-            logging.warning(sourceMember.key().name())
             channel.send_message(sourceMember.c_user.user_id() + self.source.key().id_or_name(), message)
         
     def make_move(self, user, x_position, y_position):
