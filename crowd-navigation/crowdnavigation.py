@@ -63,11 +63,9 @@ class SourceFromRequest():
 class MovePage(webapp2.RequestHandler):
 
     def post(self):
-        logging.warning("check1")
         source = SourceFromRequest(self.request).get_source()
         user = users.get_current_user()
         if source and user:
-            logging.warning("check2")
             x_position = int(self.request.get('x'))
             y_position = int(self.request.get('y'))
             SourceUpdater(source).make_move(user, x_position, y_position)
