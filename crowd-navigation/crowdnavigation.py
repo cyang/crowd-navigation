@@ -13,6 +13,9 @@ class Source(db.Model):
     current_user = db.UserProperty()
     x_position = db.IntegerProperty()
     y_position = db.IntegerProperty()
+
+class SourceMember(db.Model):
+    current_user = db.UserProperty()
     
 class MainPage(webapp2.RequestHandler):
 
@@ -28,6 +31,8 @@ class MainPage(webapp2.RequestHandler):
                             x_position = None,
                             y_position = None)
                 source.put()
+            else:
+                source = Source.get_by_key_name(source_key)
 
             if source:
                 token = channel.create_channel(user.user_id() + source_key)
