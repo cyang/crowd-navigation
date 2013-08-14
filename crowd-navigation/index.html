@@ -24,10 +24,11 @@
       };
       
       moveToPosition = function() {
-    	//Will be used to move to position.
-        /*if (isMyMove() && state.board[id] == ' ') {
-          sendMessage('/move', 'i=' + id);
-        }*/
+    	var the_source = document.getElementById('the_source');
+  		var offset = the_source.offset();
+  	    var x_position = e.clientX - offset.left;
+  	    var y_position = e.clientY - offset.top;
+  	    sendMessage('/move', 'x=' + x_position + "&y=" + y_position);
       }
       
       onOpened = function() {
