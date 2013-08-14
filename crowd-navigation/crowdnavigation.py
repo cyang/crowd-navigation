@@ -11,11 +11,11 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 class Source(db.Model):
     current_user = db.UserProperty()
-    x_position = db.IntegerProperty()
-    y_position = db.IntegerProperty()
 
 class SourceMember(db.Model):
-    user = db.UserProperty()
+    c_user = db.UserProperty()
+    x_position = db.IntegerProperty()
+    y_position = db.IntegerProperty()
     
 class MainPage(webapp2.RequestHandler):
 
@@ -27,26 +27,37 @@ class MainPage(webapp2.RequestHandler):
             if not source_key:
                 source_key = user.user_id()
                 source = Source(key_name = source_key,
-                            current_user = user,
-                            x_position = None,
-                            y_position = None)
+                            current_user = user)
                 source.put()
             else:
                 source = Source.get_by_key_name(source_key)
+            source = None
+            source = Source.get_by_key_name(source_key)
+            logging.warning(source.current_user)
 
             if source:
-                sourceMember = SourceMember(key_name = user.user_id() + source_key,
-                                            parent = source.key(),
-                                            user = user)
-                sourceMember.put()
-                token = channel.create_channel(user.user_id() + source_key)
-                template_values = {'token': token,
-                                   'current_user_id': user.user_id(),
-                                   'source_key': source_key,
-                                   'initial_message': SourceUpdater(source).get_source_message()
-                                   }
-                template = jinja_environment.get_template('index.html')
-                self.response.out.write(template.render(template_values))
+                sourceMember = SourceMember.get_by_key_name(user.user_id() + source_key)
+                if not sourceMember:
+                    sourceMember = SourceMember(key_name = user.user_id() + source_key,
+                                                parent = source.key(),
+                                                c_user = user,
+                                                x_position = None,
+                                                y_position = None)
+                    sourceMember.put()
+                sourceMember = None
+                sourceMember = SourceMember.get_by_key_name(user.user_id() + source_key)
+                logging.warning(sourceMember.c_user)
+                if sourceMember:
+                    token = channel.create_channel(user.user_id() + source_key)
+                    template_values = {'token': token,
+                                       'current_user_id': user.user_id(),
+                                       'source_key': source_key,
+                                       'initial_message': SourceUpdater(source, sourceMember).get_source_message()
+                                       }
+                    template = jinja_environment.get_template('index.html')
+                    self.response.out.write(template.render(template_values))
+                else:
+                    self.response.out.write('No such sourceMember')
             else:
                 self.response.out.write('No such source')
         else:
@@ -54,20 +65,30 @@ class MainPage(webapp2.RequestHandler):
 
 class OpenedPage(webapp2.RequestHandler):
     def post(self):
+        sourceMember = SourceFromRequest(self.request).get_source_member()
         source = SourceFromRequest(self.request).get_source()
-        SourceUpdater(source).send_update()
+        SourceUpdater(source, sourceMember).send_update()
 
 class SourceFromRequest():
     source = None;
+    sourceMember = None;
 
     def __init__(self, request):
         user = users.get_current_user()
         source_key = request.get('g')
+        c_u_i = request.get('u')
+        logging.warning('check1')
+        logging.warning(c_u_i)
         if user and source_key:
+            self.sourceMember = SourceMember.get_by_key_name(c_u_i + source_key)
             self.source = Source.get_by_key_name(source_key)
 
     def get_source(self):
         return self.source
+    
+    def get_source_member(self):
+        logging.warning(self.sourceMember.c_user.user_id())
+        return self.sourceMember
     
 class MovePage(webapp2.RequestHandler):
 
@@ -81,15 +102,17 @@ class MovePage(webapp2.RequestHandler):
 
 class SourceUpdater():
     source = None
+    sourceMember = None
 
-    def __init__(self, source):
+    def __init__(self, source, sourceMember):
         self.source = source
+        self.sourceMember = sourceMember
 
     def get_source_message(self):
         sourceUpdate = {
-                      'current_user_id': self.source.current_user.user_id(),
-                      'x_position': self.source.x_position,
-                      'y_position': self.source.y_position
+                      'current_user_id': self.sourceMember.c_user.user_id(),
+                      'x_position': self.sourceMember.x_position,
+                      'y_position': self.sourceMember.y_position
                       }
         return json.dumps(sourceUpdate)
 
@@ -97,7 +120,7 @@ class SourceUpdater():
         message = self.get_source_message()
         sourceMemberList = SourceMember.all().ancestor(self.source.key())
         for sourceMember in sourceMemberList:
-            channel.send_message(sourceMember.user.user_id() + self.source.key().id_or_name(), message)
+            channel.send_message(sourceMember.c_user.user_id() + self.source.key().id_or_name(), message)
         
     def make_move(self, user, x_position, y_position):
         self.source.x_position = x_position

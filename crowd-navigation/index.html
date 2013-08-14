@@ -18,6 +18,7 @@
 
       sendMessage = function(path, opt_param) {
         path += '?g=' + state.source_key;
+        path += '&u=' + state.current_user_id;
         if (opt_param) {
           path += '&' + opt_param;
         }
