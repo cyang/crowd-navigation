@@ -87,14 +87,16 @@ class MainPage(webapp2.RequestHandler):
                                    'source_link': source_link,
                                    'initial_message': SourceUpdater(source).get_source_message()
                                    }
-                path = os.path.join(os.path.dirname(__file__), 'index.html')
-
-                self.response.out.write(template.render(path, template_values))
+                template = jinja_environment.get_template('index.html')
+                self.response.out.write(template.render(template_values))
             else:
                 self.response.out.write('No such source')
         else:
             self.redirect(users.create_login_url(self.request.uri))
 
+
+jinja_environment = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 application = webapp2.WSGIApplication([
                                       ('/', MainPage),
