@@ -1,12 +1,11 @@
 import logging
-import os
-import json
-import webapp2
 import jinja2
-from google.appengine.api import channel
+import json
+import os
+import webapp2
 from google.appengine.api import users
+from google.appengine.api import channel
 from google.appengine.ext import db
-from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 
