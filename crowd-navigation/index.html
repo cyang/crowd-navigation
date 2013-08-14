@@ -11,7 +11,8 @@
       };
 
       updateSource = function() {
-		//Will be used to change display.
+    	  $("#x_pos").html(state.x_position);
+    	  $("#y_pos").html(state.y_position);
       };
 
       sendMessage = function(path, opt_param) {
@@ -67,6 +68,14 @@
       setTimeout(initialize, 100);
 
     </script>
-    <img src="images/sidewalk.jpg" id="the_source" />
+    <div>
+        <img src="images/sidewalk.jpg" id="the_source" />
+    </div>
+    <div>
+    	<span id="x_pos">0</span>
+    </div>
+    <div>
+    	<span id="y_pos">0</span>
+    </div>
   </body>
 </html>

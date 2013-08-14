@@ -60,11 +60,22 @@ class SourceFromRequest():
     def get_source(self):
         return self.source
     
+class MovePage(webapp2.RequestHandler):
+
+    def post(self):
+        logging.warning("check1")
+        source = SourceFromRequest(self.request).get_source()
+        user = users.get_current_user()
+        if source and user:
+            logging.warning("check2")
+            x_position = int(self.request.get('x'))
+            y_position = int(self.request.get('y'))
+            SourceUpdater(source).make_move(user, x_position, y_position)
+
 class SourceUpdater():
     source = None
 
     def __init__(self, source):
-        logging.warning(source.current_user.user_id())
         self.source = source
 
     def get_source_message(self):
@@ -78,6 +89,12 @@ class SourceUpdater():
     def send_update(self):
         message = self.get_source_message()
         channel.send_message(self.source.current_user.user_id() + self.source.key().id_or_name(), message)
+        
+    def make_move(self, user, x_position, y_position):
+        self.source.x_position = x_position
+        self.source.y_position = y_position
+        self.source.put()
+        self.send_update()
 
 
 jinja_environment = jinja2.Environment(
@@ -85,7 +102,9 @@ jinja_environment = jinja2.Environment(
 
 application = webapp2.WSGIApplication([
                                       ('/', MainPage),
-                                      ('/opened', OpenedPage)], debug=True)
+                                      ('/opened', OpenedPage),
+                                      ('/move', MovePage)
+                                      ], debug=True)
 
 
 def main():
