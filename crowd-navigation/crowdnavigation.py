@@ -10,49 +10,10 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 
 class Source(db.Model):
-    """All the data we store for a source"""
     current_user = db.UserProperty()
     x_position = db.IntegerProperty()
     y_position = db.IntegerProperty()
-
-class SourceUpdater():
-    source = None
-
-    def __init__(self, source):
-        logging.warning(source.current_user.user_id())
-        self.source = source
-
-    def get_source_message(self):
-        sourceUpdate = {
-                      'current_user_id': self.source.current_user.user_id(),
-                      'x_position': self.source.x_position,
-                      'y_position': self.source.y_position
-                      }
-        return json.dumps(sourceUpdate)
-
-    def send_update(self):
-        message = self.get_source_message()
-        channel.send_message(self.source.current_user.user_id() + self.source.key().id_or_name(), message)
-
-class SourceFromRequest():
-    source = None;
-
-    def __init__(self, request):
-        user = users.get_current_user()
-        source_key = request.get('g')
-        if user and source_key:
-            self.source = Source.get_by_key_name(source_key)
-
-    def get_source(self):
-        return self.source
-
-
-class OpenedPage(webapp2.RequestHandler):
-    def post(self):
-        source = SourceFromRequest(self.request).get_source()
-        SourceUpdater(source).send_update()
-
-
+    
 class MainPage(webapp2.RequestHandler):
     """The main UI page, renders the 'index.html' template."""
 
@@ -92,6 +53,42 @@ class MainPage(webapp2.RequestHandler):
                 self.response.out.write('No such source')
         else:
             self.redirect(users.create_login_url(self.request.uri))
+
+class OpenedPage(webapp2.RequestHandler):
+    def post(self):
+        source = SourceFromRequest(self.request).get_source()
+        SourceUpdater(source).send_update()
+
+class SourceFromRequest():
+    source = None;
+
+    def __init__(self, request):
+        user = users.get_current_user()
+        source_key = request.get('g')
+        if user and source_key:
+            self.source = Source.get_by_key_name(source_key)
+
+    def get_source(self):
+        return self.source
+    
+class SourceUpdater():
+    source = None
+
+    def __init__(self, source):
+        logging.warning(source.current_user.user_id())
+        self.source = source
+
+    def get_source_message(self):
+        sourceUpdate = {
+                      'current_user_id': self.source.current_user.user_id(),
+                      'x_position': self.source.x_position,
+                      'y_position': self.source.y_position
+                      }
+        return json.dumps(sourceUpdate)
+
+    def send_update(self):
+        message = self.get_source_message()
+        channel.send_message(self.source.current_user.user_id() + self.source.key().id_or_name(), message)
 
 
 jinja_environment = jinja2.Environment(
