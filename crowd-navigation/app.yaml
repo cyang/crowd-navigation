@@ -19,5 +19,3 @@ libraries:
   version: latest                                                               
 - name: markupsafe                                                              
   version: latest
-- name: django
-  version: "1.2"

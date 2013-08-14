@@ -23,6 +23,13 @@
         xhr.send();
       };
       
+      moveToPosition = function() {
+    	//Will be used to move to position.
+        /*if (isMyMove() && state.board[id] == ' ') {
+          sendMessage('/move', 'i=' + id);
+        }*/
+      }
+      
       onOpened = function() {
         sendMessage('/opened');
       };
@@ -52,7 +59,7 @@
       initialize = function() {
         openChannel();
         var the_source = document.getElementById("the_source");
-        the_source.onclick = new Function('moveInSquare(' + i + ')');
+        the_source.onclick = new Function('moveToPosition()');
         onMessage({data: '{{ initial_message }}'});
       }      
 

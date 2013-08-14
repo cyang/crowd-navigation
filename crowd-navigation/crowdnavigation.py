@@ -1,6 +1,6 @@
 import logging
 import os
-from django.utils import simplejson
+import json
 from google.appengine.api import channel
 from google.appengine.api import users
 from google.appengine.ext import db
@@ -28,7 +28,7 @@ class SourceUpdater():
                       'x_position': self.source.x_position,
                       'y_position': self.source.y_position
                       }
-        return simplejson.dumps(sourceUpdate)
+        return json.dumps(sourceUpdate)
 
     def send_update(self):
         message = self.get_source_message()
