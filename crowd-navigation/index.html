@@ -3,7 +3,8 @@
       <script src='/_ah/channel/jsapi'></script>
   </head>
   <body>
-    <script type='text/javascript'>
+    <script src="/js/jquery-2.0.3.min.js" type="text/javascript" ></script>
+    <script type="text/javascript" >
       var state = {
         source_key: '{{ source_key }}',
         current_user_id: '{{ current_user_id }}'
@@ -23,8 +24,8 @@
         xhr.send();
       };
       
-      moveToPosition = function() {
-    	var the_source = document.getElementById('the_source');
+      moveToPosition = function(e) {
+    	var the_source = $('#the_source');
   		var offset = the_source.offset();
   	    var x_position = e.clientX - offset.left;
   	    var y_position = e.clientY - offset.top;
@@ -59,8 +60,7 @@
       
       initialize = function() {
         openChannel();
-        var the_source = document.getElementById("the_source");
-        the_source.onclick = new Function('moveToPosition()');
+        $("#the_source").click(moveToPosition)
         onMessage({data: '{{ initial_message }}'});
       }      
 
