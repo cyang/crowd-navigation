@@ -65,6 +65,7 @@ class OpenedPage(webapp2.RequestHandler):
     def post(self):
         sourceMember = SourceFromRequest(self.request).get_source_member()
         source = SourceFromRequest(self.request).get_source()
+        SourceUpdater(source, sourceMember).send_all_existing()
         SourceUpdater(source, sourceMember).send_update()
 
 class SourceFromRequest():
@@ -123,6 +124,18 @@ class SourceUpdater():
         self.sourceMember.y_position = y_position
         self.sourceMember.put()
         self.send_update()
+        
+    def send_all_existing(self):
+        sourceMemberList = SourceMember.all().filter("p_key", self.source.key().name())
+        for sourceMember in sourceMemberList:
+            if sourceMember.x_position:
+                sourceUpdate = {
+                          'c_user_id': sourceMember.c_user.user_id(),
+                          'x_position': sourceMember.x_position,
+                          'y_position': sourceMember.y_position
+                          }
+                message = json.dumps(sourceUpdate)
+                channel.send_message(users.get_current_user().user_id() + self.source.key().id_or_name(), message)
 
 
 jinja_environment = jinja2.Environment(
