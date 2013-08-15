@@ -42,10 +42,9 @@
       };
       
       moveToPosition = function(e) {
-    	var the_source = $('#the_source');
-  		var offset = the_source.offset();
-  	    var x_position = e.clientX - offset.left;
-  	    var y_position = e.clientY - offset.top;
+    	var parentOffset = $(this).parent().offset(); 
+		var x_position = e.pageX - parentOffset.left;
+		var y_position = e.pageY - parentOffset.top;
   	    //Update dot.
   	    if(state.current_user_id in state.member_list){
       	  delete state.member_list[state.current_user_id];
