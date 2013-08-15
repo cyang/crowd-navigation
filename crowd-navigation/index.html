@@ -26,8 +26,8 @@
       }
 
       updateSource = function() {
-    	  $("#x_pos").html(state.c_x_position);
-    	  $("#y_pos").html(state.c_y_position);
+    	  $("#x_pos").html(state.x_position);
+    	  $("#y_pos").html(state.y_position);
     	  drawDotList(state.member_list);
       };
 
@@ -51,7 +51,9 @@
       	  delete state.member_list[state.current_user_id];
         }
   	    state.member_list[state.current_user_id] = [x_position, y_position];
-  	    drawDotList(state.member_list)
+  	    state.x_position = x_position;
+  	    state.y_position = y_position;
+  	    updateSource();
   	    sendMessage('/move', 'x=' + x_position + "&y=" + y_position);
       };
       
@@ -88,7 +90,7 @@
       
       initialize = function() {
         openChannel();
-        $("#the_source").click(moveToPosition)
+        $("#the_source").click(moveToPosition);
         onMessage({data: '{{ initial_message }}'});
       }      
 
