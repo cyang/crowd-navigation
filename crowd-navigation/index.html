@@ -46,6 +46,11 @@
   		var offset = the_source.offset();
   	    var x_position = e.clientX - offset.left;
   	    var y_position = e.clientY - offset.top;
+  	    //Update dot.
+  	    if(state.current_user_id in state.member_list){
+      	  delete state.member_list[state.current_user_id];
+        }
+  	    state.member_list[state.current_user_id] = [x_position, y_position];
   	    sendMessage('/move', 'x=' + x_position + "&y=" + y_position);
       };
       
