@@ -51,6 +51,7 @@
       	  delete state.member_list[state.current_user_id];
         }
   	    state.member_list[state.current_user_id] = [x_position, y_position];
+  	    drawDotList(state.member_list)
   	    sendMessage('/move', 'x=' + x_position + "&y=" + y_position);
       };
       
