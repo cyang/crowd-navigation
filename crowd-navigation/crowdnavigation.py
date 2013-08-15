@@ -115,7 +115,8 @@ class SourceUpdater():
         message = self.get_source_message()
         sourceMemberList = SourceMember.all().filter("p_key", self.source.key().name())
         for sourceMember in sourceMemberList:
-            channel.send_message(sourceMember.c_user.user_id() + self.source.key().id_or_name(), message)
+            if sourceMember.c_user.user_id() != users.get_current_user().user_id():
+                channel.send_message(sourceMember.c_user.user_id() + self.source.key().id_or_name(), message)
         
     def make_move(self, user, x_position, y_position):
         self.sourceMember.x_position = x_position
