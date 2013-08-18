@@ -1,3 +1,4 @@
+import logging
 import jinja2
 import json
 import os
@@ -136,6 +137,12 @@ class SourceUpdater():
                           }
                 message = json.dumps(sourceUpdate)
                 channel.send_message(users.get_current_user().user_id() + self.source.key().id_or_name(), message)
+                
+class ChannelDisconnected(webapp2.RequestHandler):
+    def post(self):
+        client_id = self.request.get('from')
+        sourceMember = SourceMember.get_by_key_name(client_id)
+        sourceMember.delete()
 
 
 jinja_environment = jinja2.Environment(
@@ -144,7 +151,8 @@ jinja_environment = jinja2.Environment(
 application = webapp2.WSGIApplication([
                                       ('/', MainPage),
                                       ('/opened', OpenedPage),
-                                      ('/move', MovePage)
+                                      ('/move', MovePage),
+                                      ('/_ah/channel/disconnected/', ChannelDisconnected)
                                       ], debug=True)
 
 
