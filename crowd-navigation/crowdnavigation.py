@@ -126,7 +126,7 @@ class SourceUpdater():
         self.sourceMember.put()
         self.send_update()
         
-    def send_all_existing(self):
+    def send_all_existing(self): #TODO Chrome starts loading page when it's started being types, so this happens before page load.
         sourceMemberList = SourceMember.all().filter("p_key", self.source.key().name())
         for sourceMember in sourceMemberList:
             if sourceMember.x_position:
@@ -141,8 +141,17 @@ class SourceUpdater():
 class ChannelDisconnected(webapp2.RequestHandler):
     def post(self):
         client_id = self.request.get('from')
-        sourceMember = SourceMember.get_by_key_name(client_id)
-        sourceMember.delete()
+        sourceMemberDisconnected = SourceMember.get_by_key_name(client_id)
+        sourceMemberList = SourceMember.all().filter("p_key", sourceMemberDisconnected.p_key)
+        sourceUpdate = {
+                          'c_user_id': sourceMemberDisconnected.c_user.user_id(),
+                          'x_position': None,
+                          'y_position': None
+                        }
+        message = json.dumps(sourceUpdate)
+        for sourceMember in sourceMemberList:
+            channel.send_message(sourceMember.key().name(), message)
+        sourceMemberDisconnected.delete()
 
 
 jinja_environment = jinja2.Environment(
