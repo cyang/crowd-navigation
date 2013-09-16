@@ -11,6 +11,8 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 class Source(db.Model):
     current_user = db.UserProperty()
+    user_2 = db.UserProperty()
+    direction = db.StringProperty()
     
 class MainPage(webapp2.RequestHandler):
 
@@ -26,11 +28,14 @@ class MainPage(webapp2.RequestHandler):
                 source.put()
             else:
                 source = Source.get_by_key_name(source_key)
-            source = None
-            source = Source.get_by_key_name(source_key)
+                source.user_2 = user
+                source.put()
 
             if source:
-                token = channel.create_channel(user.user_id() + source_key)
+                if source_key == user.user_id():
+                    token = channel.create_channel(source_key)
+                else:
+                    token = channel.create_channel(source_key + "v")
                 template_values = {'token': token,
                                    'current_user_id': user.user_id(),
                                    'source_key': source_key,
@@ -50,7 +55,6 @@ class OpenedPage(webapp2.RequestHandler):
 
 class SourceFromRequest():
     source = None;
-    sourceMember = None;
 
     def __init__(self, request):
         user = users.get_current_user()
@@ -66,28 +70,32 @@ class MovePage(webapp2.RequestHandler):
     def post(self):
         source = SourceFromRequest(self.request).get_source()
         user = users.get_current_user()
+        direction = self.request.get('d')
         if source and user:
-            direction = self.request.get('direction')
-            SourceUpdater(source).make_move(user, direction)
+            #direction = self.request.get('direction')
+            SourceUpdater(source).make_move(direction)
 
 class SourceUpdater():
     source = None
 
-    def __init__(self, source, sourceMember):
+    def __init__(self, source):
         self.source = source
 
     def get_source_message(self):
         sourceUpdate = {
-                      'c_user_id': self.sourceMember.c_user.user_id(),
-                      'direction': self.sourceMember.direction
+                      'direction': self.source.direction
                       }
         return json.dumps(sourceUpdate)
 
     def send_update(self):
         message = self.get_source_message()
-        channel.send_message(self.source.key().id_or_name(), message)
+        if users.get_current_user().user_id() == self.source.key().id_or_name():
+            channel.send_message(self.source.key().id_or_name() + "v", message)
+        else:
+            channel.send_message(self.source.key().id_or_name(), message)
         
     def make_move(self, direction):
+        self.source.direction = direction
         self.send_update()
 
 
