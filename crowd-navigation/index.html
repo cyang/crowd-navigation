@@ -12,8 +12,7 @@
       };
 
       updateSource = function() {
-    	  $("#x_pos").html(state.x_position);
-    	  $("#y_pos").html(state.y_position);
+    	  $("#direction").html(state.direction);
       };
 
       sendMessage = function(path, opt_param) {
@@ -30,16 +29,25 @@
         sendMessage('/opened');
       };
       
+      changeDirection = function(e) {
+          e = e || window.event;
+
+          if (e.keyCode == '38') {
+              //Up arrow.
+              d = "up";
+          }
+          else if (e.keyCode == '40') {
+              //Down arrow.
+              d = "down";
+          }
+          state.direction = d;
+    	  updateSource();
+    	  sendMessage('/direction', 'd=' + d);
+      };
+      
       onMessage = function(m) {
         newState = JSON.parse(m.data);
-        state.c_user_id = newState.c_user_id || state.c_user_id;
-        c_u = state.c_user_id;
-        state.x_position = newState.x_position || state.x_position;
-        state.y_position = newState.y_position || state.y_position;
-        if(c_u in state.member_list){
-        	delete state.member_list[c_u];
-        }
-        state.member_list[c_u] = [state.x_position, state.y_position];
+        state.direction = newState.direction || state.direction;
         updateSource();
       }
       
@@ -59,7 +67,7 @@
       
       initialize = function() {
         openChannel();
-        $("#the_source").click(moveToPosition);
+        document.onkeydown = changeDirection;
         onMessage({data: '{{ initial_message }}'});
       }      
 
