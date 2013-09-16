@@ -32,9 +32,17 @@
       changeDirection = function(e) {
           e = e || window.event;
 
-          if (e.keyCode == '38') {
+          if (e.keyCode == '37') {
+              //Left arrow.
+              d = "left";
+          }
+          else if (e.keyCode == '38') {
               //Up arrow.
               d = "up";
+          }
+          else if (e.keyCode == '39') {
+              //Right arrow.
+              d = "right";
           }
           else if (e.keyCode == '40') {
               //Down arrow.
@@ -75,6 +83,7 @@
 
     </script>
     <div>
+        <iframe width="480" height="302" src="http://www.ustream.tv/embed/15988343?v=3&amp;wmode=direct" scrolling="no" frameborder="0" style="border: 0px none transparent;">    </iframe>
     </div>
     <div>
     	Direction: <span id="direction">Nothing</span>
