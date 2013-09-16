@@ -15,8 +15,7 @@ class Source(db.Model):
 class SourceMember(db.Model):
     p_key = db.StringProperty()
     c_user = db.UserProperty()
-    x_position = db.IntegerProperty()
-    y_position = db.IntegerProperty()
+    direction = db.StringProperty()
     
 class MainPage(webapp2.RequestHandler):
 
@@ -41,8 +40,7 @@ class MainPage(webapp2.RequestHandler):
                     sourceMember = SourceMember(key_name = user.user_id() + source_key,
                                                 p_key = source.key().name(),
                                                 c_user = user,
-                                                x_position = None,
-                                                y_position = None)
+                                                direction = None)
                     sourceMember.put()
                 sourceMember = None
                 sourceMember = SourceMember.get_by_key_name(user.user_id() + source_key)
@@ -93,9 +91,8 @@ class MovePage(webapp2.RequestHandler):
         sourceMember = SourceFromRequest(self.request).get_source_member()
         user = users.get_current_user()
         if source and user:
-            x_position = int(self.request.get('x'))
-            y_position = int(self.request.get('y'))
-            SourceUpdater(source, sourceMember).make_move(user, x_position, y_position)
+            direction = int(self.request.get('direction'))
+            SourceUpdater(source, sourceMember).make_move(user, direction)
 
 class SourceUpdater():
     source = None
@@ -108,8 +105,7 @@ class SourceUpdater():
     def get_source_message(self):
         sourceUpdate = {
                       'c_user_id': self.sourceMember.c_user.user_id(),
-                      'x_position': self.sourceMember.x_position,
-                      'y_position': self.sourceMember.y_position
+                      'direction': self.sourceMember.direction
                       }
         return json.dumps(sourceUpdate)
 
@@ -120,20 +116,18 @@ class SourceUpdater():
             if sourceMember.c_user.user_id() != users.get_current_user().user_id():
                 channel.send_message(sourceMember.c_user.user_id() + self.source.key().id_or_name(), message)
         
-    def make_move(self, user, x_position, y_position):
-        self.sourceMember.x_position = x_position
-        self.sourceMember.y_position = y_position
+    def make_move(self, user, direction):
+        self.sourceMember.direction = direction
         self.sourceMember.put()
         self.send_update()
         
     def send_all_existing(self): #TODO Chrome starts loading page when it's started being types, so this happens before page load.
         sourceMemberList = SourceMember.all().filter("p_key", self.source.key().name())
         for sourceMember in sourceMemberList:
-            if sourceMember.x_position:
+            if sourceMember.direction:
                 sourceUpdate = {
                           'c_user_id': sourceMember.c_user.user_id(),
-                          'x_position': sourceMember.x_position,
-                          'y_position': sourceMember.y_position
+                          'direction': sourceMember.direction,
                           }
                 message = json.dumps(sourceUpdate)
                 channel.send_message(users.get_current_user().user_id() + self.source.key().id_or_name(), message)
@@ -145,8 +139,7 @@ class ChannelDisconnected(webapp2.RequestHandler):
         sourceMemberList = SourceMember.all().filter("p_key", sourceMemberDisconnected.p_key)
         sourceUpdate = {
                           'c_user_id': sourceMemberDisconnected.c_user.user_id(),
-                          'x_position': None,
-                          'y_position': None
+                          'direction': None
                         }
         message = json.dumps(sourceUpdate)
         for sourceMember in sourceMemberList:
@@ -160,7 +153,7 @@ jinja_environment = jinja2.Environment(
 application = webapp2.WSGIApplication([
                                       ('/', MainPage),
                                       ('/opened', OpenedPage),
-                                      ('/move', MovePage),
+                                      ('/direction', MovePage),
                                       ('/_ah/channel/disconnected/', ChannelDisconnected)
                                       ], debug=True)
 
