@@ -91,7 +91,7 @@ class MovePage(webapp2.RequestHandler):
         sourceMember = SourceFromRequest(self.request).get_source_member()
         user = users.get_current_user()
         if source and user:
-            direction = int(self.request.get('direction'))
+            direction = self.request.get('direction')
             SourceUpdater(source, sourceMember).make_move(user, direction)
 
 class SourceUpdater():
