@@ -10,28 +10,10 @@
         current_user_id: '{{ current_user_id }}',
         member_list: {}
       };
-      
-      drawDotList = function(input_array){
-    	  drawImage();
-    	  x_total = 0;
-    	  y_total = 0;
-    	  users = 0;
-    	  $.each(input_array, function(index, value) {
-    		  alert(index);
-    		  if(typeof value[0] !== 'undefined'){
-    		  drawDot(value[0], value[1]);
-	    		  x_total += value[0];
-	    		  y_total += value[1];
-	    		  users += 1;
-    		  }
-    	  });
-    	  drawAverageDot(x_total/users, y_total/users);
-      }
 
       updateSource = function() {
     	  $("#x_pos").html(state.x_position);
     	  $("#y_pos").html(state.y_position);
-    	  drawDotList(state.member_list);
       };
 
       sendMessage = function(path, opt_param) {
@@ -42,21 +24,6 @@
         var xhr = new XMLHttpRequest();
         xhr.open('POST', path, true);
         xhr.send();
-      };
-      
-      moveToPosition = function(e) {
-    	var parentOffset = $(this).parent().offset(); 
-		var x_position = e.pageX - parentOffset.left;
-		var y_position = e.pageY - parentOffset.top;
-  	    //Update dot.
-  	    if(state.current_user_id in state.member_list){
-      	  delete state.member_list[state.current_user_id];
-        }
-  	    state.member_list[state.current_user_id] = [x_position, y_position];
-  	    state.x_position = x_position;
-  	    state.y_position = y_position;
-  	    updateSource();
-  	    sendMessage('/move', 'x=' + x_position + "&y=" + y_position);
       };
       
       onOpened = function() {
@@ -100,45 +67,9 @@
 
     </script>
     <div>
-        <canvas id="the_source" width="1024" height="768"></canvas>
-	    <script>
-	      var canvas = document.getElementById('the_source');
-	      var context = canvas.getContext('2d');
-	      var imageObj = new Image();
-	
-	      imageObj.src = '/images/sidewalk.jpg';
-	      
-	      var small_radius = 12;
-	      var large_radius = 25
-	      
-	      imageObj.onload = function() {
-		    context.drawImage(imageObj, 0, 0);
-		  };
-		  
-		  drawImage = function(){
-			    context.drawImage(imageObj, 0, 0);
-		  };
-		  
-		  drawAverageDot = function(centerX, centerY){
-			    context.beginPath();
-				context.arc(centerX, centerY, large_radius, 0, 2 * Math.PI, false);
-				context.fillStyle = 'red';
-				context.fill();
-		  };
-		  
-		  drawDot = function(centerX, centerY){
-			    context.beginPath();
-				context.arc(centerX, centerY, small_radius, 0, 2 * Math.PI, false);
-				context.fillStyle = 'yellow';
-				context.fill();
-		  };
-	    </script>
     </div>
     <div>
-    	X Position: <span id="x_pos">0</span>
-    </div>
-    <div>
-    	Y Position: <span id="y_pos">0</span>
+    	Direction: <span id="direction">Nothing</span>
     </div>
     <div>
     	Source Link: <span id="source_key">http://crowd-navigation.appspot.com/?g={{ source_key }}</span>
