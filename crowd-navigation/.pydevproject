@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?eclipse-pydev version="1.0"?><pydev_project>
-<pydev_variables_property name="org.python.pydev.PROJECT_VARIABLE_SUBSTITUTION">
-<key>GOOGLE_APP_ENGINE</key>
-<value>/home/golmschenk/google_appengine</value>
-</pydev_variables_property>
+<?eclipse-pydev version="1.0"?>
+
+<pydev_project>
+
 <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
 <path>/crowd-navigation</path>
 </pydev_pathproperty>

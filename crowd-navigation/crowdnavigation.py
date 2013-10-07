@@ -96,8 +96,20 @@ class SourceUpdater():
         
     def make_move(self, direction):
         self.source.direction = direction
+        self.source.put()
         self.send_update()
-
+        
+class GetDirection(webapp2.RequestHandler):
+    def get(self):
+        #self.response.out.write("400")
+        source = Source.all()
+        direction = "None"
+        for s in source:
+            if(s.direction):
+                direction = s.direction
+        self.response.out.write(direction)
+        #direction = Source.all().fetch(1).direction()
+        #return direction
 
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
@@ -106,6 +118,7 @@ application = webapp2.WSGIApplication([
                                       ('/', MainPage),
                                       ('/opened', OpenedPage),
                                       ('/direction', MovePage),
+                                      ('/getdirection', GetDirection),
                                       ], debug=True)
 
 

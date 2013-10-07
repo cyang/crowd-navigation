@@ -11,6 +11,9 @@ handlers:
 - url: /js
   static_dir: static/js
   
+- url: /o
+  static_dir: static/o
+  
 - url: /.*
   script: crowdnavigation.py
 
