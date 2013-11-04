@@ -9,11 +9,18 @@
       var state = {
         source_key: '{{ source_key }}',
         current_user_id: '{{ current_user_id }}',
-        member_list: {}
       };
+      var crowd = {};
 
       updateSource = function() {
     	  $("#direction").html(state.direction);
+    	  var output = ""
+    	  for (var key in crowd) {
+    	      if(crowd.hasOwnProperty(key)) {
+    	    	  output.concat(key, " ", crowd[key], "\n");
+    	      }
+    	  }
+    	  $("#all_directions").html(output));
       };
 
       sendMessage = function(path, opt_param) {
@@ -56,9 +63,11 @@
       
       onMessage = function(m) {
         newState = JSON.parse(m.data);
-        state.direction = newState.direction || state.direction;
+        user = newState.user;
+        direction = newState.direction;
+        crowd[user] = direction;
         updateSource();
-      }
+      };
       
       openChannel = function() {
         var token = '{{ token }}';
@@ -72,13 +81,13 @@
         var socket = channel.open(handler);
         socket.onopen = onOpened;
         socket.onmessage = onMessage;
-      }
+      };
       
       initialize = function() {
         openChannel();
         document.onkeydown = changeDirection;
         onMessage({data: '{{ initial_message }}'});
-      }      
+      };
 
       setTimeout(initialize, 100);
 
@@ -89,6 +98,9 @@
     </div>
     <div style="font-size: 20pt;">
     	Direction: <span id="direction">Nothing</span>
+    </div>
+    <div>
+    	All Directions: <span id="all_directions">Nothing</span>
     </div>
     <div>
     	Source Link: <span id="source_key">http://crowd-navigation.appspot.com/?g={{ source_key }}</span>
