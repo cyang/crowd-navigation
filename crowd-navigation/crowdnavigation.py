@@ -9,10 +9,15 @@ from google.appengine.ext import db
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 
+class Crowdee(db.Model):
+    user = db.UserProperty()
+    direction = db.StringProperty()
+
 class Source(db.Model):
     current_user = db.UserProperty()
     user_2 = db.UserProperty()
     direction = db.StringProperty()
+    crowd = db.ListProperty(Crowdee)
     
 class MainPage(webapp2.RequestHandler):
 
@@ -25,17 +30,25 @@ class MainPage(webapp2.RequestHandler):
                 source_key = user.user_id()
                 source = Source(key_name = source_key,
                             current_user = user)
+                crowdee = Crowdee(key_name = user.user_id,
+                                 user = user,
+                                 direction = "None")
+                crowd = []
+                crowd.append(crowdee)
+                source.crowd = crowd
                 source.put()
             else:
                 source = Source.get_by_key_name(source_key)
-                source.user_2 = user
+                source.crowd.append(Crowdee(key_name = user.user_id,
+                                            user = user,
+                                            direction = "None"))
                 source.put()
 
             if source:
                 if source_key == user.user_id():
                     token = channel.create_channel(source_key)
                 else:
-                    token = channel.create_channel(source_key + "v")
+                    token = channel.create_channel(source_key + user.user_id)
                 template_values = {'token': token,
                                    'current_user_id': user.user_id(),
                                    'source_key': source_key,
