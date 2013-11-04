@@ -45,10 +45,7 @@ class MainPage(webapp2.RequestHandler):
                 source.put()
 
             if source:
-                if source_key == user.user_id():
-                    token = channel.create_channel(source_key)
-                else:
-                    token = channel.create_channel(source_key + user.user_id)
+                token = channel.create_channel(source_key + user.user_id)
                 template_values = {'token': token,
                                    'current_user_id': user.user_id(),
                                    'source_key': source_key,
@@ -85,7 +82,6 @@ class MovePage(webapp2.RequestHandler):
         user = users.get_current_user()
         direction = self.request.get('d')
         if source and user:
-            #direction = self.request.get('direction')
             SourceUpdater(source).make_move(direction)
 
 class SourceUpdater():
@@ -94,23 +90,21 @@ class SourceUpdater():
     def __init__(self, source):
         self.source = source
 
-    def get_source_message(self):
-        sourceUpdate = {
-                      'direction': self.source.direction
-                      }
-        return json.dumps(sourceUpdate)
-
-    def send_update(self):
-        message = self.get_source_message()
-        if users.get_current_user().user_id() == self.source.key().id_or_name():
-            channel.send_message(self.source.key().id_or_name() + "v", message)
-        else:
-            channel.send_message(self.source.key().id_or_name(), message)
+    def send_update(self, message):
+        for crowdee in self.source.crowd:
+            if crowdee.user != users.get_current_user().user_id():
+                channel.send_message(self.source.key().id_or_name() + crowdee.user, message)
         
     def make_move(self, direction):
+        for crowdee in self.source.crowd:
+            if crowdee.user == users.get_current_user().user_id():
+                sourceUpdate = {
+                                'user': users.get_current_user().user_id(),
+                                'direction': direction
+                               }
         self.source.direction = direction
         self.source.put()
-        self.send_update()
+        self.send_update(json.dumps(sourceUpdate))
         
 class GetDirection(webapp2.RequestHandler):
     def get(self):
