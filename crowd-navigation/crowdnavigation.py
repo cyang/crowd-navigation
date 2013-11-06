@@ -96,7 +96,6 @@ class SourceUpdater():
         return json.dumps(sourceUpdate)
 
     def send_update(self, message):
-        logging.warning(message)
         for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
             if crowdee.user != users.get_current_user():
                 channel.send_message(self.source.key().name() + crowdee.user.user_id(), message)

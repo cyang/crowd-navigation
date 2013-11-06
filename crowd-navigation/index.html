@@ -24,7 +24,6 @@
       };
 
       sendMessage = function(path, opt_param) {
-    	alert("message received")
         path += '?g=' + state.source_key;
         if (opt_param) {
           path += '&' + opt_param;
