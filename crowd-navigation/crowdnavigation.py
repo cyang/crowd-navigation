@@ -59,7 +59,7 @@ class MainPage(webapp2.RequestHandler):
 class OpenedPage(webapp2.RequestHandler):
     def post(self):
         source = SourceFromRequest(self.request).get_source()
-        SourceUpdater(source).send_update(SourceUpdater(source).get_source_message)
+        SourceUpdater(source).send_update(SourceUpdater(source).get_source_message())
 
 class SourceFromRequest():
     source = None;
@@ -96,6 +96,7 @@ class SourceUpdater():
         return json.dumps(sourceUpdate)
 
     def send_update(self, message):
+        logging.warning(message)
         for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
             if crowdee.user != users.get_current_user():
                 channel.send_message(self.source.key().name() + crowdee.user.user_id(), message)
