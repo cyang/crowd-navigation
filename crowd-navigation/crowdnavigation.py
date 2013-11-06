@@ -96,13 +96,13 @@ class SourceUpdater():
         return json.dumps(sourceUpdate)
 
     def send_update(self, message):
-        for crowdee in Crowdee.all().filter("source", self.source.key()):
+        for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
             if crowdee.user != users.get_current_user():
-                channel.send_message(self.source.key().id_or_name() + crowdee.user, message)
+                channel.send_message(self.source.key().name() + crowdee.user.user_id(), message)
         
     def make_move(self, direction):
         sourceUpdate = None
-        for crowdee in Crowdee.all().filter("source =", self.source.key().name()).fetch(50):
+        for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
             if crowdee.user == users.get_current_user():
                 sourceUpdate = {
                                 'user': users.get_current_user().user_id(),
