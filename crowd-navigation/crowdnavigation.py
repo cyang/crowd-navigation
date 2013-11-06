@@ -59,7 +59,7 @@ class MainPage(webapp2.RequestHandler):
 class OpenedPage(webapp2.RequestHandler):
     def post(self):
         source = SourceFromRequest(self.request).get_source()
-        SourceUpdater(source).send_update()
+        SourceUpdater(source).send_update(SourceUpdater(source).get_source_message)
 
 class SourceFromRequest():
     source = None;
@@ -97,16 +97,20 @@ class SourceUpdater():
 
     def send_update(self, message):
         for crowdee in Crowdee.all().filter("source", self.source.key()):
-            if crowdee.user != users.get_current_user().user_id():
+            if crowdee.user != users.get_current_user():
                 channel.send_message(self.source.key().id_or_name() + crowdee.user, message)
         
     def make_move(self, direction):
-        for crowdee in Crowdee.all().filter("source", self.source.key()):
-            if crowdee.user == users.get_current_user().user_id():
+        sourceUpdate = None
+        for crowdee in Crowdee.all().filter("source =", self.source.key().name()).fetch(50):
+            if crowdee.user == users.get_current_user():
                 sourceUpdate = {
                                 'user': users.get_current_user().user_id(),
                                 'direction': direction
                                }
+        if not sourceUpdate:
+            logging.error("make_move failed: code 1")
+            return
         self.source.direction = direction
         self.source.put()
         self.send_update(json.dumps(sourceUpdate))
