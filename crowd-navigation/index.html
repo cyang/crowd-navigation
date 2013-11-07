@@ -17,7 +17,10 @@
     	  var output = ""
     	  for (var key in crowd) {
     	      if(crowd.hasOwnProperty(key)) {
-    	    	  output.concat(key, " ", crowd[key], "\n");
+    	    	  if(crowd[key])
+    	    	  {
+    	    	  	  output = output + String(key) + " " + String(crowd[key]) + "<br>";
+    	    	  }
     	      }
     	  }
     	  $("#all_directions").html(output);
@@ -100,7 +103,7 @@
     	Direction: <span id="direction">Nothing</span>
     </div>
     <div>
-    	All Directions: <span id="all_directions">Nothing</span>
+    	All Directions: <div id="all_directions">Nothing</div>
     </div>
     <div>
     	Source Link: <span id="source_key">http://crowd-navigation.appspot.com/?g={{ source_key }}</span>
