@@ -13,6 +13,7 @@ class Crowdee(db.Model):
     user = db.UserProperty()
     source = db.StringProperty()
     direction = db.StringProperty()
+    channel = db.StringProperty()
 
 class Source(db.Model):
     current_user = db.UserProperty()
@@ -31,6 +32,7 @@ class MainPage(webapp2.RequestHandler):
                             current_user = user)
                 crowdee = Crowdee(user = user,
                                   source = source_key,
+                                  channel = source_key + "_" + user.user_id(),
                                   direction = "None")
                 crowdee.put()
                 source.put()
@@ -38,12 +40,13 @@ class MainPage(webapp2.RequestHandler):
                 source = Source.get_by_key_name(source_key)
                 crowd = Crowdee(user = user,
                                 source = source_key,
+                                channel = source_key + "_" + user.user_id(),
                                 direction = "None")
                 crowd.put()
                 source.put()
 
             if source:
-                token = channel.create_channel(source_key + user.user_id())
+                token = channel.create_channel(source_key + "_" + user.user_id())
                 template_values = {'token': token,
                                    'current_user_id': user.user_id(),
                                    'source_key': source_key,
@@ -98,7 +101,7 @@ class SourceUpdater():
     def send_update(self, message):
         for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
             if crowdee.user != users.get_current_user():
-                channel.send_message(self.source.key().name() + crowdee.user.user_id(), message)
+                channel.send_message(self.source.key().name() + "_" + crowdee.user.user_id(), message)
         
     def make_move(self, direction):
         sourceUpdate = None
@@ -129,8 +132,8 @@ class GetDirection(webapp2.RequestHandler):
 
 class ChannelDisconnect(webapp2.RequestHandler):
     def post(self):
-        client_id = self.request.get('from')
-        user_crowd = Crowdee.all().filter("user =", users.get_current_user())
+        channel_token = self.request.get('from')
+        user_crowd = Crowdee.all().filter("channel =", channel_token)
         for user_crowdee in user_crowd:
             user_crowdee.delete()
 
