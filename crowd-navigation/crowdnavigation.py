@@ -127,6 +127,13 @@ class GetDirection(webapp2.RequestHandler):
         #direction = Source.all().fetch(1).direction()
         #return direction
 
+class ChannelDisconnect(webapp2.RequestHandler):
+    def post(self):
+        client_id = self.request.get('from')
+        user_crowd = Crowdee.all().filter("user =", users.get_current_user())
+        for user_crowdee in user_crowd:
+            user_crowdee.delete()
+
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
@@ -135,6 +142,7 @@ application = webapp2.WSGIApplication([
                                       ('/opened', OpenedPage),
                                       ('/direction', MovePage),
                                       ('/getdirection', GetDirection),
+                                      ('/_ah/channel/disconnected/', ChannelDisconnect),
                                       ], debug=True)
 
 
