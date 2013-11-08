@@ -93,9 +93,7 @@ class SourceUpdater():
     
     def get_existing_state(self):
         for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
-            logging.warning("2")
             if crowdee.user != users.get_current_user() and crowdee.direction != "None":
-                logging.warning("3")
                 message = json.dumps({
                                       'user': crowdee.user.user_id(),
                                       'direction': crowdee.direction
