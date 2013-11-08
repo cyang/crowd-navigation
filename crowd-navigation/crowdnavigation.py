@@ -114,7 +114,7 @@ class SourceUpdater():
         for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
             if crowdee.user != users.get_current_user() and crowdee.direction != "None":
                 message = json.dumps({
-                                      'user': crowdee.user.user_id(),
+                                      'user_id': crowdee.user.user_id(),
                                       'direction': crowdee.direction,
                                       'weight': crowdee.weight
                                     })
@@ -122,7 +122,7 @@ class SourceUpdater():
     
     def get_source_message(self):
         sourceUpdate = {
-                        'user': users.get_current_user().user_id(),
+                        'user_id': users.get_current_user().user_id(),
                         'direction': None,
                         'weight': 0
                        }
@@ -140,7 +140,7 @@ class SourceUpdater():
                 crowdee.direction = direction
                 crowdee.put()
                 sourceUpdate = {
-                                'user': users.get_current_user().user_id(),
+                                'user_id': users.get_current_user().user_id(),
                                 'direction': direction,
                                 'weight': crowdee.weight
                                }
