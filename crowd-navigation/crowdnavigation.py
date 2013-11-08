@@ -30,20 +30,36 @@ class MainPage(webapp2.RequestHandler):
                 source_key = user.user_id()
                 source = Source(key_name = source_key,
                             current_user = user)
-                crowdee = Crowdee(user = user,
-                                  source = source_key,
-                                  channel = source_key + "_" + user.user_id(),
-                                  direction = "None")
-                crowdee.put()
                 source.put()
+                #Check if the crowdee already exists for this user and source.
+                crowdeeQuery = Crowdee.all()
+                crowdeeQuery.filter("user =", user)
+                crowdeeQuery.filter("source =", source_key)
+                crowdee = crowdeeQuery.get()
+                #If the crowdee doesn't exist...
+                if not crowdee:
+                    #Create the crowdee for the user and source.
+                    crowdee = Crowdee(user = user,
+                                      source = source_key,
+                                      channel = source_key + "_" + user.user_id(),
+                                      direction = "None")
+                    crowdee.put()
             else:
                 source = Source.get_by_key_name(source_key)
-                crowd = Crowdee(user = user, #TODO Make sure it's not just a refresh before creating
-                                source = source_key,
-                                channel = source_key + "_" + user.user_id(),
-                                direction = "None")
-                crowd.put()
                 source.put()
+                #Check if the crowdee already exists for this user and source.
+                crowdeeQuery = Crowdee.all()
+                crowdeeQuery.filter("user =", user)
+                crowdeeQuery.filter("source =", source_key)
+                crowdee = crowdeeQuery.get()
+                #If the crowdee doesn't exist...
+                if not crowdee:
+                    #Create the crowdee for the user and source.
+                    crowdee = Crowdee(user = user,
+                                      source = source_key,
+                                      channel = source_key + "_" + user.user_id(),
+                                      direction = "None")
+                    crowdee.put()
 
             if source:
                 token = channel.create_channel(source_key + "_" + user.user_id())
