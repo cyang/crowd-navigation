@@ -14,6 +14,7 @@ class Crowdee(db.Model):
     source = db.StringProperty()
     direction = db.StringProperty()
     channel = db.StringProperty()
+    weight = db.IntegerProperty()
 
 class Source(db.Model):
     current_user = db.UserProperty()
@@ -42,7 +43,8 @@ class MainPage(webapp2.RequestHandler):
                     crowdee = Crowdee(user = user,
                                       source = source_key,
                                       channel = source_key + "_" + user.user_id(),
-                                      direction = "None")
+                                      direction = "None",
+                                      weight = 1)
                     crowdee.put()
             else:
                 source = Source.get_by_key_name(source_key)
@@ -58,7 +60,8 @@ class MainPage(webapp2.RequestHandler):
                     crowdee = Crowdee(user = user,
                                       source = source_key,
                                       channel = source_key + "_" + user.user_id(),
-                                      direction = "None")
+                                      direction = "None",
+                                      weight = 1)
                     crowdee.put()
 
             if source:
@@ -112,14 +115,16 @@ class SourceUpdater():
             if crowdee.user != users.get_current_user() and crowdee.direction != "None":
                 message = json.dumps({
                                       'user': crowdee.user.user_id(),
-                                      'direction': crowdee.direction
+                                      'direction': crowdee.direction,
+                                      'weight': crowdee.weight
                                     })
                 channel.send_message(self.source.key().name() + "_" + users.get_current_user().user_id(), message)
     
     def get_source_message(self):
         sourceUpdate = {
                         'user': users.get_current_user().user_id(),
-                        'direction': None
+                        'direction': None,
+                        'weight': 0
                        }
         return json.dumps(sourceUpdate)
 
@@ -136,7 +141,8 @@ class SourceUpdater():
                 crowdee.put()
                 sourceUpdate = {
                                 'user': users.get_current_user().user_id(),
-                                'direction': direction
+                                'direction': direction,
+                                'weight': crowdee.weight
                                }
         if not sourceUpdate:
             logging.error("make_move failed: code 1")
