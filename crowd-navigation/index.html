@@ -13,13 +13,20 @@
       var crowd = {};
 
       updateSource = function() {
+    	  //Update current user's direction.
     	  $("#direction").html(state.direction);
+    	  //Prepare all direction display string.
     	  var output = ""
+    	  //For each crowdee's information...
     	  for (var key in crowd) {
+    		  //If this is a propery unique to the crowdee model...
     	      if(crowd.hasOwnProperty(key)) {
+    	    	  //If the crowdee information is not empty...
     	    	  if(crowd[key])
     	    	  {
+    	    		  //Concatenate this information to the display string
     	    	  	  output = output + String(key) + " " + String(crowd[key]['direction']) + "<br>";
+    	    	  	  
     	    	  }
     	      }
     	  }
