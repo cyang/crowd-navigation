@@ -38,7 +38,7 @@ class MainPage(webapp2.RequestHandler):
                 source.put()
             else:
                 source = Source.get_by_key_name(source_key)
-                crowd = Crowdee(user = user,
+                crowd = Crowdee(user = user, #TODO Make sure it's not just a refresh before creating
                                 source = source_key,
                                 channel = source_key + "_" + user.user_id(),
                                 direction = "None")
@@ -62,7 +62,7 @@ class MainPage(webapp2.RequestHandler):
 class OpenedPage(webapp2.RequestHandler):
     def post(self):
         source = SourceFromRequest(self.request).get_source()
-        SourceUpdater(source).send_update(SourceUpdater(source).get_source_message())
+        SourceUpdater(source).get_existing_state()
 
 class SourceFromRequest():
     source = None;
@@ -90,7 +90,18 @@ class SourceUpdater():
 
     def __init__(self, source):
         self.source = source
-        
+    
+    def get_existing_state(self):
+        for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
+            logging.warning("2")
+            if crowdee.user != users.get_current_user() and crowdee.direction != "None":
+                logging.warning("3")
+                message = json.dumps({
+                                      'user': crowdee.user.user_id(),
+                                      'direction': crowdee.direction
+                                    })
+                channel.send_message(self.source.key().name() + "_" + users.get_current_user().user_id(), message)
+    
     def get_source_message(self):
         sourceUpdate = {
                         'user': users.get_current_user().user_id(),
