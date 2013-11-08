@@ -116,6 +116,8 @@ class SourceUpdater():
         sourceUpdate = None
         for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
             if crowdee.user == users.get_current_user():
+                crowdee.direction = direction
+                crowdee.put()
                 sourceUpdate = {
                                 'user': users.get_current_user().user_id(),
                                 'direction': direction
