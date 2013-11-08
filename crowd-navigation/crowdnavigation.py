@@ -32,23 +32,11 @@ class MainPage(webapp2.RequestHandler):
                 source = Source(key_name = source_key,
                             current_user = user)
                 source.put()
-                #Check if the crowdee already exists for this user and source.
-                crowdeeQuery = Crowdee.all()
-                crowdeeQuery.filter("user =", user)
-                crowdeeQuery.filter("source =", source_key)
-                crowdee = crowdeeQuery.get()
-                #If the crowdee doesn't exist...
-                if not crowdee:
-                    #Create the crowdee for the user and source.
-                    crowdee = Crowdee(user = user,
-                                      source = source_key,
-                                      channel = source_key + "_" + user.user_id(),
-                                      direction = "None",
-                                      weight = 1)
-                    crowdee.put()
             else:
                 source = Source.get_by_key_name(source_key)
                 source.put()
+
+            if source:
                 #Check if the crowdee already exists for this user and source.
                 crowdeeQuery = Crowdee.all()
                 crowdeeQuery.filter("user =", user)
@@ -63,8 +51,7 @@ class MainPage(webapp2.RequestHandler):
                                       direction = "None",
                                       weight = 1)
                     crowdee.put()
-
-            if source:
+                
                 token = channel.create_channel(source_key + "_" + user.user_id())
                 template_values = {'token': token,
                                    'current_user_id': user.user_id(),
