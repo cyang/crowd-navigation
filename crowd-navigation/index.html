@@ -19,7 +19,7 @@
     	      if(crowd.hasOwnProperty(key)) {
     	    	  if(crowd[key])
     	    	  {
-    	    	  	  output = output + String(key) + " " + String(crowd[key]) + "<br>";
+    	    	  	  output = output + String(key) + " " + String(crowd[key]['direction']) + "<br>";
     	    	  }
     	      }
     	  }
@@ -66,9 +66,10 @@
       
       onMessage = function(m) {
         newState = JSON.parse(m.data);
-        user = newState.user;
+        user_id = newState.user_id;
         direction = newState.direction;
-        crowd[user] = direction;
+        weight = newState.weight;
+        crowd[user_id] = {"direction": direction, "weight": weight};
         updateSource();
       };
       
@@ -101,6 +102,9 @@
     </div>
     <div style="font-size: 20pt;">
     	Direction: <span id="direction">Nothing</span>
+    </div>
+    <div style="font-size: 20pt;">
+    	Aggregate: <span id="aggregate">Nothing</span>
     </div>
     <div>
     	All Directions: <div id="all_directions">Nothing</div>
