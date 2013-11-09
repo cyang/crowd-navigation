@@ -55,7 +55,8 @@ class MainPage(webapp2.RequestHandler):
                 token = channel.create_channel(source_key + "_" + user.user_id())
                 template_values = {'token': token,
                                    'current_user_id': user.user_id(),
-                                   'source_key': source_key
+                                   'source_key': source_key,
+                                   'initial_message': SourceUpdater(source).get_source_message()
                                    }
                 template = jinja_environment.get_template('index.html')
                 self.response.out.write(template.render(template_values))
@@ -95,6 +96,14 @@ class SourceUpdater():
 
     def __init__(self, source):
         self.source = source
+        
+    def get_source_message(self):
+        sourceUpdate = {
+                        'user_id': users.get_current_user().user_id(),
+                        'direction': None,
+                        'weight': 0
+                       }
+        return json.dumps(sourceUpdate)
     
     def get_existing_state(self):
         for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
