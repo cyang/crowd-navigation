@@ -48,7 +48,7 @@
     		  if(direction_list.hasOwnProperty(key))
     		  {
     			  //Find the largest aggregate.
-    			  if(direction_list[key] > max_value)
+    			  if(direction_list[key] > max_value) //TODO Take into account current user's weight.
     			  {
     				  max_direction = key;
     				  max_value = direction_list[key];
