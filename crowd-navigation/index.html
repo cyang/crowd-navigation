@@ -17,6 +17,7 @@
     	  $("#direction").html(state.direction);
     	  //Prepare all direction display string.
     	  var output = ""
+    	  var direction_list = {}
     	  //For each crowdee's information...
     	  for (var key in crowd) {
     		  //If this is a propery unique to the crowdee model...
@@ -25,11 +26,36 @@
     	    	  if(crowd[key])
     	    	  {
     	    		  //Concatenate this information to the display string
-    	    	  	  output = output + String(key) + " " + String(crowd[key]['direction']) + "<br>";
-    	    	  	  
+    	    	  	  output = output + String(key) + " " + String(crowd[key]['direction']) + " " + String(crowd[key]['weight']) + "<br>";
+    	    	  	  //Collect the weighted direction information.
+    	    	  	  if(direction_list[crowd[key]['direction']])
+    	    	  	  {
+    	    	  		  direction_list[crowd[key]['direction']] += direction_list[crowd[key]['weight']];
+    	    	  	  }
+    	    	  	  else
+    	    	  	  {
+    	    	  		  direction_list[crowd[key]['direction']] = direction_list[crowd[key]['weight']];
+    	    	  	  }
     	    	  }
     	      }
     	  }
+    	  //Prepare a variables for the maximal direction.
+    	  var max_direction = "None";
+    	  var max_value = 0;
+    	  //For each direction that we collected...
+    	  for(var key in direction_list)
+    	  {
+    		  if(direction_list.hasOwnProperty(key))
+    		  {
+    			  //Find the largest aggregate.
+    			  if(direction_list[key] > max_value)
+    			  {
+    				  max_direction = key;
+    				  max_value = direction_list[key];
+    			  }
+    		  }
+    	  }
+    	  $("aggregate").html(max_direction);
     	  $("#all_directions").html(output);
       };
 
