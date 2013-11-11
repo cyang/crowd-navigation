@@ -6,7 +6,7 @@
     <body>
         <script src="/js/jquery-2.0.3.min.js" type="text/javascript" ></script>
         <script type="text/javascript" >
-            var state = {
+            var local = {
             	source_key: '{{ source_key }}',
         		current_user_id: '{{ current_user_id }}',
         		weight: '{{ weight }}'
@@ -16,7 +16,7 @@
 		    updateSource = function()
 		    {
 		    	//Update current user's direction.
-		    	$("#direction").html(state.direction);
+		    	$("#direction").html(local.direction);
 		    	//Prepare all direction display string.
 		    	var output = "";
 		    	var direction_list = {};
@@ -29,7 +29,7 @@
 		    	    	//If the crowdee information is not empty...
 		    	    	if(crowd[key])
 		    	    	{
-		    	    		if(crowd[key]['weight'] && crowd[key]['direction'] && key != state.current_user_id)
+		    	    		if(crowd[key]['weight'] && crowd[key]['direction'] && key != local.current_user_id)
 		    	    	    {
 		    	    			//Concatenate this information to the display string
 		        	    	  	output = output + String(crowd[key]['name']) + " " + String(crowd[key]['direction']) + " " + String(crowd[key]['weight']) + "<br>";
@@ -71,7 +71,7 @@
 		
 		    sendMessage = function(path, opt_param)
 		    {
-		        path += '?g=' + state.source_key;
+		        path += '?g=' + local.source_key;
 		        if(opt_param)
 		        {
 		            path += '&' + opt_param;
@@ -110,19 +110,19 @@
 		            //Down arrow.
 		            d = "Stop";
 		        }
-		        state.direction = d;
-		        crowd[state.current_user_id] = {"direction": state.direction, "weight": state.weight}
+		        local.direction = d;
+		        crowd[local.current_user_id] = {"direction": local.direction, "weight": local.weight}
 		    	updateSource();
 		    	sendMessage('/direction', 'd=' + d);
 		    };
 		      
 		    onMessage = function(m)
 		    {
-		        newState = JSON.parse(m.data);
-		        user_id = newState.user_id;
-		        name = newState.name;
-		        direction = newState.direction;
-		        weight = newState.weight;
+		        message = JSON.parse(m.data);
+		        user_id = message.user_id;
+		        name = message.name;
+		        direction = message.direction;
+		        weight = message.weight;
 		        crowd[user_id] = {"name": name, "direction": direction, "weight": weight};
 		        updateSource();
 		    };
