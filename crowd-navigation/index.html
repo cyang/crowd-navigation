@@ -25,9 +25,12 @@
     	    	  //If the crowdee information is not empty...
     	    	  if(crowd[key])
     	    	  {
-    	    		  //Concatenate this information to the display string
-    	    	  	  output = output + String(key) + " " + String(crowd[key]['direction']) + " " + String(crowd[key]['weight']) + "<br>";
-    	    	  	  //Collect the weighted direction information.
+    	    		  if(crowd[key]['weight'])
+    	    	      {
+    	    			  //Concatenate this information to the display string
+        	    	  	  output = output + String(key) + " " + String(crowd[key]['direction']) + " " + String(crowd[key]['weight']) + "<br>";
+    	    	      }
+    	    		  //Collect the weighted direction information.
     	    	  	  if(direction_list[crowd[key]['direction']])
     	    	  	  {
     	    	  		  direction_list[crowd[key]['direction']] += direction_list[crowd[key]['weight']];
