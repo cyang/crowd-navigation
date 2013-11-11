@@ -34,11 +34,11 @@
     	    		  //Collect the weighted direction information.
     	    	  	  if(direction_list[crowd[key]['direction']])
     	    	  	  {
-    	    	  		  direction_list[crowd[key]['direction']] += direction_list[crowd[key]['weight']];
+    	    	  		  direction_list[crowd[key]['direction']] += parseInt(crowd[key]['weight']);
     	    	  	  }
     	    	  	  else
     	    	  	  {
-    	    	  		  direction_list[crowd[key]['direction']] = direction_list[crowd[key]['weight']];
+    	    	  		  direction_list[crowd[key]['direction']] = parseInt(crowd[key]['weight']);
     	    	  	  }
     	    	  }
     	      }
@@ -52,14 +52,17 @@
     		  if(direction_list.hasOwnProperty(key))
     		  {
     			  //Find the largest aggregate.
-    			  if(direction_list[key] > max_value) //TODO Take into account current user's weight.
+    			  if(direction_list[key] > max_value)
     			  {
     				  max_direction = key;
     				  max_value = direction_list[key];
     			  }
     		  }
     	  }
-    	  $("aggregate").html(max_direction);
+    	  if(max_direction)
+    	  {
+    		  $("#aggregate").html(max_direction);
+    	  }
     	  $("#all_directions").html(output);
       };
 

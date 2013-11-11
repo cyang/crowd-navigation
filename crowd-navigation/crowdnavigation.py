@@ -156,7 +156,8 @@ class ChannelDisconnect(webapp2.RequestHandler):
         channel_token = self.request.get('from')
         user_crowd = Crowdee.all().filter("channel =", channel_token)
         for user_crowdee in user_crowd:
-            user_crowdee.delete()
+            temp = 5
+            #user_crowdee.delete()
 
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
