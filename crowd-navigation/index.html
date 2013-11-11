@@ -9,6 +9,7 @@
       var state = {
         source_key: '{{ source_key }}',
         current_user_id: '{{ current_user_id }}',
+        weight: '{{ weight }}'
       };
       var crowd = {};
 
@@ -25,7 +26,7 @@
     	    	  //If the crowdee information is not empty...
     	    	  if(crowd[key])
     	    	  {
-    	    		  if(crowd[key]['weight'])
+    	    		  if(crowd[key]['weight'] && crowd[key]['direction'] && key != state.current_user_id)
     	    	      {
     	    			  //Concatenate this information to the display string
         	    	  	  output = output + String(key) + " " + String(crowd[key]['direction']) + " " + String(crowd[key]['weight']) + "<br>";
@@ -96,6 +97,7 @@
               d = "Stop";
           }
           state.direction = d;
+          crowd[state.current_user_id] = {"direction": state.direction, "weight": state.weight}
     	  updateSource();
     	  sendMessage('/direction', 'd=' + d);
       };

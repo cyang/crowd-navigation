@@ -56,6 +56,7 @@ class MainPage(webapp2.RequestHandler):
                 template_values = {'token': token,
                                    'current_user_id': user.user_id(),
                                    'source_key': source_key,
+                                   'weight': 1,
                                    'initial_message': SourceUpdater(source).get_source_message()
                                    }
                 template = jinja_environment.get_template('index.html')
@@ -101,7 +102,7 @@ class SourceUpdater():
         sourceUpdate = {
                         'user_id': users.get_current_user().user_id(),
                         'direction': None,
-                        'weight': 0
+                        'weight': 1
                        }
         return json.dumps(sourceUpdate)
     
