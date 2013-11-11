@@ -29,7 +29,7 @@
     	    		  if(crowd[key]['weight'] && crowd[key]['direction'] && key != state.current_user_id)
     	    	      {
     	    			  //Concatenate this information to the display string
-        	    	  	  output = output + String(key) + " " + String(crowd[key]['direction']) + " " + String(crowd[key]['weight']) + "<br>";
+        	    	  	  output = output + String(crowd[key]['name']) + " " + String(crowd[key]['direction']) + " " + String(crowd[key]['weight']) + "<br>";
     	    	      }
     	    		  //Collect the weighted direction information.
     	    	  	  if(direction_list[crowd[key]['direction']])
@@ -108,9 +108,10 @@
       onMessage = function(m) {
         newState = JSON.parse(m.data);
         user_id = newState.user_id;
+        name = newState.name;
         direction = newState.direction;
         weight = newState.weight;
-        crowd[user_id] = {"direction": direction, "weight": weight};
+        crowd[user_id] = {"name": name, "direction": direction, "weight": weight};
         updateSource();
       };
       
