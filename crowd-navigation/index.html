@@ -13,16 +13,19 @@
       		};
       		var crowd = {};
 
-		    updateSource = function() {
+		    updateSource = function()
+		    {
 		    	//Update current user's direction.
 		    	$("#direction").html(state.direction);
 		    	//Prepare all direction display string.
 		    	var output = "";
 		    	var direction_list = {};
 		    	//For each crowdee's information...
-		    	for (var key in crowd) {
+		    	for(var key in crowd)
+		    	{
 		    		//If this is a propery unique to the crowdee model...
-		    	    if(crowd.hasOwnProperty(key)) {
+		    	    if(crowd.hasOwnProperty(key))
+		    	    {
 		    	    	//If the crowdee information is not empty...
 		    	    	if(crowd[key])
 		    	    	{
@@ -66,9 +69,11 @@
 		    	$("#all_directions").html(output);
 		    };
 		
-		    sendMessage = function(path, opt_param) {
+		    sendMessage = function(path, opt_param)
+		    {
 		        path += '?g=' + state.source_key;
-		        if (opt_param) {
+		        if(opt_param)
+		        {
 		            path += '&' + opt_param;
 		        }
 		        var xhr = new XMLHttpRequest();
@@ -76,26 +81,32 @@
 		        xhr.send();
 		    };
 		      
-		    onOpened = function() {
+		    onOpened = function()
+		    {
 		        sendMessage('/opened');
 		    };
 		      
-		    changeDirection = function(e) {
+		    changeDirection = function(e)
+		    {
 		        e = e || window.event;
 		
-		        if (e.keyCode == '37') {
+		        if(e.keyCode == '37')
+		        {
 		            //Left arrow.
 		            d = "Left";
 		        }
-		        else if (e.keyCode == '38') {
+		        else if(e.keyCode == '38')
+		        {
 		            //Up arrow.
 		            d = "Forward";
 		        }
-		        else if (e.keyCode == '39') {
+		        else if(e.keyCode == '39')
+		        {
 		            //Right arrow.
 		            d = "Right";
 		        }
-		        else if (e.keyCode == '40') {
+		        else if(e.keyCode == '40')
+		        {
 		            //Down arrow.
 		            d = "Stop";
 		        }
@@ -105,7 +116,8 @@
 		    	sendMessage('/direction', 'd=' + d);
 		    };
 		      
-		    onMessage = function(m) {
+		    onMessage = function(m)
+		    {
 		        newState = JSON.parse(m.data);
 		        user_id = newState.user_id;
 		        name = newState.name;
@@ -115,7 +127,8 @@
 		        updateSource();
 		    };
 		      
-		    openChannel = function() {
+		    openChannel = function()
+		    {
 		        var token = '{{ token }}';
 		        var channel = new goog.appengine.Channel(token);
 		        var handler = {
@@ -129,7 +142,8 @@
 		        socket.onmessage = onMessage;
 		    };
 		      
-		    initialize = function() {
+		    initialize = function()
+		    {
 		        openChannel();
 		        document.onkeydown = changeDirection;
 		        onMessage({data: '{{ initial_message }}'});
