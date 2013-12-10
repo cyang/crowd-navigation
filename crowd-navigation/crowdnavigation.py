@@ -22,7 +22,8 @@ class Source(db.Model):
 
 class RoutingPage(webapp2.RequestHandler):
     def get(self):
-        self.response.out.write('Go')
+        template = jinja_environment.get_template('routing.html')
+        self.response.out.write(template.render())
 
 class DemoPage(webapp2.RequestHandler):
     def get(self):
@@ -174,9 +175,9 @@ jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 application = webapp2.WSGIApplication([
-                                      ('/', MainPage),
+                                      ('/', RoutingPage),
                                       ('/main', MainPage),
-                                      ('/demo', DemoPage)
+                                      ('/demo', DemoPage),
                                       ('/opened', OpenedPage),
                                       ('/direction', MovePage),
                                       ('/getdirection', GetDirection),
