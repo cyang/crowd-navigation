@@ -20,6 +20,10 @@ class Source(db.Model):
     current_user = db.UserProperty()
     direction = db.StringProperty()
 
+class RoutingPage(webapp2.RequestHandler):
+    def get(self):
+        self.response.out.write('Go')
+
 class DemoPage(webapp2.RequestHandler):
     def get(self):
         self.response.out.write('Go')
