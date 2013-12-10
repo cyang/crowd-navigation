@@ -175,6 +175,8 @@ jinja_environment = jinja2.Environment(
 
 application = webapp2.WSGIApplication([
                                       ('/', MainPage),
+                                      ('/main', MainPage),
+                                      ('/demo', DemoPage)
                                       ('/opened', OpenedPage),
                                       ('/direction', MovePage),
                                       ('/getdirection', GetDirection),
