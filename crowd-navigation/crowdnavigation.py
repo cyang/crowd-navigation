@@ -30,15 +30,8 @@ class DemoPage(webapp2.RequestHandler):
         user = users.get_current_user()
 
         if user:
-            source_key = self.request.get('g')
-            if not source_key:
-                source_key = user.user_id()
-                source = Source(key_name = source_key,
-                            current_user = user)
-                source.put()
-            else:
-                source = Source.get_by_key_name(source_key)
-                source.put()
+            source_key = "demo"
+            source = Source.get_by_key_name(source_key)
 
             if source:
                 #Check if the crowdee already exists for this user and source.
@@ -84,7 +77,6 @@ class MainPage(webapp2.RequestHandler):
                 source.put()
             else:
                 source = Source.get_by_key_name(source_key)
-                source.put()
 
             if source:
                 #Check if the crowdee already exists for this user and source.
