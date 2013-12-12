@@ -115,7 +115,7 @@ class OpenedPage(webapp2.RequestHandler):
         SourceUpdater(source).get_existing_state()
 
 class SourceFromRequest():
-    source = None;
+    source = None
 
     def __init__(self, request):
         user = users.get_current_user()
