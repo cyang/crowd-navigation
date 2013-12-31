@@ -20,6 +20,11 @@ class Source(db.Model):
     current_user = db.UserProperty()
     direction = db.StringProperty()
 
+class TokBoxQuickStartPage(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('tokbox_quick_start.html')
+        self.response.out.write(template.render())
+
 class RoutingPage(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('routing.html')
@@ -211,6 +216,7 @@ application = webapp2.WSGIApplication([
                                       ('/', RoutingPage),
                                       ('/main', MainPage),
                                       ('/demo', DemoPage),
+                                      ('/tokbox_quick_start', TokBoxQuickStartPage),
                                       ('/opened', OpenedPage),
                                       ('/direction', MovePage),
                                       ('/getdirection', GetDirection),
