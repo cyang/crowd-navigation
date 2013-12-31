@@ -13,7 +13,6 @@
 		  var token     = "T1==cGFydG5lcl9pZD00NDU5NjU3MiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz04YmI4NTYxOGQ5NTY5MjE4Y2U0NDdlNTc1YTZiNjFlZTkwNGVjMmU4OnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9MV9NWDQwTkRVNU5qVTNNbjUtVFc5dUlFUmxZeUF6TUNBeE5qbzFOVG94T0NCUVUxUWdNakF4TTM0d0xqZ3pNVEV5TkRnMGZnJmNyZWF0ZV90aW1lPTEzODg0NTEzMjkmbm9uY2U9MC45NDE0MzIwNDMwMzk2OTAzJmV4cGlyZV90aW1lPTEzODg1Mzc3MjgmY29ubmVjdGlvbl9kYXRhPQ==";
 		 
 		  function sessionConnectedHandler (event) {
-		     session.publish( publisher );
 		     subscribeToStreams(event.streams);
 		  }
 		  function subscribeToStreams(streams) {
@@ -29,7 +28,6 @@
 		    subscribeToStreams(event.streams);
 		  }
 		 
-		  var publisher = TB.initPublisher(apiKey);
 		  var session   = TB.initSession(sessionId);
 		 
 		  session.connect(apiKey, token);
