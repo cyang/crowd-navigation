@@ -2,6 +2,7 @@
     <head>
   	    <title>Crowd Navigation</title>
         <script src='/_ah/channel/jsapi'></script>
+        <script src="http://static.opentok.com/webrtc/v2.0/js/TB.min.js" ></script>
         <link rel="stylesheet" type="text/css" href="css/common.css">
     </head>
     <body>
@@ -149,12 +150,52 @@
 		        document.onkeydown = changeDirection;
 		        onMessage({data: '{{ initial_message }}'});
 		    };
+		    
+		    
+		    /* === Start TokBox Subscribing === */
+		    
+		    var apiKey    = "44596572";
+			var sessionId = "1_MX40NDU5NjU3Mn5-TW9uIERlYyAzMCAxNjo1NToxOCBQU1QgMjAxM34wLjgzMTEyNDg0fg";
+			var token     = "T1==cGFydG5lcl9pZD00NDU5NjU3MiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz04YmI4NTYxOGQ5NTY5MjE4Y2U0NDdlNTc1YTZiNjFlZTkwNGVjMmU4OnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9MV9NWDQwTkRVNU5qVTNNbjUtVFc5dUlFUmxZeUF6TUNBeE5qbzFOVG94T0NCUVUxUWdNakF4TTM0d0xqZ3pNVEV5TkRnMGZnJmNyZWF0ZV90aW1lPTEzODg0NTEzMjkmbm9uY2U9MC45NDE0MzIwNDMwMzk2OTAzJmV4cGlyZV90aW1lPTEzODg1Mzc3MjgmY29ubmVjdGlvbl9kYXRhPQ==";
+			
+			function sessionConnectedHandler(event)
+			{
+			    subscribeToStreams(event.streams);
+			}
+			
+			function subscribeToStreams(streams)
+			{
+			    for (var i = 0; i < streams.length; i++)
+			    {
+			        var stream = streams[i];
+			        if (stream.connection.connectionId != session.connection.connectionId)
+			        {
+			            session.subscribe(stream, "tokbox_subscription");
+			        }
+			    }
+			}
+			
+			function streamCreatedHandler(event) {
+			    subscribeToStreams(event.streams);
+			}
+			
+			var session = TB.initSession(sessionId);
+			
+			session.connect(apiKey, token);
+			session.addEventListener("sessionConnected", 
+			                         sessionConnectedHandler);
+			
+			session.addEventListener("streamCreated", 
+			                         streamCreatedHandler);
+			
+			/* === End TokBox Subscribing === */
 		
 		    setTimeout(initialize, 100);
 		
 		</script>
     	<div>
-			<object width="600" height="409"> <param name="movie" value="http://fpdownload.adobe.com/strobe/FlashMediaPlayback.swf"></param><param name="flashvars" value="src=rtmp%3A%2F%2F67.244.90.144%3A1935%2Flive%2FmyStream&poster=http%3A%2F%2Fs9.postimg.org%2Fbm6fpc0sv%2Fposter_crowd_navigation.jpg&streamType=live"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://fpdownload.adobe.com/strobe/FlashMediaPlayback.swf" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="600" height="409" flashvars="src=rtmp%3A%2F%2F67.244.90.144%3A1935%2Flive%2FmyStream&poster=http%3A%2F%2Fs9.postimg.org%2Fbm6fpc0sv%2Fposter_crowd_navigation.jpg&streamType=live"></embed></object>
+			<!-- <object width="600" height="409"> <param name="movie" value="http://fpdownload.adobe.com/strobe/FlashMediaPlayback.swf"></param><param name="flashvars" value="src=rtmp%3A%2F%2F67.244.90.144%3A1935%2Flive%2FmyStream&poster=http%3A%2F%2Fs9.postimg.org%2Fbm6fpc0sv%2Fposter_crowd_navigation.jpg&streamType=live"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://fpdownload.adobe.com/strobe/FlashMediaPlayback.swf" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="600" height="409" flashvars="src=rtmp%3A%2F%2F67.244.90.144%3A1935%2Flive%2FmyStream&poster=http%3A%2F%2Fs9.postimg.org%2Fbm6fpc0sv%2Fposter_crowd_navigation.jpg&streamType=live"></embed></object>  -->
+			<span id="tokbox_subscription"><img src="/images/poster_crowd_navigation.jpg" alt="TokBoxFrame"></span>
         	<iframe width="420" height="360" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=&amp;aq=&amp;sll=40.522151,-73.443604&amp;sspn=5.761748,13.392334&amp;ie=UTF8&amp;ll=40.819753,-73.949726&amp;spn=0.011205,0.026157&amp;t=m&amp;z=16&amp;output=embed"></iframe>
     	</div>
     	<div style="font-size: 20pt;">
