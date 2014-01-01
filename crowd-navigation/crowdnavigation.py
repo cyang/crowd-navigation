@@ -206,6 +206,14 @@ class GetDirection(webapp2.RequestHandler):
         self.response.out.write(direction)
         #direction = Source.all().fetch(1).direction()
         #return direction
+        
+class GetDemoDirection(webapp2.RequestHandler):
+    def get(self):
+        source = Source.get_by_key_name("demo")
+        direction = "None"
+        if(source.direction):
+            direction = source.direction
+        self.response.out.write(direction)
 
 class ChannelDisconnect(webapp2.RequestHandler):
     def post(self):
@@ -226,6 +234,7 @@ application = webapp2.WSGIApplication([
                                       ('/opened', OpenedPage),
                                       ('/direction', MovePage),
                                       ('/getdirection', GetDirection),
+                                      ('/getdemodirection', GetDemoDirection),
                                       ('/_ah/channel/disconnected/', ChannelDisconnect),
                                       ], debug=True)
 
