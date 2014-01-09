@@ -34,6 +34,50 @@ class RoutingPage(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('routing.html')
         self.response.out.write(template.render())
+        
+class VirtualRealityPubPage(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('vr_pub.html')
+        self.response.out.write(template.render())
+
+class VirtualRealitySubPage(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+
+        if user:
+            source_key = "vr"
+            source = Source.get_by_key_name(source_key)
+            if not source:
+                source = Source(key_name = source_key,
+                            current_user = user)
+                source.put()
+
+            #Check if the crowdee already exists for this user and source.
+            crowdeeQuery = Crowdee.all()
+            crowdeeQuery.filter("user =", user)
+            crowdeeQuery.filter("source =", source_key)
+            crowdee = crowdeeQuery.get()
+            #If the crowdee doesn't exist...
+            if not crowdee:
+                #Create the crowdee for the user and source.
+                crowdee = Crowdee(user = user,
+                                  source = source_key,
+                                  channel = source_key + "_" + user.user_id(),
+                                  direction = "None",
+                                  weight = 1)
+                crowdee.put()
+            
+            token = channel.create_channel(source_key + "_" + user.user_id())
+            template_values = {'token': token,
+                               'current_user_id': user.user_id(),
+                               'source_key': source_key,
+                               'weight': 1,
+                               'initial_message': SourceUpdater(source).get_source_message()
+                               }
+            template = jinja_environment.get_template('vr_sub.html')
+            self.response.out.write(template.render(template_values))
+        else:
+            self.redirect(users.create_login_url(self.request.uri))
 
 class DemoPage(webapp2.RequestHandler):
     def get(self):
@@ -231,6 +275,8 @@ application = webapp2.WSGIApplication([
                                       ('/demo', DemoPage),
                                       ('/tokbox_qs_pub', TokBoxQuickStartPubPage),
                                       ('/tokbox_qs_sub', TokBoxQuickStartSubPage),
+                                      ('/vr_pub', VirtualRealityPubPage),
+                                      ('/vr_sub', VirtualRealitySubPage),
                                       ('/opened', OpenedPage),
                                       ('/direction', MovePage),
                                       ('/getdirection', GetDirection),
