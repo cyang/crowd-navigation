@@ -289,7 +289,7 @@ application = webapp2.WSGIApplication([
                                       ('/direction', MovePage),
                                       ('/getdirection', GetDirection),
                                       ('/getdemodirection', GetDemoDirection),
-                                      ('/get-vr-direction', GetDemoDirection),
+                                      ('/get_vr_direction', GetVirtualRealityDirection),
                                       ('/_ah/channel/disconnected/', ChannelDisconnect),
                                       ], debug=True)
 
