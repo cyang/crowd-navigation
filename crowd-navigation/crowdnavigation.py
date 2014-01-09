@@ -258,6 +258,14 @@ class GetDemoDirection(webapp2.RequestHandler):
         if(source.direction):
             direction = source.direction
         self.response.out.write(direction)
+        
+class GetVirtualRealityDirection(webapp2.RequestHandler):
+    def get(self):
+        source = Source.get_by_key_name("vr")
+        direction = "None"
+        if(source.direction):
+            direction = source.direction
+        self.response.out.write(direction)
 
 class ChannelDisconnect(webapp2.RequestHandler):
     def post(self):
@@ -281,6 +289,7 @@ application = webapp2.WSGIApplication([
                                       ('/direction', MovePage),
                                       ('/getdirection', GetDirection),
                                       ('/getdemodirection', GetDemoDirection),
+                                      ('/get-vr-direction', GetDemoDirection),
                                       ('/_ah/channel/disconnected/', ChannelDisconnect),
                                       ], debug=True)
 
