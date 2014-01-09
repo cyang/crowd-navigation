@@ -1,7 +1,7 @@
 footer {
-   position:absolute;
-   bottom:10px;
-   width:100%;
+    position:absolute;
+    bottom:10px;
+    width:90%; /* TODO - 100% causes scroll, but we should be using 100% width */
 }
 
 .center
