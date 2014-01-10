@@ -3,6 +3,8 @@ import jinja2
 import json
 import os
 import webapp2
+import urllib
+from google.appengine.api import urlfetch
 from google.appengine.api import users
 from google.appengine.api import channel
 from google.appengine.ext import db
@@ -223,7 +225,7 @@ class SourceUpdater():
     def make_move(self, direction):
         sourceUpdate = None
         aggregate = "Nothing"
-        maximum = -1
+        maximum = 0
         direction_list = {"Forward": 0, "Right": 0, "Left": 0, "Stop": 0}
         for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
             if crowdee.user == users.get_current_user():
@@ -245,6 +247,15 @@ class SourceUpdater():
                 aggregate = d
         self.source.direction = aggregate
         self.source.put()
+        #If the source if the VR, post the aggregate to the VR server.
+        if self.source.key().name() == "vr":
+            url = "http://ccvcl.org/~khoo/posttome.php"
+            form_fields = {"direction": aggregate}
+            form_data = urllib.urlencode(form_fields)
+            urlfetch.fetch(url=url,
+                    payload=form_data,
+                    method=urlfetch.POST)
+
         self.send_update(json.dumps(sourceUpdate))
         
 class GetDirection(webapp2.RequestHandler):
