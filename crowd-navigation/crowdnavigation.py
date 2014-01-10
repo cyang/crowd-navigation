@@ -222,6 +222,9 @@ class SourceUpdater():
         
     def make_move(self, direction):
         sourceUpdate = None
+        aggregate = "Nothing"
+        maximum = -1
+        direction_list = {"Forward": 0, "Right": 0, "Left": 0, "Stop": 0}
         for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
             if crowdee.user == users.get_current_user():
                 crowdee.direction = direction
@@ -232,10 +235,15 @@ class SourceUpdater():
                                 'direction': direction,
                                 'weight': crowdee.weight
                                }
+            direction_list[crowdee.direction] += 1
         if not sourceUpdate:
             logging.error("make_move failed: code 1")
             return
-        self.source.direction = direction
+        for d in direction_list.keys():
+            if direction_list[d] > maximum:
+                maximum = direction_list[d]
+                aggregate = d
+        self.source.direction = aggregate
         self.source.put()
         self.send_update(json.dumps(sourceUpdate))
         
