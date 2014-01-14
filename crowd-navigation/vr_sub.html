@@ -125,7 +125,7 @@
 		        //If the message is deleting the user...
 		        if(message.hasOwnProperty("delete"))
 		        {
-		        	delete message[user_id];
+		        	delete crowd[user_id];
 		        	updateSource();
 		        	return
 		        }
