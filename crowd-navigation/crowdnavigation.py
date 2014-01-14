@@ -258,7 +258,7 @@ class SourceUpdater():
 
         self.send_update(json.dumps(sourceUpdate))
         
-    def delete_move(self):
+    def delete_move(self, user_id):
         aggregate = "Nothing"
         maximum = 0
         direction_list = {"Forward": 0, "Right": 0, "Left": 0, "Stop": 0}
@@ -279,7 +279,7 @@ class SourceUpdater():
                     payload=form_data,
                     method=urlfetch.POST)
         sourceUpdate = {
-                           'user_id': users.get_current_user().user_id(),
+                           'user_id': user_id,
                            'delete': True
                        }
         self.send_update(json.dumps(sourceUpdate))
@@ -320,7 +320,7 @@ class ChannelDisconnect(webapp2.RequestHandler):
         for user_crowdee in user_crowd:
             source = Source.get_by_key_name(user_crowdee.source)
             if source and user_crowdee:
-                SourceUpdater(source).delete_move()
+                SourceUpdater(source).delete_move(user_crowdee.user.user_id())
             user_crowdee.delete()
 
 jinja_environment = jinja2.Environment(
