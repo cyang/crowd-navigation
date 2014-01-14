@@ -320,7 +320,11 @@ class ChannelDisconnect(webapp2.RequestHandler):
     def post(self):
         channel_token = self.request.get('from')
         user_crowd = Crowdee.all().filter("channel =", channel_token)
+        #Although there should only be one user, it will still be received as a list.
         for user_crowdee in user_crowd:
+            source = Source.get_by_key_name(user_crowdee.source)
+            if source and user_crowdee:
+                SourceUpdater(source).delete_move()
             user_crowdee.delete()
 
 jinja_environment = jinja2.Environment(
