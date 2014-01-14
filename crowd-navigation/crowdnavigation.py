@@ -218,8 +218,11 @@ class SourceUpdater():
                 channel.send_message(self.source.key().name() + "_" + users.get_current_user().user_id(), message)
 
     def send_update(self, message):
+        logging.warning(self.source.key().name())
         for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
+            logging.warning(users.get_current_user())
             if crowdee.user != users.get_current_user():
+                logging.warning('test')
                 channel.send_message(self.source.key().name() + "_" + crowdee.user.user_id(), message)
         
     def make_move(self, direction):
@@ -319,9 +322,10 @@ class ChannelDisconnect(webapp2.RequestHandler):
         #Although there should only be one user, it will still be received as a list.
         for user_crowdee in user_crowd:
             source = Source.get_by_key_name(user_crowdee.source)
-            if source and user_crowdee:
-                SourceUpdater(source).delete_move(user_crowdee.user.user_id())
+            user_id = user_crowdee.user.user_id()
             user_crowdee.delete()
+            if source:
+                SourceUpdater(source).delete_move(user_id)
 
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
