@@ -218,11 +218,8 @@ class SourceUpdater():
                 channel.send_message(self.source.key().name() + "_" + users.get_current_user().user_id(), message)
 
     def send_update(self, message):
-        logging.warning(self.source.key().name())
         for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
-            logging.warning(users.get_current_user())
             if crowdee.user != users.get_current_user():
-                logging.warning('test')
                 channel.send_message(self.source.key().name() + "_" + crowdee.user.user_id(), message)
         
     def make_move(self, direction):
