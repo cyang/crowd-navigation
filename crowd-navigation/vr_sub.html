@@ -122,6 +122,13 @@
 		    {
 		        message = JSON.parse(m.data);
 		        user_id = message.user_id;
+		        //If the message is deleting the user...
+		        if(message.hasOwnProperty("delete"))
+		        {
+		        	delete message[user_id];
+		        	updateSource();
+		        	return
+		        }
 		        name = message.name;
 		        direction = message.direction;
 		        weight = message.weight;
