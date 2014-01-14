@@ -265,9 +265,6 @@ class SourceUpdater():
         direction_list = {"Forward": 0, "Right": 0, "Left": 0, "Stop": 0}
         for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
             direction_list[crowdee.direction] += 1
-        if not sourceUpdate:
-            logging.error("make_move failed: code 1")
-            return
         for d in direction_list.keys():
             if direction_list[d] > maximum:
                 maximum = direction_list[d]
