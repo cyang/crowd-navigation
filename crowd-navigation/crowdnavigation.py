@@ -259,7 +259,6 @@ class SourceUpdater():
         self.send_update(json.dumps(sourceUpdate))
         
     def delete_move(self):
-        sourceUpdate = None
         aggregate = "Nothing"
         maximum = 0
         direction_list = {"Forward": 0, "Right": 0, "Left": 0, "Stop": 0}
