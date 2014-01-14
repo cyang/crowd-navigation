@@ -258,6 +258,36 @@ class SourceUpdater():
 
         self.send_update(json.dumps(sourceUpdate))
         
+    def delete_move(self):
+        sourceUpdate = None
+        aggregate = "Nothing"
+        maximum = 0
+        direction_list = {"Forward": 0, "Right": 0, "Left": 0, "Stop": 0}
+        for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
+            direction_list[crowdee.direction] += 1
+        if not sourceUpdate:
+            logging.error("make_move failed: code 1")
+            return
+        for d in direction_list.keys():
+            if direction_list[d] > maximum:
+                maximum = direction_list[d]
+                aggregate = d
+        self.source.direction = aggregate
+        self.source.put()
+        #If the source if the VR, post the aggregate to the VR server.
+        if self.source.key().name() == "vr":
+            url = "http://ccvcl.org/~khoo/posttome.php"
+            form_fields = {"direction": aggregate}
+            form_data = urllib.urlencode(form_fields)
+            urlfetch.fetch(url=url,
+                    payload=form_data,
+                    method=urlfetch.POST)
+        sourceUpdate = {
+                           'user_id': users.get_current_user().user_id(),
+                           'delete': True
+                       }
+        self.send_update(json.dumps(sourceUpdate))
+        
 class GetDirection(webapp2.RequestHandler):
     def get(self):
         #self.response.out.write("400")
