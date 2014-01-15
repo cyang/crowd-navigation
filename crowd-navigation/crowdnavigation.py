@@ -253,7 +253,7 @@ class SourceUpdater():
         #If the source if the VR, post the aggregate to the VR server.
         if self.source.key().name() == "vr":
             if crowd_size != 0:
-                speed = maximum / crowd_size
+                speed = maximum / float(crowd_size)
             else:
                 speed = 0
             url = "http://ccvcl.org/~khoo/posttome.php"
