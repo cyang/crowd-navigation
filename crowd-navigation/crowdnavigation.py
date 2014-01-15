@@ -226,6 +226,7 @@ class SourceUpdater():
         sourceUpdate = None
         aggregate = "Nothing"
         maximum = 0
+        crowd_size = 0
         direction_list = {"Forward": 0, "Right": 0, "Left": 0, "Stop": 0}
         for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
             if crowdee.user == users.get_current_user():
@@ -250,8 +251,9 @@ class SourceUpdater():
         self.source.put()
         #If the source if the VR, post the aggregate to the VR server.
         if self.source.key().name() == "vr":
+            speed = maximum / crowd_size
             url = "http://ccvcl.org/~khoo/posttome.php"
-            form_fields = {"direction": aggregate}
+            form_fields = {"direction": aggregate, "speed": speed}
             form_data = urllib.urlencode(form_fields)
             urlfetch.fetch(url=url,
                     payload=form_data,
@@ -262,10 +264,12 @@ class SourceUpdater():
     def delete_move(self, user_id):
         aggregate = "Nothing"
         maximum = 0
+        crowd_size = 0
         direction_list = {"Forward": 0, "Right": 0, "Left": 0, "Stop": 0}
         for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
             if crowdee.direction and crowdee.direction != None and crowdee.direction != "None" and crowdee.direction != "Nothing":
                 direction_list[crowdee.direction] += 1
+                crowd_size += 1
         for d in direction_list.keys():
             if direction_list[d] > maximum:
                 maximum = direction_list[d]
@@ -274,8 +278,9 @@ class SourceUpdater():
         self.source.put()
         #If the source if the VR, post the aggregate to the VR server.
         if self.source.key().name() == "vr":
+            speed = maximum / crowd_size
             url = "http://ccvcl.org/~khoo/posttome.php"
-            form_fields = {"direction": aggregate}
+            form_fields = {"direction": aggregate, "speed": speed}
             form_data = urllib.urlencode(form_fields)
             urlfetch.fetch(url=url,
                     payload=form_data,
