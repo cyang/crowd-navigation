@@ -237,7 +237,7 @@ class SourceUpdater():
                                 'direction': direction,
                                 'weight': crowdee.weight
                                }
-            if crowdee.direction:
+            if crowdee.direction and crowdee.direction != None and crowdee.direction != "None" and crowdee.direction != "Nothing":
                 direction_list[crowdee.direction] += 1
         if not sourceUpdate:
             logging.error("make_move failed: code 1")
@@ -264,7 +264,7 @@ class SourceUpdater():
         maximum = 0
         direction_list = {"Forward": 0, "Right": 0, "Left": 0, "Stop": 0}
         for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
-            if crowdee.direction:
+            if crowdee.direction and crowdee.direction != None and crowdee.direction != "None" and crowdee.direction != "Nothing":
                 direction_list[crowdee.direction] += 1
         for d in direction_list.keys():
             if direction_list[d] > maximum:
