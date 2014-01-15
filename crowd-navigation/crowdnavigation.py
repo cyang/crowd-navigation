@@ -240,6 +240,7 @@ class SourceUpdater():
                                }
             if crowdee.direction and crowdee.direction != None and crowdee.direction != "None" and crowdee.direction != "Nothing":
                 direction_list[crowdee.direction] += 1
+                crowd_size += 1
         if not sourceUpdate:
             logging.error("make_move failed: code 1")
             return
@@ -251,7 +252,10 @@ class SourceUpdater():
         self.source.put()
         #If the source if the VR, post the aggregate to the VR server.
         if self.source.key().name() == "vr":
-            speed = maximum / crowd_size
+            if crowd_size != 0:
+                speed = maximum / crowd_size
+            else:
+                speed = 0
             url = "http://ccvcl.org/~khoo/posttome.php"
             form_fields = {"direction": aggregate, "speed": speed}
             form_data = urllib.urlencode(form_fields)
@@ -278,7 +282,10 @@ class SourceUpdater():
         self.source.put()
         #If the source if the VR, post the aggregate to the VR server.
         if self.source.key().name() == "vr":
-            speed = maximum / crowd_size
+            if crowd_size != 0:
+                speed = maximum / crowd_size
+            else:
+                speed = 0
             url = "http://ccvcl.org/~khoo/posttome.php"
             form_fields = {"direction": aggregate, "speed": speed}
             form_data = urllib.urlencode(form_fields)
