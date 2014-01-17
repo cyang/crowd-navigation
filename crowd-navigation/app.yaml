@@ -9,10 +9,10 @@ handlers:
   static_dir: css
 
 - url: /images
-  static_dir: static/images
+  static_dir: images
 
 - url: /js
-  static_dir: static/js
+  static_dir: js
   
 - url: /.*
   script: crowdnavigation.py
