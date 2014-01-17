@@ -20,9 +20,9 @@ handlers:
 inbound_services:
 - channel_presence
 
-libraries:                                                                      
-- name: jinja2                                                                  
-  version: latest                                                               
+libraries:
+- name: jinja2
+  version: latest
 
-- name: markupsafe                                                              
+- name: markupsafe
   version: latest
