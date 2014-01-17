@@ -15,7 +15,7 @@ handlers:
   static_dir: js
   
 - url: /.*
-  script: crowdnavigation.py
+  script: crowdnavigation.application
 
 inbound_services:
 - channel_presence

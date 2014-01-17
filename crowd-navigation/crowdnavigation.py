@@ -356,10 +356,3 @@ application = webapp2.WSGIApplication([
                                       ('/get_vr_direction', GetVirtualRealityDirection),
                                       ('/_ah/channel/disconnected/', ChannelDisconnect),
                                       ], debug=True)
-
-
-def main():
-    run_wsgi_app(application)
-
-if __name__ == "__main__":
-    main()
