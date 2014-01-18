@@ -16,8 +16,9 @@
 		     session.publish( publisher );
 		  }
 		 
-		  var publisher = TB.initPublisher(apiKey);
-		  var session   = TB.initSession(sessionId);
+          var publisherProperties = {width: 480, height:360, name:"VR stream"};
+		  var publisher = TB.initPublisher(apiKey, publisher, publisherProperties);
+		  var session = TB.initSession(sessionId);
 		 
 		  session.connect(apiKey, token);
 		  session.addEventListener("sessionConnected", 
