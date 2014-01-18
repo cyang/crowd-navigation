@@ -19,6 +19,11 @@ class Crowdee(db.Model):
 class Source(db.Model):
     current_user = db.UserProperty()
     direction = db.StringProperty()
+    
+class SandBox(webapp2.RedirectHandler):
+    def get(self):
+        template = jinja_environment.get_template('base.html')
+        self.response.out.write(template.render())
 
 class TokBoxQuickStartPubPage(webapp2.RequestHandler):
     def get(self):
@@ -337,7 +342,7 @@ class ChannelDisconnect(webapp2.RequestHandler):
                 SourceUpdater(source).delete_move(user_id)
 
 jinja_environment = jinja2.Environment(
-    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
+    loader=jinja2.FileSystemLoader([os.path.dirname(__file__), os.path.dirname(__file__) + "/templates"]))
 
 application = webapp2.WSGIApplication([
                                       ('/', RoutingPage),
@@ -351,6 +356,7 @@ application = webapp2.WSGIApplication([
                                       ('/direction', MovePage),
                                       ('/getdirection', GetDirection),
                                       ('/getdemodirection', GetDemoDirection),
+                                      ('/sandbox', SandBox),
                                       ('/get_vr_direction', GetVirtualRealityDirection),
                                       ('/_ah/channel/disconnected/', ChannelDisconnect),
                                       ], debug=True)
