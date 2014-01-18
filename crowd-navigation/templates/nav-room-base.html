@@ -1,195 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
-<script type="text/javascript">
-    var local = {
-        source_key: '(( source_key ))',
-        current_user_id: '(( current_user_id ))',
-        weight: '(( weight ))'
-    };
-    var crowd = {};
+{% include "nav-room-script.html" %}
+<div class="row">
+     <div class="large-12 columns">
+         <h1>Nav Room</h1>
+     </div>
+</div>
 
-    updateSource = function()
-    {
-        //Update current user's direction.
-        $("#direction").html(local.direction);
-        //Prepare all direction display string.
-        var output = "";
-        var direction_list = {};
-        //For each crowdee's information...
-        for(var key in crowd)
-        {
-            //If this is a propery unique to the crowdee model...
-            if(crowd.hasOwnProperty(key))
-            {
-                //If the crowdee information is not empty...
-                if(crowd[key])
-                {
-                    if(crowd[key]['weight'] && crowd[key]['direction'] && key != local.current_user_id)
-                    {
-                        //Concatenate this information to the display string
-                        output = output + String(crowd[key]['name']) + " " + String(crowd[key]['direction']) + " " + String(crowd[key]['weight']) + "<br>";
-                    }
-                    //Collect the weighted direction information.
-                    if(direction_list[crowd[key]['direction']])
-                    {
-                        direction_list[crowd[key]['direction']] += parseInt(crowd[key]['weight']);
-                    }
-                    else
-                    {
-                        direction_list[crowd[key]['direction']] = parseInt(crowd[key]['weight']);
-                    }
-                }
-            }
-        }
-        //Prepare a variables for the maximal direction.
-        var max_direction = "None";
-        var max_value = 0;
-        //For each direction that we collected...
-        for(var key in direction_list)
-        {
-            if(direction_list.hasOwnProperty(key))
-            {
-                //Find the largest aggregate.
-                if(direction_list[key] > max_value)
-                {
-                    max_direction = key;
-                    max_value = direction_list[key];
-                }
-            }
-        }
-        if(max_direction)
-        {
-            $("#aggregate").html(max_direction);
-        }
-        $("#all_directions").html(output);
-    };
-
-    sendMessage = function(path, opt_param)
-    {
-        path += '?g=' + local.source_key;
-        if(opt_param)
-        {
-            path += '&' + opt_param;
-        }
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', path, true);
-        xhr.send();
-    };
-      
-    onOpened = function()
-    {
-        sendMessage('/opened');
-    };
-      
-    changeDirection = function(e)
-    {
-        e = e || window.event;
-
-        if(e.keyCode == '37')
-        {
-            //Left arrow.
-            d = "Left";
-        }
-        else if(e.keyCode == '38')
-        {
-            //Up arrow.
-            d = "Forward";
-        }
-        else if(e.keyCode == '39')
-        {
-            //Right arrow.
-            d = "Right";
-        }
-        else if(e.keyCode == '40')
-        {
-            //Down arrow.
-            d = "Stop";
-        }
-        local.direction = d;
-        crowd[local.current_user_id] = {"direction": local.direction, "weight": local.weight}
-        updateSource();
-        sendMessage('/direction', 'd=' + d);
-    };
-      
-    onMessage = function(m)
-    {
-        message = JSON.parse(m.data);
-        user_id = message.user_id;
-        name = message.name;
-        direction = message.direction;
-        weight = message.weight;
-        crowd[user_id] = {"name": name, "direction": direction, "weight": weight};
-        updateSource();
-    };
-      
-    openChannel = function()
-    {
-        var token = '(( token ))';
-        var channel = new goog.appengine.Channel(token);
-        var handler = {
-            'onopen': onOpened,
-            'onmessage': onMessage,
-            'onerror': function() {},
-            'onclose': function() {}
-        };
-        var socket = channel.open(handler);
-        socket.onopen = onOpened;
-        socket.onmessage = onMessage;
-    };
-      
-    initialize = function()
-    {
-        openChannel();
-        document.onkeydown = changeDirection;
-        onMessage({data: '(( initial_message ))'});
-    };
-    
-    
-    /* === Start TokBox Subscribing === */
-    
-    var apiKey    = "44596572";
-    var sessionId = "1_MX40NDU5NjU3Mn5-VGh1IEphbiAwOSAwODo0Mzo1OSBQU1QgMjAxNH4wLjM4NTQzOTM0fg";
-    var token     = "T1==cGFydG5lcl9pZD00NDU5NjU3MiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz03YjliYjQ3YjZmMmNjNWNlYTU4MWI1ZGQ4M2M3OTkzMGIzNzIxNGUxOnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9MV9NWDQwTkRVNU5qVTNNbjUtVkdoMUlFcGhiaUF3T1NBd09EbzBNem8xT1NCUVUxUWdNakF4Tkg0d0xqTTROVFF6T1RNMGZnJmNyZWF0ZV90aW1lPTEzODkyODU4NDYmbm9uY2U9MC44MTI4NjM0MTQzNDA2NDAxJmV4cGlyZV90aW1lPTEzOTE4Nzc4NTAmY29ubmVjdGlvbl9kYXRhPQ==";
-
-    function sessionConnectedHandler(event)
-    {
-        subscribeToStreams(event.streams);
-    }
-    
-    function subscribeToStreams(streams)
-    {
-        for (var i = 0; i < streams.length; i++)
-        {
-            var stream = streams[i];
-            if (stream.connection.connectionId != session.connection.connectionId)
-            {
-                session.subscribe(stream, "tokbox_subscription", {width:480, height:360});
-            }
-        }
-    }
-    
-    function streamCreatedHandler(event) {
-        subscribeToStreams(event.streams);
-    }
-    
-    var session = TB.initSession(sessionId);
-    
-    session.connect(apiKey, token);
-    session.addEventListener("sessionConnected", 
-                             sessionConnectedHandler);
-    
-    session.addEventListener("streamCreated", 
-                             streamCreatedHandler);
-    
-    /* === End TokBox Subscribing === */
-
-    setTimeout(initialize, 100);
-
-</script>
-<div>
-    <!-- <object width="600" height="409"> <param name="movie" value="http://fpdownload.adobe.com/strobe/FlashMediaPlayback.swf"></param><param name="flashvars" value="src=rtmp%3A%2F%2F67.244.90.144%3A1935%2Flive%2FmyStream&poster=http%3A%2F%2Fs9.postimg.org%2Fbm6fpc0sv%2Fposter_crowd_navigation.jpg&streamType=live"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://fpdownload.adobe.com/strobe/FlashMediaPlayback.swf" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="600" height="409" flashvars="src=rtmp%3A%2F%2F67.244.90.144%3A1935%2Flive%2FmyStream&poster=http%3A%2F%2Fs9.postimg.org%2Fbm6fpc0sv%2Fposter_crowd_navigation.jpg&streamType=live"></embed></object>  -->
-    <div class="float_left" id="tokbox_subscription"><img src="/img/poster_crowd_navigation.jpg" width=480 height=360 alt="TokBoxFrame"></div>
-    <iframe width="420" height="360" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=&amp;aq=&amp;sll=40.522151,-73.443604&amp;sspn=5.761748,13.392334&amp;ie=UTF8&amp;ll=40.819753,-73.949726&amp;spn=0.011205,0.026157&amp;t=m&amp;z=16&amp;output=embed"></iframe>
+<div class="row">
+    <div class="small-12 columns">
+        <div class="row">
+            <div class="small-6 columns">
+		        <div class="panel">
+			        <div class="float_left" id="tokbox_subscription"><img src="/img/poster_crowd_navigation.jpg" width=480 height=360 alt="TokBoxFrame"></div>
+			    </div>
+		    </div>
+		    <div class="small-6 columns">
+	            <div class="panel">
+			        <iframe width="420" height="360" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=&amp;aq=&amp;sll=40.522151,-73.443604&amp;sspn=5.761748,13.392334&amp;ie=UTF8&amp;ll=40.819753,-73.949726&amp;spn=0.011205,0.026157&amp;t=m&amp;z=16&amp;output=embed"></iframe>
+		        </div>
+            </div>
+	    </div>
+    </div>
 </div>
 <div style="font-size: 20pt;">
     Direction: <span id="direction">Nothing</span>
