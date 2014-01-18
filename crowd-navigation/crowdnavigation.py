@@ -22,7 +22,7 @@ class Source(db.Model):
     
 class SandBox(webapp2.RedirectHandler):
     def get(self):
-        template = jinja_environment.get_template('base.html')
+        template = jinja_environment.get_template('nav-room-base.html')
         self.response.out.write(template.render())
 
 class TokBoxQuickStartPubPage(webapp2.RequestHandler):
