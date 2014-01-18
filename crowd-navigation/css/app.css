@@ -7401,9 +7401,10 @@ th.hide-for-touch {
   display: table-cell !important;
 }
 
-/* line 1, ../scss/_crowd.scss */
+/* line 3, ../scss/_crowd.scss */
 footer {
   text-align: center;
+  background: #008cba;
 }
 
 /* line 10, ../scss/_sticky-footer.scss */
@@ -7417,16 +7418,16 @@ html, body {
   min-height: 100%;
   height: auto !important;
   height: 100%;
-  margin-bottom: -72px;
+  margin-bottom: -50px;
 }
 /* line 18, ../scss/_sticky-footer.scss */
 #content #content_footer {
-  height: 72px;
+  height: 50px;
 }
 
 /* line 20, ../scss/_sticky-footer.scss */
 #footer {
   clear: both;
   position: relative;
-  height: 72px;
+  height: 50px;
 }
