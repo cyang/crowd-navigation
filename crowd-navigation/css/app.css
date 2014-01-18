@@ -7408,6 +7408,11 @@ footer {
   background: #2ba6cb;
 }
 
+/* line 7, ../scss/_crowd.scss */
+.break-word {
+  word-wrap: break-word;
+}
+
 /* line 10, ../scss/_sticky-footer.scss */
 html, body {
   height: 100%;
