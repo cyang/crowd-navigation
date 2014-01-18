@@ -342,7 +342,9 @@ class ChannelDisconnect(webapp2.RequestHandler):
                 SourceUpdater(source).delete_move(user_id)
 
 jinja_environment = jinja2.Environment(
-    loader=jinja2.FileSystemLoader([os.path.dirname(__file__), os.path.dirname(__file__) + "/templates"]))
+    loader=jinja2.FileSystemLoader([os.path.dirname(__file__), os.path.dirname(__file__) + "/templates"]),
+    variable_start_string="((",
+    variable_end_string="))")
 
 application = webapp2.WSGIApplication([
                                       ('/', RoutingPage),
