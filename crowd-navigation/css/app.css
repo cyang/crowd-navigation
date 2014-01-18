@@ -7401,9 +7401,10 @@ th.hide-for-touch {
   display: table-cell !important;
 }
 
-/* line 3, ../scss/_crowd.scss */
+/* line 1, ../scss/_crowd.scss */
 footer {
   text-align: center;
+  vertical-align: middle;
   background: #2ba6cb;
 }
 
