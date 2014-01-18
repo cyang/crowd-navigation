@@ -2,9 +2,9 @@
 {% block content %}
 <script type="text/javascript">
     var local = {
-        source_key: '{{ source_key }}',
-        current_user_id: '{{ current_user_id }}',
-        weight: '{{ weight }}'
+        source_key: '(( source_key ))',
+        current_user_id: '(( current_user_id ))',
+        weight: '(( weight ))'
     };
     var crowd = {};
 
@@ -124,7 +124,7 @@
       
     openChannel = function()
     {
-        var token = '{{ token }}';
+        var token = '(( token ))';
         var channel = new goog.appengine.Channel(token);
         var handler = {
             'onopen': onOpened,
@@ -141,7 +141,7 @@
     {
         openChannel();
         document.onkeydown = changeDirection;
-        onMessage({data: '{{ initial_message }}'});
+        onMessage({data: '(( initial_message ))'});
     };
     
     
@@ -201,6 +201,6 @@
     All Directions: <div id="all_directions">Nothing</div>
 </div>
 <div>
-    Source Link: <span id="source_key">http://crowd-navigation.appspot.com/main/?g={{ source_key }}</span>
+    Source Link: <span id="source_key">http://crowd-navigation.appspot.com/main/?g=(( source_key ))</span>
 </div>
 {% endblock content %}
