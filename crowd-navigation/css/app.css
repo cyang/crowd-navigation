@@ -1661,8 +1661,8 @@ select {
   position: relative;
   padding: 0.875rem 1.5rem 0.875rem 0.875rem;
   font-size: 0.8125rem;
-  background-color: #008cba;
-  border-color: #0078a0;
+  background-color: #2ba6cb;
+  border-color: #258faf;
   color: white;
 }
 /* line 105, ../bower_components/foundation/scss/foundation/components/_alert-boxes.scss */
@@ -1693,20 +1693,20 @@ select {
 }
 /* line 110, ../bower_components/foundation/scss/foundation/components/_alert-boxes.scss */
 .alert-box.success {
-  background-color: #43ac6a;
-  border-color: #3a945b;
+  background-color: #5da423;
+  border-color: #508d1e;
   color: white;
 }
 /* line 111, ../bower_components/foundation/scss/foundation/components/_alert-boxes.scss */
 .alert-box.alert {
-  background-color: #f04124;
-  border-color: #de2d0f;
+  background-color: #c60f13;
+  border-color: #aa0d10;
   color: white;
 }
 /* line 112, ../bower_components/foundation/scss/foundation/components/_alert-boxes.scss */
 .alert-box.secondary {
-  background-color: #e7e7e7;
-  border-color: #c7c7c7;
+  background-color: #e9e9e9;
+  border-color: #c8c8c8;
   color: #4f4f4f;
 }
 /* line 113, ../bower_components/foundation/scss/foundation/components/_alert-boxes.scss */
@@ -2298,8 +2298,8 @@ select {
   list-style: none;
   border-style: solid;
   border-width: 1px;
-  background-color: #f4f4f4;
-  border-color: gainsboro;
+  background-color: whitesmoke;
+  border-color: #dddddd;
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
@@ -2318,7 +2318,7 @@ select {
 .breadcrumbs > * a,
 .breadcrumbs > * span {
   text-transform: uppercase;
-  color: #008cba;
+  color: #2ba6cb;
 }
 /* line 71, ../bower_components/foundation/scss/foundation/components/_breadcrumbs.scss */
 .breadcrumbs > *.current {
@@ -2382,8 +2382,8 @@ button, .button {
   padding-left: 2rem;
   font-size: 1rem;
   /*     @else                            { font-size: $padding - rem-calc(2); } */
-  background-color: #008cba;
-  border-color: #007095;
+  background-color: #2ba6cb;
+  border-color: #2285a2;
   color: white;
   -webkit-transition: background-color 300ms ease-out;
   -moz-transition: background-color 300ms ease-out;
@@ -2396,7 +2396,7 @@ button, .button {
 }
 /* line 144, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button:hover, button:focus, .button:hover, .button:focus {
-  background-color: #007095;
+  background-color: #2285a2;
 }
 /* line 155, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button:hover, button:focus, .button:hover, .button:focus {
@@ -2404,13 +2404,13 @@ button:hover, button:focus, .button:hover, .button:focus {
 }
 /* line 207, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.secondary, .button.secondary {
-  background-color: #e7e7e7;
-  border-color: #b9b9b9;
+  background-color: #e9e9e9;
+  border-color: #bababa;
   color: #333333;
 }
 /* line 144, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button.secondary:focus {
-  background-color: #b9b9b9;
+  background-color: #bababa;
 }
 /* line 150, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button.secondary:focus {
@@ -2418,13 +2418,13 @@ button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button
 }
 /* line 208, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.success, .button.success {
-  background-color: #43ac6a;
-  border-color: #368a55;
+  background-color: #5da423;
+  border-color: #4a831c;
   color: white;
 }
 /* line 144, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.success:hover, button.success:focus, .button.success:hover, .button.success:focus {
-  background-color: #368a55;
+  background-color: #4a831c;
 }
 /* line 155, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.success:hover, button.success:focus, .button.success:hover, .button.success:focus {
@@ -2432,13 +2432,13 @@ button.success:hover, button.success:focus, .button.success:hover, .button.succe
 }
 /* line 209, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.alert, .button.alert {
-  background-color: #f04124;
-  border-color: #cf2a0e;
+  background-color: #c60f13;
+  border-color: #9e0c0f;
   color: white;
 }
 /* line 144, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.alert:hover, button.alert:focus, .button.alert:hover, .button.alert:focus {
-  background-color: #cf2a0e;
+  background-color: #9e0c0f;
 }
 /* line 155, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.alert:hover, button.alert:focus, .button.alert:hover, .button.alert:focus {
@@ -2499,8 +2499,8 @@ button.round, .button.round {
 }
 /* line 222, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.disabled, button[disabled], .button.disabled, .button[disabled] {
-  background-color: #008cba;
-  border-color: #007095;
+  background-color: #2ba6cb;
+  border-color: #2285a2;
   color: white;
   cursor: default;
   opacity: 0.7;
@@ -2509,7 +2509,7 @@ button.disabled, button[disabled], .button.disabled, .button[disabled] {
 }
 /* line 144, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.disabled:hover, button.disabled:focus, button[disabled]:hover, button[disabled]:focus, .button.disabled:hover, .button.disabled:focus, .button[disabled]:hover, .button[disabled]:focus {
-  background-color: #007095;
+  background-color: #2285a2;
 }
 /* line 155, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.disabled:hover, button.disabled:focus, button[disabled]:hover, button[disabled]:focus, .button.disabled:hover, .button.disabled:focus, .button[disabled]:hover, .button[disabled]:focus {
@@ -2517,12 +2517,12 @@ button.disabled:hover, button.disabled:focus, button[disabled]:hover, button[dis
 }
 /* line 168, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.disabled:hover, button.disabled:focus, button[disabled]:hover, button[disabled]:focus, .button.disabled:hover, .button.disabled:focus, .button[disabled]:hover, .button[disabled]:focus {
-  background-color: #008cba;
+  background-color: #2ba6cb;
 }
 /* line 223, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.disabled.secondary, button[disabled].secondary, .button.disabled.secondary, .button[disabled].secondary {
-  background-color: #e7e7e7;
-  border-color: #b9b9b9;
+  background-color: #e9e9e9;
+  border-color: #bababa;
   color: #333333;
   cursor: default;
   opacity: 0.7;
@@ -2531,7 +2531,7 @@ button.disabled.secondary, button[disabled].secondary, .button.disabled.secondar
 }
 /* line 144, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.disabled.secondary:hover, button.disabled.secondary:focus, button[disabled].secondary:hover, button[disabled].secondary:focus, .button.disabled.secondary:hover, .button.disabled.secondary:focus, .button[disabled].secondary:hover, .button[disabled].secondary:focus {
-  background-color: #b9b9b9;
+  background-color: #bababa;
 }
 /* line 150, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.disabled.secondary:hover, button.disabled.secondary:focus, button[disabled].secondary:hover, button[disabled].secondary:focus, .button.disabled.secondary:hover, .button.disabled.secondary:focus, .button[disabled].secondary:hover, .button[disabled].secondary:focus {
@@ -2539,12 +2539,12 @@ button.disabled.secondary:hover, button.disabled.secondary:focus, button[disable
 }
 /* line 168, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.disabled.secondary:hover, button.disabled.secondary:focus, button[disabled].secondary:hover, button[disabled].secondary:focus, .button.disabled.secondary:hover, .button.disabled.secondary:focus, .button[disabled].secondary:hover, .button[disabled].secondary:focus {
-  background-color: #e7e7e7;
+  background-color: #e9e9e9;
 }
 /* line 224, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.disabled.success, button[disabled].success, .button.disabled.success, .button[disabled].success {
-  background-color: #43ac6a;
-  border-color: #368a55;
+  background-color: #5da423;
+  border-color: #4a831c;
   color: white;
   cursor: default;
   opacity: 0.7;
@@ -2553,7 +2553,7 @@ button.disabled.success, button[disabled].success, .button.disabled.success, .bu
 }
 /* line 144, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.disabled.success:hover, button.disabled.success:focus, button[disabled].success:hover, button[disabled].success:focus, .button.disabled.success:hover, .button.disabled.success:focus, .button[disabled].success:hover, .button[disabled].success:focus {
-  background-color: #368a55;
+  background-color: #4a831c;
 }
 /* line 155, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.disabled.success:hover, button.disabled.success:focus, button[disabled].success:hover, button[disabled].success:focus, .button.disabled.success:hover, .button.disabled.success:focus, .button[disabled].success:hover, .button[disabled].success:focus {
@@ -2561,12 +2561,12 @@ button.disabled.success:hover, button.disabled.success:focus, button[disabled].s
 }
 /* line 168, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.disabled.success:hover, button.disabled.success:focus, button[disabled].success:hover, button[disabled].success:focus, .button.disabled.success:hover, .button.disabled.success:focus, .button[disabled].success:hover, .button[disabled].success:focus {
-  background-color: #43ac6a;
+  background-color: #5da423;
 }
 /* line 225, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.disabled.alert, button[disabled].alert, .button.disabled.alert, .button[disabled].alert {
-  background-color: #f04124;
-  border-color: #cf2a0e;
+  background-color: #c60f13;
+  border-color: #9e0c0f;
   color: white;
   cursor: default;
   opacity: 0.7;
@@ -2575,7 +2575,7 @@ button.disabled.alert, button[disabled].alert, .button.disabled.alert, .button[d
 }
 /* line 144, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.disabled.alert:hover, button.disabled.alert:focus, button[disabled].alert:hover, button[disabled].alert:focus, .button.disabled.alert:hover, .button.disabled.alert:focus, .button[disabled].alert:hover, .button[disabled].alert:focus {
-  background-color: #cf2a0e;
+  background-color: #9e0c0f;
 }
 /* line 155, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.disabled.alert:hover, button.disabled.alert:focus, button[disabled].alert:hover, button[disabled].alert:focus, .button.disabled.alert:hover, .button.disabled.alert:focus, .button[disabled].alert:hover, .button[disabled].alert:focus {
@@ -2583,7 +2583,7 @@ button.disabled.alert:hover, button.disabled.alert:focus, button[disabled].alert
 }
 /* line 168, ../bower_components/foundation/scss/foundation/components/_buttons.scss */
 button.disabled.alert:hover, button.disabled.alert:focus, button[disabled].alert:hover, button[disabled].alert:focus, .button.disabled.alert:hover, .button.disabled.alert:focus, .button[disabled].alert:hover, .button[disabled].alert:focus {
-  background-color: #f04124;
+  background-color: #c60f13;
 }
 
 @media only screen and (min-width: 40.063em) {
@@ -3711,7 +3711,7 @@ fieldset legend {
   font-size: 0.75rem;
   font-weight: normal;
   font-style: italic;
-  background: #f04124;
+  background: #c60f13;
   color: white;
 }
 /* line 450, ../bower_components/foundation/scss/foundation/components/_forms.scss */
@@ -3728,7 +3728,7 @@ span.error, small.error {
   font-size: 0.75rem;
   font-weight: normal;
   font-style: italic;
-  background: #f04124;
+  background: #c60f13;
   color: white;
 }
 
@@ -3741,7 +3741,7 @@ span.error, small.error {
 /* line 463, ../bower_components/foundation/scss/foundation/components/_forms.scss */
 .error label,
 .error label.error {
-  color: #f04124;
+  color: #c60f13;
 }
 /* line 468, ../bower_components/foundation/scss/foundation/components/_forms.scss */
 .error > small,
@@ -3753,7 +3753,7 @@ span.error, small.error {
   font-size: 0.75rem;
   font-weight: normal;
   font-style: italic;
-  background: #f04124;
+  background: #c60f13;
   color: white;
 }
 /* line 473, ../bower_components/foundation/scss/foundation/components/_forms.scss */
@@ -3780,7 +3780,7 @@ textarea.error {
 
 /* line 494, ../bower_components/foundation/scss/foundation/components/_forms.scss */
 label.error {
-  color: #f04124;
+  color: #c60f13;
 }
 
 /* line 48, ../bower_components/foundation/scss/foundation/components/_inline-lists.scss */
@@ -4034,7 +4034,7 @@ kbd {
   margin-bottom: inherit;
   padding: 0.25rem 0.5rem 0.375rem;
   font-size: 0.6875rem;
-  background-color: #008cba;
+  background-color: #2ba6cb;
   color: white;
 }
 /* line 92, ../bower_components/foundation/scss/foundation/components/_labels.scss */
@@ -4049,17 +4049,17 @@ kbd {
 }
 /* line 95, ../bower_components/foundation/scss/foundation/components/_labels.scss */
 .label.alert {
-  background-color: #f04124;
+  background-color: #c60f13;
   color: white;
 }
 /* line 96, ../bower_components/foundation/scss/foundation/components/_labels.scss */
 .label.success {
-  background-color: #43ac6a;
+  background-color: #5da423;
   color: white;
 }
 /* line 97, ../bower_components/foundation/scss/foundation/components/_labels.scss */
 .label.secondary {
-  background-color: #e7e7e7;
+  background-color: #e9e9e9;
   color: #333333;
 }
 
@@ -4471,14 +4471,14 @@ ul.pagination li.unavailable:hover a, ul.pagination li.unavailable a:focus {
 }
 /* line 60, ../bower_components/foundation/scss/foundation/components/_pagination.scss */
 ul.pagination li.current a {
-  background: #008cba;
+  background: #2ba6cb;
   color: white;
   font-weight: bold;
   cursor: default;
 }
 /* line 67, ../bower_components/foundation/scss/foundation/components/_pagination.scss */
 ul.pagination li.current a:hover, ul.pagination li.current a:focus {
-  background: #008cba;
+  background: #2ba6cb;
 }
 /* line 119, ../bower_components/foundation/scss/foundation/components/_pagination.scss */
 ul.pagination li {
@@ -4532,10 +4532,10 @@ ul.pagination li {
 .panel.callout {
   border-style: solid;
   border-width: 1px;
-  border-color: #b6edff;
+  border-color: #c5e8f3;
   margin-bottom: 1.25rem;
   padding: 1.25rem;
-  background: #ecfaff;
+  background: #f2fafc;
 }
 /* line 48, ../bower_components/foundation/scss/foundation/components/_panels.scss */
 .panel.callout > :first-child {
@@ -4560,7 +4560,7 @@ ul.pagination li {
 }
 /* line 74, ../bower_components/foundation/scss/foundation/components/_panels.scss */
 .panel.callout a {
-  color: #008cba;
+  color: #2ba6cb;
 }
 /* line 79, ../bower_components/foundation/scss/foundation/components/_panels.scss */
 .panel.radius {
@@ -4639,25 +4639,25 @@ ul.pagination li {
 }
 /* line 57, ../bower_components/foundation/scss/foundation/components/_progress-bars.scss */
 .progress .meter {
-  background: #008cba;
+  background: #2ba6cb;
   height: 100%;
   display: block;
 }
 /* line 60, ../bower_components/foundation/scss/foundation/components/_progress-bars.scss */
 .progress.secondary .meter {
-  background: #e7e7e7;
+  background: #e9e9e9;
   height: 100%;
   display: block;
 }
 /* line 61, ../bower_components/foundation/scss/foundation/components/_progress-bars.scss */
 .progress.success .meter {
-  background: #43ac6a;
+  background: #5da423;
   height: 100%;
   display: block;
 }
 /* line 62, ../bower_components/foundation/scss/foundation/components/_progress-bars.scss */
 .progress.alert .meter {
-  background: #f04124;
+  background: #c60f13;
   height: 100%;
   display: block;
 }
@@ -4792,7 +4792,7 @@ ul.pagination li {
 /* line 58, ../bower_components/foundation/scss/foundation/components/_side-nav.scss */
 .side-nav li a {
   display: block;
-  color: #008cba;
+  color: #2ba6cb;
 }
 /* line 63, ../bower_components/foundation/scss/foundation/components/_side-nav.scss */
 .side-nav li.active > a:first-child {
@@ -4992,7 +4992,7 @@ ul.pagination li {
   -webkit-border-radius: 3px;
   border-radius: 3px;
   font-weight: normal;
-  background: #008cba;
+  background: #2ba6cb;
   padding: 0.1875rem 1rem;
   cursor: default;
   color: white;
@@ -5128,8 +5128,8 @@ div.switch span:last-child {
   background: -moz-linear-gradient(top, white 0%, #f2f2f2 100%);
   background: -webkit-linear-gradient(top, white 0%, #f2f2f2 100%);
   background: linear-gradient(to bottom, #ffffff 0%, #f2f2f2 100%);
-  -webkit-box-shadow: 2px 0 10px 0 rgba(0, 0, 0, 0.07), 1000px 0 0 1000px #f3faf6, -2px 0 10px 0 rgba(0, 0, 0, 0.07), -1000px 0 0 1000px whitesmoke;
-  box-shadow: 2px 0 10px 0 rgba(0, 0, 0, 0.07), 1000px 0 0 980px #f3faf6, -2px 0 10px 0 rgba(0, 0, 0, 0.07), -1000px 0 0 1000px whitesmoke;
+  -webkit-box-shadow: 2px 0 10px 0 rgba(0, 0, 0, 0.07), 1000px 0 0 1000px #f5fcf0, -2px 0 10px 0 rgba(0, 0, 0, 0.07), -1000px 0 0 1000px whitesmoke;
+  box-shadow: 2px 0 10px 0 rgba(0, 0, 0, 0.07), 1000px 0 0 980px #f5fcf0, -2px 0 10px 0 rgba(0, 0, 0, 0.07), -1000px 0 0 1000px whitesmoke;
 }
 /* line 234, ../bower_components/foundation/scss/foundation/components/_switch.scss */
 div.switch:hover span:last-child, div.switch:focus span:last-child {
@@ -5416,8 +5416,8 @@ table tfoot tr td {
 }
 /* line 50, ../bower_components/foundation/scss/foundation/components/_thumbs.scss */
 .th:hover, .th:focus {
-  -webkit-box-shadow: 0 0 6px 1px rgba(0, 140, 186, 0.5);
-  box-shadow: 0 0 6px 1px rgba(0, 140, 186, 0.5);
+  -webkit-box-shadow: 0 0 6px 1px rgba(43, 166, 203, 0.5);
+  box-shadow: 0 0 6px 1px rgba(43, 166, 203, 0.5);
 }
 /* line 67, ../bower_components/foundation/scss/foundation/components/_thumbs.scss */
 .th.radius {
@@ -5435,8 +5435,8 @@ table tfoot tr td {
 }
 /* line 39, ../bower_components/foundation/scss/foundation/components/_tooltips.scss */
 .has-tip:hover, .has-tip:focus {
-  border-bottom: dotted 1px #003f54;
-  color: #008cba;
+  border-bottom: dotted 1px #134b5b;
+  color: #2ba6cb;
 }
 /* line 45, ../bower_components/foundation/scss/foundation/components/_tooltips.scss */
 .has-tip.tip-left, .has-tip.tip-right {
@@ -5473,8 +5473,8 @@ table tfoot tr td {
 }
 /* line 74, ../bower_components/foundation/scss/foundation/components/_tooltips.scss */
 .tooltip.opened {
-  color: #008cba !important;
-  border-bottom: dotted 1px #003f54 !important;
+  color: #2ba6cb !important;
+  border-bottom: dotted 1px #134b5b !important;
 }
 
 /* line 80, ../bower_components/foundation/scss/foundation/components/_tooltips.scss */
@@ -5729,38 +5729,38 @@ meta.foundation-mq-topbar {
 }
 /* line 295, ../bower_components/foundation/scss/foundation/components/_top-bar.scss */
 .top-bar-section ul li > a.button {
-  background: #008cba;
+  background: #2ba6cb;
   font-size: 0.8125rem;
   padding-right: 15px;
   padding-left: 15px;
 }
 /* line 300, ../bower_components/foundation/scss/foundation/components/_top-bar.scss */
 .top-bar-section ul li > a.button:hover {
-  background: #006688;
+  background: #1f7994;
 }
 /* line 304, ../bower_components/foundation/scss/foundation/components/_top-bar.scss */
 .top-bar-section ul li > a.button.secondary {
-  background: #e7e7e7;
+  background: #e9e9e9;
 }
 /* line 306, ../bower_components/foundation/scss/foundation/components/_top-bar.scss */
 .top-bar-section ul li > a.button.secondary:hover {
-  background: #cecece;
+  background: #cfcfcf;
 }
 /* line 310, ../bower_components/foundation/scss/foundation/components/_top-bar.scss */
 .top-bar-section ul li > a.button.success {
-  background: #43ac6a;
+  background: #5da423;
 }
 /* line 312, ../bower_components/foundation/scss/foundation/components/_top-bar.scss */
 .top-bar-section ul li > a.button.success:hover {
-  background: #358854;
+  background: #49821c;
 }
 /* line 316, ../bower_components/foundation/scss/foundation/components/_top-bar.scss */
 .top-bar-section ul li > a.button.alert {
-  background: #f04124;
+  background: #c60f13;
 }
 /* line 318, ../bower_components/foundation/scss/foundation/components/_top-bar.scss */
 .top-bar-section ul li > a.button.alert:hover {
-  background: #d42b0f;
+  background: #a20c10;
 }
 /* line 326, ../bower_components/foundation/scss/foundation/components/_top-bar.scss */
 .top-bar-section ul li:hover > a {
@@ -5769,12 +5769,12 @@ meta.foundation-mq-topbar {
 }
 /* line 333, ../bower_components/foundation/scss/foundation/components/_top-bar.scss */
 .top-bar-section ul li.active > a {
-  background: #008cba;
+  background: #2ba6cb;
   color: white;
 }
 /* line 336, ../bower_components/foundation/scss/foundation/components/_top-bar.scss */
 .top-bar-section ul li.active > a:hover {
-  background: #0078a0;
+  background: #258faf;
 }
 /* line 343, ../bower_components/foundation/scss/foundation/components/_top-bar.scss */
 .top-bar-section .has-form {
@@ -6048,7 +6048,7 @@ meta.foundation-mq-topbar {
   }
   /* line 588, ../bower_components/foundation/scss/foundation/components/_top-bar.scss */
   .no-js .top-bar-section ul li:active > a {
-    background: #008cba;
+    background: #2ba6cb;
     color: white;
   }
   /* line 596, ../bower_components/foundation/scss/foundation/components/_top-bar.scss */
@@ -6084,13 +6084,13 @@ td {
 /* Default Link Styles */
 /* line 151, ../bower_components/foundation/scss/foundation/components/_type.scss */
 a {
-  color: #008cba;
+  color: #2ba6cb;
   text-decoration: none;
   line-height: inherit;
 }
 /* line 157, ../bower_components/foundation/scss/foundation/components/_type.scss */
 a:hover, a:focus {
-  color: #0078a0;
+  color: #258faf;
 }
 /* line 159, ../bower_components/foundation/scss/foundation/components/_type.scss */
 a img {
@@ -6211,7 +6211,7 @@ small {
 code {
   font-family: Consolas, "Liberation Mono", Courier, monospace;
   font-weight: bold;
-  color: #bd260d;
+  color: #910b0e;
 }
 
 /* Lists */
@@ -7404,7 +7404,7 @@ th.hide-for-touch {
 /* line 3, ../scss/_crowd.scss */
 footer {
   text-align: center;
-  background: #008cba;
+  background: #2ba6cb;
 }
 
 /* line 10, ../scss/_sticky-footer.scss */
