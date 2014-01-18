@@ -7404,7 +7404,7 @@ th.hide-for-touch {
 /* line 1, ../scss/_crowd.scss */
 footer {
   text-align: center;
-  vertical-align: middle;
+  line-height: 50px;
   background: #2ba6cb;
 }
 
