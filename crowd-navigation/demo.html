@@ -8,9 +8,9 @@
         <script src="/js/jquery-2.0.3.min.js" type="text/javascript" ></script>
         <script type="text/javascript" >
             var local = {
-                source_key: '{{ source_key }}',
-                current_user_id: '{{ current_user_id }}',
-                weight: '{{ weight }}'
+                source_key: '(( source_key ))',
+                current_user_id: '(( current_user_id ))',
+                weight: '(( weight ))'
             };
             var crowd = {};
 
@@ -130,7 +130,7 @@
               
             openChannel = function()
             {
-                var token = '{{ token }}';
+                var token = '(( token ))';
                 var channel = new goog.appengine.Channel(token);
                 var handler = {
                     'onopen': onOpened,
@@ -147,7 +147,7 @@
             {
                 openChannel();
                 document.onkeydown = changeDirection;
-                onMessage({data: '{{ initial_message }}'});
+                onMessage({data: '(( initial_message ))'});
             };
         
             setTimeout(initialize, 100);
