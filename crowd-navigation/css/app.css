@@ -7401,6 +7401,11 @@ th.hide-for-touch {
   display: table-cell !important;
 }
 
+/* line 1, ../scss/_crowd.scss */
+footer {
+  text-align: center;
+}
+
 /* line 10, ../scss/_sticky-footer.scss */
 html, body {
   height: 100%;
