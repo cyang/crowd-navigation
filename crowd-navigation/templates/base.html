@@ -1,13 +1,13 @@
 <html>
     <head>
-        {% block head %}{% endblock head %}
+        {% block head %}{% include "head-content.html" %}{% endblock head %}
     </head>
     <body>
         <script src="/js/jquery-2.0.3.min.js" type="text/javascript" ></script>
         <div id="content">
         {% block content %}{% endblock content %}
         </div>
-        <div id="content-footer"></div>
+        <div id="content_footer"></div>
         <footer id="footer">
             {% include "footer-content.html" %}
         </footer>
