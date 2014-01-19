@@ -79,7 +79,7 @@ class VirtualRealitySubPage(webapp2.RequestHandler):
                                'weight': 1,
                                'initial_message': SourceUpdater(source).get_source_message()
                                }
-            template = jinja_environment.get_template('nav-room-base-vr.html')
+            template = jinja_environment.get_template('vr-room.html')
             self.response.out.write(template.render(template_values))
         else:
             self.redirect(users.create_login_url(self.request.uri))
