@@ -1,3 +1,4 @@
+<script src="http://static.opentok.com/webrtc/v2.0/js/TB.min.js"></script>
 <script type="text/javascript">
     var local = {
         source_key: '(( source_key ))',
@@ -161,7 +162,7 @@
             var stream = streams[i];
             if (stream.connection.connectionId != session.connection.connectionId)
             {
-                session.subscribe(stream, "tokbox_subscription", {width:480, height:360});
+                session.subscribe(stream, "tokbox_subscription", {width:$('#tokbox_container').width(), height:$('#tokbox_container').height()});
             }
         }
     }
