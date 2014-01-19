@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+     <div class="large-12 columns">
+         <h1>Crowd Navigation</h1>
+     </div>
+</div>
+
+<div class="row">
+    <div class="small-12 columns">
+        <div class="row">
+	        <div class="small-3 columns">
+	            <div class="row">
+                    <div class="small-12 columns">
+			            <div class="panel">
+			                <img src="/img/crowd_nav_icon.png" alt="CrowdNav">
+			            </div>
+		            </div>
+	            </div>
+	            <div class="row">
+				    <div class="small-12 columns">
+				        <div class="panel">
+				            <a href="/demo" class="small button expand">Demo</a>
+				            <a href="/main" class="small button expand">Developement</a>
+				        </div>
+				    </div>
+				</div>
+	        </div>
+		    <div class="small-9 columns">
+		        <div class="panel">
+		            The Crowd Navigation system aims to allow visually impaired users gain assistance in navigation (and other tasks) using crowdsourced assistance. The system is under development and this site is part of the testing grounds.<br>
+		            <br>
+		            A conceptual demo can be found by clicking the demo button. Rather than a live streamed source, it will play a looped video. If multiple users log into the demo page, their directions (given by the arrow keys) will be aggregated and displayed. This should be used to gain a general concept of the system even though the end result is expected to be significantly different. Note that our system uses Google App Engine and a Google account is required to log in and use the demo.<br>
+		            <br>
+		            The development button leads to the development version of the system. As this is being used in the testing and development, this page could be in any state.<br>
+		        </div>
+		    </div>
+	    </div>
+	</div>
+</div>
+{% endblock content %}
