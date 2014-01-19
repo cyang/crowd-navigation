@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-{% include "nav-room-script.html" %}
+{% block script %}{% include "nav-room-script.html" %}{% endblock script %} 
 <div class="row">
      <div class="large-12 columns">
          <h1>Nav Room</h1>
@@ -12,11 +12,13 @@
         <div class="row">
             <div class="small-6 columns">
 		        <div class="panel">
+	                {% block tokbox_container %}
 	                <div id="tokbox_container">
 	                    <div id="tokbox_subscription">
 	                        <img src="/img/poster_crowd_navigation.jpg" width="480" height="360">
 	                    </div>
 	                </div>
+	                {% block tokbox_container %}
 			    </div>
 		    </div>
 		    <div class="small-6 columns">
@@ -41,7 +43,7 @@
             </div>
             <div class="small-5 columns">
 	            <div class="panel break-word">
-		            Source Link: <span id="source_key">http://crowd-navigation.appspot.com/main/?g=(( source_key ))</span>
+		            <p>Source Link: <span id="source_key">http://crowd-navigation.appspot.com/main/?g=(( source_key ))</span></p>
 		        </div>
             </div>
         </div>
@@ -51,7 +53,7 @@
 <div class="row">
     <div class="small-7 columns">
         <div class="panel">
-            All Directions: <div id="all_directions">Nothing</div>
+            <p>All Directions: <div id="all_directions">Nothing</div></p>
         </div>
     </div>
 </div>
