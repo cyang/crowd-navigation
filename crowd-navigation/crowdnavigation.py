@@ -273,7 +273,7 @@ class SourceUpdater():
             else:
                 speed = 0
             url = "http://ccvcl.org/~khoo/posttome.php"
-            form_fields = {"direction": aggregate, "speed": speed}
+            form_fields = {"direction": aggregate, "speed": speed, "crowd_size":crowd_size}
             form_data = urllib.urlencode(form_fields)
             urlfetch.fetch(url=url,
                     payload=form_data,
@@ -303,7 +303,7 @@ class SourceUpdater():
             else:
                 speed = 0
             url = "http://ccvcl.org/~khoo/posttome.php"
-            form_fields = {"direction": aggregate, "speed": speed}
+            form_fields = {"direction": aggregate, "speed": speed, "crowd_size":crowd_size}
             form_data = urllib.urlencode(form_fields)
             urlfetch.fetch(url=url,
                     payload=form_data,
