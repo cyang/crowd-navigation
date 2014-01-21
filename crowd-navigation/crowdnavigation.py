@@ -53,8 +53,12 @@ class VirtualRealityPubPage(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('vr-pub.html')
         self.response.out.write(template.render())
-
+        
 class VirtualRealitySubPage(webapp2.RequestHandler):
+    def get(self):
+        self.redirect("/vr-room")
+
+class VirtualRealityPage(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
 
@@ -364,6 +368,7 @@ application = webapp2.WSGIApplication([
                                       ('/vr-pub', VirtualRealityPubPage),
                                       ('/vr_pub', OldVirtualRealityPubPage),
                                       ('/vr-pub-with-playback', VirtualRealityPubPlaybackPage),
+                                      ('/vr-room', VirtualRealityPage),
                                       ('/vr_sub', VirtualRealitySubPage),
                                       ('/opened', OpenedPage),
                                       ('/direction', MovePage),
