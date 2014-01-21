@@ -45,6 +45,10 @@ class VirtualRealityPubPlaybackPage(webapp2.RequestHandler):
         template = jinja_environment.get_template('vr-pub-with-playback.html')
         self.response.out.write(template.render())
 
+class OldVirtualRealityPubPage(webapp2.RequestHandler):
+    def get(self):
+        self.redirect("/vr-pub")
+
 class VirtualRealityPubPage(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('vr-pub.html')
@@ -357,7 +361,8 @@ application = webapp2.WSGIApplication([
                                       ('/demo', DemoPage),
                                       ('/tokbox_qs_pub', TokBoxQuickStartPubPage),
                                       ('/tokbox_qs_sub', TokBoxQuickStartSubPage),
-                                      ('/vr_pub', VirtualRealityPubPage),
+                                      ('/vr-pub', VirtualRealityPubPage),
+                                      ('/vr_pub', OldVirtualRealityPubPage),
                                       ('/vr-pub-with-playback', VirtualRealityPubPlaybackPage),
                                       ('/vr_sub', VirtualRealitySubPage),
                                       ('/opened', OpenedPage),
