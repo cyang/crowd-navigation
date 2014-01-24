@@ -1,0 +1,19 @@
+<script type="text/javascript">
+    {% block tokbox_keys %}
+    var apiKey    = "44596572";
+    var sessionId = "1_MX40NDU5NjU3Mn5-VGh1IEphbiAwOSAwOTo0NTo0MSBQU1QgMjAxNH4wLjI1MTU4Njc0fg";
+    var token     = "T1==cGFydG5lcl9pZD00NDU5NjU3MiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz0wOTMzNGYyZThiMTkzMDExZjI4NDk0ZWRjMzQ5MjNiNzkzNThmY2JkOnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9MV9NWDQwTkRVNU5qVTNNbjUtVkdoMUlFcGhiaUF3T1NBd09UbzBOVG8wTVNCUVUxUWdNakF4Tkg0d0xqSTFNVFU0TmpjMGZnJmNyZWF0ZV90aW1lPTEzODkyODk1Njkmbm9uY2U9MC4yNDI5NDQ2MDUxNTczMjM2MyZleHBpcmVfdGltZT0xMzkxODgxNTczJmNvbm5lY3Rpb25fZGF0YT0=";
+    {% endblock tokbox_keys %}
+    
+    function sessionConnectedHandler (event) {
+        session.publish(publisher);
+    }
+    
+    var publisherProperties = {width: 480, height:360, name:"VR stream"};
+    var publisher = TB.initPublisher(apiKey, {% block playback %}null{% endblock playback %}, publisherProperties);
+    var session = TB.initSession(sessionId);
+     
+    session.connect(apiKey, token);
+    session.addEventListener("sessionConnected", 
+                             sessionConnectedHandler);
+</script>
