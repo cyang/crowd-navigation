@@ -30,6 +30,11 @@ class TokBoxQuickStartPubPage(webapp2.RequestHandler):
         template = jinja_environment.get_template('tokbox_qs_pub.html')
         self.response.out.write(template.render())
 
+class NavPubPage(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('nav-pub.html')
+        self.response.out.write(template.render())
+
 class TokBoxQuickStartSubPage(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('tokbox_qs_sub.html')
@@ -366,6 +371,7 @@ application = webapp2.WSGIApplication([
                                       ('/tokbox_qs_pub', TokBoxQuickStartPubPage),
                                       ('/tokbox_qs_sub', TokBoxQuickStartSubPage),
                                       ('/vr-pub', VirtualRealityPubPage),
+                                      ('/nav-pub', NavPubPage),
                                       ('/vr_pub', OldVirtualRealityPubPage),
                                       ('/vr-pub-with-playback', VirtualRealityPubPlaybackPage),
                                       ('/vr-room', VirtualRealityPage),
