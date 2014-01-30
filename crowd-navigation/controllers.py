@@ -21,28 +21,19 @@ class NavPubPage(webapp2.RequestHandler):
         template = jinja_environment.get_template('nav-pub.html')
         self.response.out.write(template.render())
 
-class TokBoxQuickStartSubPage(webapp2.RequestHandler):
-    def get(self):
-        template = jinja_environment.get_template('tokbox_qs_sub.html')
-        self.response.out.write(template.render())
-
 class RoutingPage(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('routing.html')
         self.response.out.write(template.render())
 
-class VirtualRealityPubPlaybackPage(webapp2.RequestHandler):
-    def get(self):
-        template = jinja_environment.get_template('vr-pub-with-playback.html')
-        self.response.out.write(template.render())
-
-class OldVirtualRealityPubPage(webapp2.RequestHandler):
-    def get(self):
-        self.redirect("/vr-pub")
-
 class VirtualRealityPubPage(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('vr-pub.html')
+        self.response.out.write(template.render())
+
+class VirtualRealityPubPlaybackPage(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('vr-pub-with-playback.html')
         self.response.out.write(template.render())
         
 class VirtualRealitySubPage(webapp2.RequestHandler):
@@ -320,14 +311,6 @@ class GetDirection(webapp2.RequestHandler):
 class GetDemoDirection(webapp2.RequestHandler):
     def get(self):
         source = Source.get_by_key_name("demo")
-        direction = "None"
-        if(source.direction):
-            direction = source.direction
-        self.response.out.write(direction)
-        
-class GetVirtualRealityDirection(webapp2.RequestHandler):
-    def get(self):
-        source = Source.get_by_key_name("vr")
         direction = "None"
         if(source.direction):
             direction = source.direction
