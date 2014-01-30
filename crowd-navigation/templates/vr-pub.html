@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% block title %}<title>VR Pub</title>{% endblock title %}
-{% block head-scripts %}
+{% block head_scripts %}
 (( super() ))
-<script src="http://static.opentok.com/webrtc/v2.0/js/TB.min.js" ></script>
-{% endblock head-scripts %}
+<script src="https://static.opentok.com/webrtc/v2.0/js/TB.min.js" ></script>
+{% endblock head_scripts %}
 {% block content %}
 <div class="row">
     <div class="small-12 columns">
-        {% block room_title %}<h1>VR Pub</h1>{% block room_title %}
+        {% block room_title %}<h1>VR Pub</h1>{% endblock room_title %}
     </div>
 </div>
 {% block tokbox_playback %}{% endblock tokbox_playback %}
