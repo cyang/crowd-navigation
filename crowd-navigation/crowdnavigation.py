@@ -25,11 +25,6 @@ class SandBox(webapp2.RedirectHandler):
         template = jinja_environment.get_template('nav-room-base.html')
         self.response.out.write(template.render())
 
-class TokBoxQuickStartPubPage(webapp2.RequestHandler):
-    def get(self):
-        template = jinja_environment.get_template('tokbox_qs_pub.html')
-        self.response.out.write(template.render())
-
 class NavPubPage(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('nav-pub.html')
@@ -368,7 +363,6 @@ application = webapp2.WSGIApplication([
                                       ('/', RoutingPage),
                                       ('/main', MainPage),
                                       ('/demo', DemoPage),
-                                      ('/tokbox_qs_pub', TokBoxQuickStartPubPage),
                                       ('/tokbox_qs_sub', TokBoxQuickStartSubPage),
                                       ('/vr-pub', VirtualRealityPubPage),
                                       ('/nav-pub', NavPubPage),
