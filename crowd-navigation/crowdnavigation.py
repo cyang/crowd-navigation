@@ -19,11 +19,6 @@ class Crowdee(db.Model):
 class Source(db.Model):
     current_user = db.UserProperty()
     direction = db.StringProperty()
-    
-class SandBox(webapp2.RedirectHandler):
-    def get(self):
-        template = jinja_environment.get_template('sandbox3.html')
-        self.response.out.write(template.render())
 
 class NavPubPage(webapp2.RequestHandler):
     def get(self):
@@ -374,7 +369,6 @@ application = webapp2.WSGIApplication([
                                       ('/direction', MovePage),
                                       ('/getdirection', GetDirection),
                                       ('/getdemodirection', GetDemoDirection),
-                                      ('/sandbox', SandBox),
                                       ('/get_vr_direction', GetVirtualRealityDirection),
                                       ('/_ah/channel/disconnected/', ChannelDisconnect),
                                       ], debug=True)
