@@ -7,7 +7,9 @@
 		{% endblock head_scripts %}
     </head>
     <body>
+        {% block body_scripts %}
         <script src="/js/jquery-2.0.3.min.js" type="text/javascript"></script>
+        {% endblock body_scripts %}
         <div id="content">
         {% block content %}{% endblock content %}
         <div id="content_footer"></div>
