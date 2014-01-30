@@ -1,6 +1,9 @@
 import webapp2
+import os
 
 import controllers
+
+debug = os.environ.get('SERVER_SOFTWARE', '').startswith('Dev')
 
 application = webapp2.WSGIApplication([
                                       ('/', controllers.RoutingPage),
@@ -16,4 +19,4 @@ application = webapp2.WSGIApplication([
                                       ('/getdirection', controllers.GetDirection),
                                       ('/getdemodirection', controllers.GetDemoDirection),
                                       ('/_ah/channel/disconnected/', controllers.ChannelDisconnect),
-                                      ], debug=True)
+                                      ], debug=debug)
