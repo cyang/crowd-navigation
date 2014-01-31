@@ -35,10 +35,6 @@ class VirtualRealityPubPlaybackPage(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('vr-pub-with-playback.html')
         self.response.out.write(template.render())
-        
-class VirtualRealitySubPage(webapp2.RequestHandler):
-    def get(self):
-        self.redirect("/vr-room")
 
 class VirtualRealityPage(webapp2.RequestHandler):
     def get(self):
