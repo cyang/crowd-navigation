@@ -30,7 +30,7 @@
         session.publish(publisher);
     }
     
-    var publisherProperties = {width: 480, height:360, name:{% block stream_name %}"Nav stream"{% block stream_name %}};
+    var publisherProperties = {width: 480, height:360, name:{% block stream_name %}"Nav stream"{% endblock stream_name %}};
     var publisher = TB.initPublisher(apiKey, {% block playback %}null{% endblock playback %}, publisherProperties);
     var session = TB.initSession(sessionId);
      
