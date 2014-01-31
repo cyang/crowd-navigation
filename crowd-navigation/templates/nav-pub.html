@@ -18,5 +18,24 @@
         </div>
     </div>
 </div>
-{% include "tokbox-pub-script.html" %} #TODO - Make vr-pub an extends of nav-pub
+
+<script type="text/javascript">
+    {% block tokbox_keys %}
+    var apiKey    = "44596572";
+    var sessionId = "1_MX40NDU5NjU3Mn5-VGh1IEphbiAwOSAwODo0Mzo1OSBQU1QgMjAxNH4wLjM4NTQzOTM0fg";
+    var token     = "T1==cGFydG5lcl9pZD00NDU5NjU3MiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz03YjliYjQ3YjZmMmNjNWNlYTU4MWI1ZGQ4M2M3OTkzMGIzNzIxNGUxOnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9MV9NWDQwTkRVNU5qVTNNbjUtVkdoMUlFcGhiaUF3T1NBd09EbzBNem8xT1NCUVUxUWdNakF4Tkg0d0xqTTROVFF6T1RNMGZnJmNyZWF0ZV90aW1lPTEzODkyODU4NDYmbm9uY2U9MC44MTI4NjM0MTQzNDA2NDAxJmV4cGlyZV90aW1lPTEzOTE4Nzc4NTAmY29ubmVjdGlvbl9kYXRhPQ==";
+    {% endblock tokbox_keys %}
+    
+    function sessionConnectedHandler (event) {
+        session.publish(publisher);
+    }
+    
+    var publisherProperties = {width: 480, height:360, name:{% block stream_name %}"Nav stream"{% block stream_name %}};
+    var publisher = TB.initPublisher(apiKey, {% block playback %}null{% endblock playback %}, publisherProperties);
+    var session = TB.initSession(sessionId);
+     
+    session.connect(apiKey, token);
+    session.addEventListener("sessionConnected", 
+                             sessionConnectedHandler);
+</script>
 {% endblock content %}
