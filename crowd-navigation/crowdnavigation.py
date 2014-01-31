@@ -18,4 +18,5 @@ application = webapp2.WSGIApplication([
                                       ('/getdirection', controllers.GetDirection),
                                       ('/getdemodirection', controllers.GetDemoDirection),
                                       ('/_ah/channel/disconnected/', controllers.ChannelDisconnect),
+                                      ('/_ah/channel/connected/', controllers.ChannelConnect),
                                       ], debug=debug)

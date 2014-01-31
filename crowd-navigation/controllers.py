@@ -322,3 +322,7 @@ class ChannelDisconnect(webapp2.RequestHandler):
             user_crowdee.delete()
             if source:
                 SourceUpdater(source).delete_move(user_id)
+
+class ChannelConnect(webapp2.RequestHandler):
+    def post(self):
+        return
