@@ -1,3 +1,3 @@
 'use strict';
 
-var app = angular.module('crowdnavigation');
+var app = angular.module('crowdnavigation', []);

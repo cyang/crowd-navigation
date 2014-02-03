@@ -1,5 +1,5 @@
 'use strict';
 
-app.controller("MainCtrl", function ($scope) {
+app.controller("NavRoomCtrl", function ($scope) {
 	$scope.test = true;
 });
