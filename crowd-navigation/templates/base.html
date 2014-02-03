@@ -1,4 +1,4 @@
-<html>
+<html ng-app="crowdnavigation">
     <head>
         {% block title %}<title>Crowd Navigation</title>{% endblock title %}
 		{% block head_scripts %}
@@ -6,7 +6,7 @@
 		<link rel="stylesheet" type="text/css" href="css/app.css">
 		{% endblock head_scripts %}
     </head>
-    <body>
+    {% block body_tag %}<body>{% endblock body_tag %}
         {% block body_scripts %}
         <script src="/js/jquery-2.0.3.min.js" type="text/javascript"></script>
         {% endblock body_scripts %}
