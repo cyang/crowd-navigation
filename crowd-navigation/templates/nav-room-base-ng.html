@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block body_tag %}<body ng-controller="NavRoomCtrl" ng-keydown="count = count + 1" ng-init="count=0">{% endblock body_tag %}
+{% block content %}
+{% block script %}{% endblock script %} 
+<div hidden ng-model="user_id" ng-init="user_id='(( current_user_id ))'"></div>
+<div hidden ng-model="user_weight" ng-init="user_id='(( weight ))'"></div>
+<div hidden ng-model="room_key" ng-init="user_id='(( source_key ))'"></div>
+
+<div class="row">
+     <div class="large-12 columns">
+         <h1>{% block room_title %}Nav Room{% endblock room_title %}</h1>
+     </div>
+</div>
+
+<div class="row">
+    <div class="small-12 columns">
+        <div class="row">
+            <div class="small-6 columns">
+		        <div class="panel">
+	                {% block tokbox_container %}
+	                <div id="tokbox_container">
+	                    <div id="tokbox_subscription">
+	                        <img src="/img/poster_crowd_navigation.jpg" width="480" height="360">
+	                    </div>
+	                </div>
+	                {% endblock tokbox_container %}
+			    </div>
+		    </div>
+		    <div class="small-6 columns">
+	            <div class="panel">
+	                <div class="flex-video">
+			            <iframe width="480" height="360" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=&amp;aq=&amp;sll=40.522151,-73.443604&amp;sspn=5.761748,13.392334&amp;ie=UTF8&amp;ll=40.819753,-73.949726&amp;spn=0.011205,0.026157&amp;t=m&amp;z=16&amp;output=embed"></iframe>
+		            </div>
+		        </div>
+            </div>
+	    </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="small-12 columns">
+        <div class="row">
+            <div class="small-7 columns">
+                <div class="panel">
+				    <h2>Direction: <span id="direction">Nothing</span>{{count}}</h2>
+				    <h2>Aggregate: <span id="aggregate">Nothing</span></h2>
+                </div>
+            </div>
+            <div class="small-5 columns">
+	            <div class="panel break-word">
+		            <p>Source Link: <span id="source_key">http://crowd-navigation.appspot.com/nav-room/?g=(( source_key ))</span></p>
+		        </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="small-7 columns">
+        <div class="panel">
+            <p>All Directions:
+				<ul>
+				    <li ng-repeat="crowdee in crowd">
+				        {{crowdee.name}} {{crowdee.direction}} {{crowdee.weight}}
+				    </li>
+				</ul>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock content %}
