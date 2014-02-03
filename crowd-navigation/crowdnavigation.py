@@ -8,6 +8,7 @@ debug = os.environ.get('SERVER_SOFTWARE', '').startswith('Dev')
 application = webapp2.WSGIApplication([
                                       ('/', controllers.RoutingPage),
                                       ('/nav-room', controllers.NavRoomPage),
+                                      ('/nav-pub2', controllers.NavPub2Page),
                                       ('/demo', controllers.DemoPage),
                                       ('/vr-pub', controllers.VirtualRealityPubPage),
                                       ('/nav-pub', controllers.NavPubPage),
