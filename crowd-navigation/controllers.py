@@ -9,6 +9,8 @@ from google.appengine.api import urlfetch
 from google.appengine.api import users
 from google.appengine.api import channel
 
+import OpenTokSDK
+
 from config import tokbox_api_key, tokbox_api_secret
 from models import Crowdee, Source
 
@@ -16,6 +18,8 @@ jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader([os.path.dirname(__file__), os.path.dirname(__file__) + "/templates"]),
     variable_start_string="((",
     variable_end_string="))")
+
+opentok_sdk = OpenTokSDK.OpenTokSDK(tokbox_api_key, tokbox_api_secret)
 
 class NavPubPage(webapp2.RequestHandler):
     def get(self):
