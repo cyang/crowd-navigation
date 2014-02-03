@@ -28,9 +28,14 @@ class NavPubPage(webapp2.RequestHandler):
 
 class NavPub2Page(webapp2.RequestHandler):
     def get(self):
-        
+        tokbox_session_id = opentok_sdk.create_session()
+        tokbox_token = opentok_sdk.generate_token(tokbox_session_id, OpenTokSDK.RoleConstants.PUBLISHER)
+        template_values = {'tokbox_api_key': tokbox_api_key,
+                           'tokbox_session_id': tokbox_session_id,
+                           'tokbox_token': tokbox_token
+                           }
         template = jinja_environment.get_template('nav-pub.html')
-        self.response.out.write(template.render())
+        self.response.out.write(template.render(template_values))
 
 class RoutingPage(webapp2.RequestHandler):
     def get(self):
