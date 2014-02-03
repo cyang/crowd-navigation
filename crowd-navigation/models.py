@@ -10,5 +10,6 @@ class Crowdee(db.Model):
 class Source(db.Model):
     current_user = db.UserProperty()
     direction = db.StringProperty()
+    session_id = db.StringProperty()
     pub_token = db.StringProperty()
     sub_token = db.StringProperty()
