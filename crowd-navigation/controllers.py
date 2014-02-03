@@ -22,6 +22,12 @@ class NavPubPage(webapp2.RequestHandler):
         template = jinja_environment.get_template('nav-pub.html')
         self.response.out.write(template.render())
 
+class NavPub2Page(webapp2.RequestHandler):
+    def get(self):
+        
+        template = jinja_environment.get_template('nav-pub.html')
+        self.response.out.write(template.render())
+
 class RoutingPage(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('routing.html')
@@ -152,7 +158,7 @@ class NavRoomPage(webapp2.RequestHandler):
                                    'weight': 1,
                                    'initial_message': SourceUpdater(source).get_source_message()
                                    }
-                template = jinja_environment.get_template('nav-room-base-ng.html')
+                template = jinja_environment.get_template('nav-room-base.html')
                 self.response.out.write(template.render(template_values))
             else:
                 self.response.out.write('No such source')
