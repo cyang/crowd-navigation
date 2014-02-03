@@ -4,33 +4,33 @@ app.controller("NavRoomCtrl", function ($scope) {
 	$scope.user_id = "cat";
 	$scope.user_weight = null;
 	$scope.user_direction = "Nothing";
+	$scope.aggregate_direction = "Nothing";
 	$scope.room_key = null;
 	$scope.crowd = [];
 	
-	$scope.keyDown = function(event)
+	$scope.keyDown = function($event)
     {
         //Check if the key was an arrow key.
-        if(event.keyCode == '37')
+        if($event.keyCode == '37')
         {
             //Left arrow.
-            d = "Left";
+        	$scope.user_direction = "Left";
         }
-        else if(e.keyCode == '38')
+        else if($event.keyCode == '38')
         {
             //Up arrow.
-            d = "Forward";
+        	$scope.user_direction = "Forward";
         }
-        else if(e.keyCode == '39')
+        else if($event.keyCode == '39')
         {
             //Right arrow.
-            d = "Right";
+        	$scope.user_direction = "Right";
         }
-        else if(e.keyCode == '40')
+        else if($event.keyCode == '40')
         {
             //Down arrow.
-            d = "Stop";
+        	$scope.user_direction = "Stop";
         }
-        $scope.user_direction = d;
         //local.direction = d;
         //crowd[local.current_user_id] = {"direction": local.direction, "weight": local.weight}
         //updateSource();
