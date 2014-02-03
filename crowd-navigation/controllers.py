@@ -52,7 +52,8 @@ class NavPub2Page(webapp2.RequestHandler):
         #Display the template.
         template_values = {'tokbox_api_key': tokbox_api_key,
                            'tokbox_session_id': tokbox_session_id,
-                           'tokbox_token': tokbox_token
+                           'tokbox_token': tokbox_token,
+                           'room_key': source_key
                            }
         template = jinja_environment.get_template('nav-pub.html')
         self.response.out.write(template.render(template_values))
