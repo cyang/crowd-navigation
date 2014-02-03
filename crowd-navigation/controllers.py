@@ -9,6 +9,7 @@ from google.appengine.api import urlfetch
 from google.appengine.api import users
 from google.appengine.api import channel
 
+from config import tokbox_api_key, tokbox_api_secret
 from models import Crowdee, Source
 
 jinja_environment = jinja2.Environment(
