@@ -15,6 +15,11 @@
     <div class="small-6 columns">
         <div class="panel">
             <h2>Publishing...<h2>
+            <p>
+            {% if room_key is defined %}
+			    Room Link: http://crowd-navigation.appspot.com/nav-room?g=((room_key))
+			{% endif %}
+            </p>
         </div>
     </div>
 </div>
