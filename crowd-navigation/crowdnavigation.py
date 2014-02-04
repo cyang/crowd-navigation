@@ -9,6 +9,7 @@ application = webapp2.WSGIApplication([
                                       ('/', controllers.RoutingPage),
                                       ('/nav-room', controllers.NavRoomPage),
                                       ('/nav-pub2', controllers.NavPub2Page),
+                                      ('/nav-pub2-with-playback', controllers.NavPub2WithPlaybackPage),
                                       ('/demo', controllers.DemoPage),
                                       ('/vr-pub', controllers.VirtualRealityPubPage),
                                       ('/nav-pub', controllers.NavPubPage),

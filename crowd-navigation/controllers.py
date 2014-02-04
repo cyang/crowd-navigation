@@ -57,6 +57,38 @@ class NavPub2Page(webapp2.RequestHandler):
                            }
         template = jinja_environment.get_template('nav-pub.html')
         self.response.out.write(template.render(template_values))
+        
+class NavPub2WithPlaybackPage(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        
+        #Redirect the user if they aren't logged in.
+        if not user:
+            self.redirect(users.create_login_url(self.request.uri))
+        
+        #Setup tokbox tokens.
+        tokbox_session_id = opentok_sdk.create_session().session_id
+        tokbox_token = opentok_sdk.generate_token(tokbox_session_id)
+        sub_tokbox_token = opentok_sdk.generate_token(tokbox_session_id, OpenTokSDK.RoleConstants.SUBSCRIBER)
+        
+        #Create the source.
+        source_key = user.user_id()
+        source = Source(key_name = source_key,
+                        current_user = user,
+                        session_id = tokbox_session_id,
+                        pub_token = tokbox_token,
+                        sub_token = sub_tokbox_token
+                       )
+        source.put()
+        
+        #Display the template.
+        template_values = {'tokbox_api_key': tokbox_api_key,
+                           'tokbox_session_id': tokbox_session_id,
+                           'tokbox_token': tokbox_token,
+                           'room_key': source_key
+                           }
+        template = jinja_environment.get_template('nav-pub-with-playback.html')
+        self.response.out.write(template.render(template_values))
 
 class RoutingPage(webapp2.RequestHandler):
     def get(self):
