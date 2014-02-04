@@ -35,8 +35,9 @@ class NavPub2Page(webapp2.RequestHandler):
             self.redirect(users.create_login_url(self.request.uri))
         
         #Setup tokbox tokens.
-        tokbox_session_id = opentok_sdk.create_session()
-        tokbox_token = opentok_sdk.generate_token(tokbox_session_id, OpenTokSDK.RoleConstants.PUBLISHER)
+        tokbox_session_id = opentok_sdk.create_session().session_id
+        logging.warn(tokbox_session_id)
+        tokbox_token = opentok_sdk.generate_token(tokbox_session_id)
         sub_tokbox_token = opentok_sdk.generate_token(tokbox_session_id, OpenTokSDK.RoleConstants.SUBSCRIBER)
         
         #Create the source.

@@ -23,13 +23,13 @@
         </div>
     </div>
 </div>
-
+((tokbox_session_id))
 <script type="text/javascript">
     {% block tokbox_keys %}
     {% if tokbox_token is defined %}
-	    var apiKey    = ((tokbox_api_key));
-	    var sessionId = ((tokbox_session_id));
-	    var token     = ((tokbox_token));
+	    var apiKey    = "((tokbox_api_key))";
+	    var sessionId = "((tokbox_session_id))";
+	    var token     = "((tokbox_token))";
 	{% else %}
 	    var apiKey    = "44596572";
         var sessionId = "1_MX40NDU5NjU3Mn5-VGh1IEphbiAwOSAwODo0Mzo1OSBQU1QgMjAxNH4wLjM4NTQzOTM0fg";
