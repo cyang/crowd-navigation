@@ -188,6 +188,12 @@ class NavRoomPage(webapp2.RequestHandler):
                                    'weight': 1,
                                    'initial_message': SourceUpdater(source).get_source_message()
                                    }
+                #Add tokbox tokens if they exist.
+                if source.session_id:
+                    template_values.update({'tokbox_api_key': tokbox_api_key,
+                                            'tokbox_session_id': source.session_id,
+                                            'tokbox_token': source.sub_token
+                                           })
                 template = jinja_environment.get_template('nav-room-base.html')
                 self.response.out.write(template.render(template_values))
             else:
