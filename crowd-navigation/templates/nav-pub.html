@@ -25,6 +25,98 @@
 </div>
 
 <script type="text/javascript">
+    var local = {
+        source_key: '(( source_key ))',
+    };
+    var crowd = {};
+
+    updateSource = function()
+    {
+        //Prepare all direction display string.
+        var direction_list = {};
+        //For each crowdee's information...
+        for(var key in crowd)
+        {
+            //If this is a propery unique to the crowdee model...
+            if(crowd.hasOwnProperty(key))
+            {
+                //If the crowdee information is not empty...
+                if(crowd[key])
+                {
+                    //Collect the weighted direction information.
+                    if(direction_list[crowd[key]['direction']])
+                    {
+                        direction_list[crowd[key]['direction']] += parseInt(crowd[key]['weight']);
+                    }
+                    else
+                    {
+                        direction_list[crowd[key]['direction']] = parseInt(crowd[key]['weight']);
+                    }
+                }
+            }
+        }
+        //Prepare a variables for the maximal direction.
+        var max_direction = "None";
+        var max_value = 0;
+        //For each direction that we collected...
+        for(var key in direction_list)
+        {
+            if(direction_list.hasOwnProperty(key))
+            {
+                //Find the largest aggregate.
+                if(direction_list[key] > max_value)
+                {
+                    max_direction = key;
+                    max_value = direction_list[key];
+                }
+            }
+        }
+        if(max_direction)
+        {
+            $("#aggregate").html(max_direction);
+        }
+    };
+      
+    onOpened = function()
+    {
+        sendMessage('/opened');
+    };
+      
+    onMessage = function(m)
+    {
+        message = JSON.parse(m.data);
+        if (typeof message.user_id != 'undefined') {
+            return;
+        }
+        user_id = message.user_id;
+        name = message.name;
+        direction = message.direction;
+        weight = message.weight;
+        crowd[user_id] = {"name": name, "direction": direction, "weight": weight};
+        updateSource();
+    };
+      
+    openChannel = function()
+    {
+        var token = '(( token ))';
+        var channel = new goog.appengine.Channel(token);
+        var handler = {
+            'onopen': onOpened,
+            'onmessage': onMessage,
+            'onerror': function() {},
+            'onclose': function() {}
+        };
+        var socket = channel.open(handler);
+        socket.onopen = onOpened;
+        socket.onmessage = onMessage;
+    };
+      
+    initialize = function()
+    {
+        openChannel();
+        onMessage({data: '(( initial_message ))'});
+    };
+
     {% block tokbox_keys %}
     {% if tokbox_token is defined %}
 	    var apiKey    = "((tokbox_api_key))";
