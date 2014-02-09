@@ -75,6 +75,18 @@
             $("#aggregate").html(max_direction);
         }
     };
+    
+    sendMessage = function(path, opt_param)
+    {
+        path += '?g=' + local.source_key;
+        if(opt_param)
+        {
+            path += '&' + opt_param;
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', path, true);
+        xhr.send();
+    };
       
     onOpened = function()
     {
@@ -84,7 +96,7 @@
     onMessage = function(m)
     {
         message = JSON.parse(m.data);
-        if (typeof message.user_id != 'undefined') {
+        if (typeof message.user_id == 'undefined') {
             return;
         }
         user_id = message.user_id;
@@ -94,6 +106,9 @@
         crowd[user_id] = {"name": name, "direction": direction, "weight": weight};
         updateSource();
     };
+      
+    {% block tokbox_keys %}
+    {% if tokbox_token is defined %}  
       
     openChannel = function()
     {
@@ -109,15 +124,13 @@
         socket.onopen = onOpened;
         socket.onmessage = onMessage;
     };
-      
+          
     initialize = function()
     {
         openChannel();
         onMessage({data: '(( initial_message ))'});
     };
 
-    {% block tokbox_keys %}
-    {% if tokbox_token is defined %}
 	    var apiKey    = "((tokbox_api_key))";
 	    var sessionId = "((tokbox_session_id))";
 	    var token     = "((tokbox_token))";
@@ -139,5 +152,7 @@
     session.connect(apiKey, token);
     session.addEventListener("sessionConnected", 
                              sessionConnectedHandler);
+                             
+    setTimeout(initialize, 100);
 </script>
 {% endblock content %}

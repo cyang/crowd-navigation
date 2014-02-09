@@ -50,16 +50,19 @@ class NavPub2Page(webapp2.RequestHandler):
         source.put()
         
         #Display the template.
-        template_values = {'tokbox_api_key': tokbox_api_key,
+        token = channel.create_channel(source_key)
+        template_values = {'token': token,
+                           'tokbox_api_key': tokbox_api_key,
                            'tokbox_session_id': tokbox_session_id,
                            'tokbox_token': tokbox_token,
-                           'room_key': source_key
+                           'room_key': source_key,
+                           'initial_message': SourceUpdater(source).get_source_message_for_source(),
                            }
         template = jinja_environment.get_template('nav-pub.html')
         self.response.out.write(template.render(template_values))
         
 class NavPub2WithPlaybackPage(webapp2.RequestHandler):
-    def get(self): #TODO - need channel token in model to post to.
+    def get(self):
         user = users.get_current_user()
         
         #Redirect the user if they aren't logged in.
@@ -88,7 +91,7 @@ class NavPub2WithPlaybackPage(webapp2.RequestHandler):
                            'tokbox_session_id': tokbox_session_id,
                            'tokbox_token': tokbox_token,
                            'room_key': source_key,
-                           'initial_message': "",
+                           'initial_message': SourceUpdater(source).get_source_message_for_source(),
                            }
         template = jinja_environment.get_template('nav-pub-with-playback.html')
         self.response.out.write(template.render(template_values))
@@ -244,7 +247,7 @@ class OpenedPage(webapp2.RequestHandler):
 class OpenedSourcePage(webapp2.RequestHandler):
     def post(self):
         source = SourceFromRequest(self.request).get_source()
-        SourceUpdater(source).get_existing_state()
+        SourceUpdater(source).get_existing_state_for_source()
 
 class SourceFromRequest():
     source = None
@@ -282,6 +285,12 @@ class SourceUpdater():
                        }
         return json.dumps(sourceUpdate)
     
+    def get_source_message_for_source(self):
+        sourceUpdate = {
+                        'initialize': True
+                       }
+        return json.dumps(sourceUpdate)
+    
     def get_existing_state(self):
         for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
             if crowdee.user != users.get_current_user() and crowdee.direction != "None":
@@ -294,18 +303,19 @@ class SourceUpdater():
                 channel.send_message(self.source.key().name() + "_" + users.get_current_user().user_id(), message)
     
     def get_existing_state_for_source(self):
-        for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
-            if crowdee.user != users.get_current_user() and crowdee.direction != "None":
-                message = json.dumps({
-                                      'user_id': crowdee.user.user_id(),
-                                      'name': crowdee.user.nickname(),
-                                      'direction': crowdee.direction,
-                                      'weight': crowdee.weight
-                                    })
-                channel.send_message(self.source.key().name(), message)
+        if self.source:
+            for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
+                if crowdee.user != users.get_current_user() and crowdee.direction != "None":
+                    message = json.dumps({
+                                          'user_id': crowdee.user.user_id(),
+                                          'name': crowdee.user.nickname(),
+                                          'direction': crowdee.direction,
+                                          'weight': crowdee.weight
+                                        })
+                    channel.send_message(self.source.key().name(), message)
 
     def send_update(self, message):
-        channel.send_message(self.source.key().name())
+        channel.send_message(self.source.key().name(), message)
         for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
             if crowdee.user != users.get_current_user():
                 channel.send_message(self.source.key().name() + "_" + crowdee.user.user_id(), message)
