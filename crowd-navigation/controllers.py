@@ -85,7 +85,8 @@ class NavPub2WithPlaybackPage(webapp2.RequestHandler):
         template_values = {'tokbox_api_key': tokbox_api_key,
                            'tokbox_session_id': tokbox_session_id,
                            'tokbox_token': tokbox_token,
-                           'room_key': source_key
+                           'room_key': source_key,
+                           'initial_message': "",
                            }
         template = jinja_environment.get_template('nav-pub-with-playback.html')
         self.response.out.write(template.render(template_values))
