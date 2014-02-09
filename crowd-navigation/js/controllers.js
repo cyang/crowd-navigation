@@ -1,7 +1,7 @@
 'use strict';
 
 app.controller("NavRoomCtrl", function ($scope) {
-	$scope.user_id = "cat";
+	$scope.user_id = null;
 	$scope.user_weight = null;
 	$scope.user_direction = "Nothing";
 	$scope.aggregate_direction = "Nothing";
@@ -36,4 +36,8 @@ app.controller("NavRoomCtrl", function ($scope) {
         //updateSource();
         //sendMessage('/direction', 'd=' + d);
     };
+});
+
+app.controller("NavPubCtrl", function ($scope) {
+	
 });
