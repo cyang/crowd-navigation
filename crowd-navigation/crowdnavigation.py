@@ -16,6 +16,7 @@ application = webapp2.WSGIApplication([
                                       ('/vr-pub-with-playback', controllers.VirtualRealityPubPlaybackPage),
                                       ('/vr-room', controllers.VirtualRealityPage),
                                       ('/opened', controllers.OpenedPage),
+                                      ('/opened-source', controllers.OpenedSourcePage),
                                       ('/direction', controllers.MovePage),
                                       ('/getdirection', controllers.GetDirection),
                                       ('/getdemodirection', controllers.GetDemoDirection),
