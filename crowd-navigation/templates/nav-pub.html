@@ -26,8 +26,14 @@
 <script type="text/javascript">
     var local = {
         source_key: '(( source_key ))',
+        aggregate: null,
     };
     var crowd = {};
+    
+    var left_audio = new Audio('media/left.mp3');
+    var right_audio = new Audio('media/right.mp3');
+    var forward_audio = new Audio('media/forward.mp3');
+    var stop_audio = new Audio('media/stop.mp3');
 
     updateSource = function()
     {
@@ -73,6 +79,30 @@
         if(max_direction)
         {
             $("#aggregate").html(max_direction);
+            if(max_direction != local.aggregate && local.source_key != "vr")
+            {
+                local.aggregate = max_direction;
+                if(max_direction == "Left")
+                {
+                    left_audio.currentTime = 0;
+                    left_audio.play();
+                }
+                if(max_direction == "Right")
+                {
+                    right_audio.currentTime = 0;
+                    right_audio.play();
+                }
+                if(max_direction == "Forward")
+                {
+                    forward_audio.currentTime = 0;
+                    forward_audio.play();
+                }
+                if(max_direction == "Stop")
+                {
+                    stop_audio.currentTime = 0;
+                    stop_audio.play();
+                }
+            }
         }
     };
     
