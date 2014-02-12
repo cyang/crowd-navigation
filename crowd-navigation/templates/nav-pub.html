@@ -25,7 +25,7 @@
 
 <script type="text/javascript">
     var local = {
-        source_key: '(( source_key ))',
+        room_key: '(( room_key ))',
         aggregate: null,
     };
     var crowd = {};
@@ -35,7 +35,7 @@
     var forward_audio = new Audio('media/forward.mp3');
     var stop_audio = new Audio('media/stop.mp3');
 
-    updateSource = function()
+    updateRoom = function()
     {
         //Prepare all direction display string.
         var direction_list = {};
@@ -79,7 +79,7 @@
         if(max_direction)
         {
             $("#aggregate").html(max_direction);
-            if(max_direction != local.aggregate && local.source_key != "vr")
+            if(max_direction != local.aggregate && local.room_key != "vr")
             {
                 local.aggregate = max_direction;
                 if(max_direction == "Left")
@@ -108,7 +108,7 @@
     
     sendMessage = function(path, opt_param)
     {
-        path += '?g=' + local.source_key;
+        path += '?g=' + local.room_key;
         if(opt_param)
         {
             path += '&' + opt_param;
@@ -120,7 +120,7 @@
       
     onOpened = function()
     {
-        sendMessage('/opened-source');
+        sendMessage('/opened-room');
     };
       
     onMessage = function(m)
@@ -134,7 +134,7 @@
         direction = message.direction;
         weight = message.weight;
         crowd[user_id] = {"name": name, "direction": direction, "weight": weight};
-        updateSource();
+        updateRoom();
     };
       
     {% block tokbox_keys %}

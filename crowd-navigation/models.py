@@ -2,7 +2,7 @@ from google.appengine.ext import db
 
 class Crowdee(db.Model):
     user = db.UserProperty()
-    source = db.StringProperty()
+    room = db.StringProperty()
     direction = db.StringProperty()
     channel = db.StringProperty()
     weight = db.IntegerProperty()

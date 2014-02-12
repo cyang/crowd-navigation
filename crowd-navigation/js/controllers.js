@@ -33,7 +33,7 @@ app.controller("NavRoomCtrl", function ($scope) {
         }
         //local.direction = d;
         //crowd[local.current_user_id] = {"direction": local.direction, "weight": local.weight}
-        //updateSource();
+        //updateRoom();
         //sendMessage('/direction', 'd=' + d);
     };
 });

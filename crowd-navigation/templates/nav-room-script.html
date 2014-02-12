@@ -1,13 +1,13 @@
 <script src="http://static.opentok.com/webrtc/v2.0/js/TB.min.js"></script>
 <script type="text/javascript">
     var local = {
-        source_key: '(( source_key ))',
+        room_key: '(( room_key ))',
         current_user_id: '(( current_user_id ))',
         weight: '(( weight ))'
     };
     var crowd = {};
 
-    updateSource = function()
+    updateRoom = function()
     {
         //Update current user's direction.
         $("#direction").html(local.direction);
@@ -65,7 +65,7 @@
 
     sendMessage = function(path, opt_param)
     {
-        path += '?g=' + local.source_key;
+        path += '?g=' + local.room_key;
         if(opt_param)
         {
             path += '&' + opt_param;
@@ -106,7 +106,7 @@
         }
         local.direction = d;
         crowd[local.current_user_id] = {"direction": local.direction, "weight": local.weight}
-        updateSource();
+        updateRoom();
         sendMessage('/direction', 'd=' + d);
     };
       
@@ -118,7 +118,7 @@
         direction = message.direction;
         weight = message.weight;
         crowd[user_id] = {"name": name, "direction": direction, "weight": weight};
-        updateSource();
+        updateRoom();
     };
       
     openChannel = function()

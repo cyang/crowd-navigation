@@ -40,24 +40,24 @@ class NavPub2Page(webapp2.RequestHandler):
         tokbox_token = opentok_sdk.generate_token(tokbox_session_id)
         sub_tokbox_token = opentok_sdk.generate_token(tokbox_session_id, OpenTokSDK.RoleConstants.SUBSCRIBER)
         
-        #Create the source.
-        source_key = user.user_id()
-        source = Room(key_name = source_key,
+        #Create the room.
+        room_key = user.user_id()
+        room = Room(key_name = room_key,
                         current_user = user,
                         session_id = tokbox_session_id,
                         pub_token = tokbox_token,
                         sub_token = sub_tokbox_token
                        )
-        source.put()
+        room.put()
         
         #Display the template.
-        token = channel.create_channel(source_key)
+        token = channel.create_channel(room_key)
         template_values = {'token': token,
                            'tokbox_api_key': tokbox_api_key,
                            'tokbox_session_id': tokbox_session_id,
                            'tokbox_token': tokbox_token,
-                           'room_key': source_key,
-                           'initial_message': SourceUpdater(source).get_source_message_for_source(),
+                           'room_key': room_key,
+                           'initial_message': RoomUpdater(room).get_room_message_for_room(),
                            }
         template = jinja_environment.get_template('nav-pub.html')
         self.response.out.write(template.render(template_values))
@@ -76,24 +76,24 @@ class NavPub2WithPlaybackPage(webapp2.RequestHandler):
         tokbox_token = opentok_sdk.generate_token(tokbox_session_id)
         sub_tokbox_token = opentok_sdk.generate_token(tokbox_session_id, OpenTokSDK.RoleConstants.SUBSCRIBER)
         
-        #Create the source.
-        source_key = user.user_id()
-        source = Room(key_name = source_key,
+        #Create the room.
+        room_key = user.user_id()
+        room = Room(key_name = room_key,
                         current_user = user,
                         session_id = tokbox_session_id,
                         pub_token = tokbox_token,
                         sub_token = sub_tokbox_token
                        )
-        source.put()
+        room.put()
         
         #Display the template.
-        token = channel.create_channel(source_key)
+        token = channel.create_channel(room_key)
         template_values = {'token': token,
                            'tokbox_api_key': tokbox_api_key,
                            'tokbox_session_id': tokbox_session_id,
                            'tokbox_token': tokbox_token,
-                           'room_key': source_key,
-                           'initial_message': SourceUpdater(source).get_source_message_for_source(),
+                           'room_key': room_key,
+                           'initial_message': RoomUpdater(room).get_room_message_for_room(),
                            }
         template = jinja_environment.get_template('nav-pub-with-playback.html')
         self.response.out.write(template.render(template_values))
@@ -118,34 +118,34 @@ class VirtualRealityPage(webapp2.RequestHandler):
         user = users.get_current_user()
 
         if user:
-            source_key = "vr"
-            source = Room.get_by_key_name(source_key)
-            if not source:
-                source = Room(key_name = source_key,
+            room_key = "vr"
+            room = Room.get_by_key_name(room_key)
+            if not room:
+                room = Room(key_name = room_key,
                             current_user = user)
-                source.put()
+                room.put()
 
-            #Check if the crowdee already exists for this user and source.
+            #Check if the crowdee already exists for this user and room.
             crowdeeQuery = Crowdee.all()
             crowdeeQuery.filter("user =", user)
-            crowdeeQuery.filter("source =", source_key)
+            crowdeeQuery.filter("room =", room_key)
             crowdee = crowdeeQuery.get()
             #If the crowdee doesn't exist...
             if not crowdee:
-                #Create the crowdee for the user and source.
+                #Create the crowdee for the user and room.
                 crowdee = Crowdee(user = user,
-                                  source = source_key,
-                                  channel = source_key + "_" + user.user_id(),
+                                  room = room_key,
+                                  channel = room_key + "_" + user.user_id(),
                                   direction = "None",
                                   weight = 1)
                 crowdee.put()
             
-            token = channel.create_channel(source_key + "_" + user.user_id())
+            token = channel.create_channel(room_key + "_" + user.user_id())
             template_values = {'token': token,
                                'current_user_id': user.user_id(),
-                               'source_key': source_key,
+                               'room_key': room_key,
                                'weight': 1,
-                               'initial_message': SourceUpdater(source).get_source_message()
+                               'initial_message': RoomUpdater(room).get_room_message()
                                }
             template = jinja_environment.get_template('vr-room.html')
             self.response.out.write(template.render(template_values))
@@ -157,34 +157,34 @@ class DemoPage(webapp2.RequestHandler):
         user = users.get_current_user()
 
         if user:
-            source_key = "demo"
-            source = Room.get_by_key_name(source_key)
-            if not source:
-                source = Room(key_name = source_key,
+            room_key = "demo"
+            room = Room.get_by_key_name(room_key)
+            if not room:
+                room = Room(key_name = room_key,
                             current_user = user)
-                source.put()
+                room.put()
 
-            #Check if the crowdee already exists for this user and source.
+            #Check if the crowdee already exists for this user and room.
             crowdeeQuery = Crowdee.all()
             crowdeeQuery.filter("user =", user)
-            crowdeeQuery.filter("source =", source_key)
+            crowdeeQuery.filter("room =", room_key)
             crowdee = crowdeeQuery.get()
             #If the crowdee doesn't exist...
             if not crowdee:
-                #Create the crowdee for the user and source.
+                #Create the crowdee for the user and room.
                 crowdee = Crowdee(user = user,
-                                  source = source_key,
-                                  channel = source_key + "_" + user.user_id(),
+                                  room = room_key,
+                                  channel = room_key + "_" + user.user_id(),
                                   direction = "None",
                                   weight = 1)
                 crowdee.put()
             
-            token = channel.create_channel(source_key + "_" + user.user_id())
+            token = channel.create_channel(room_key + "_" + user.user_id())
             template_values = {'token': token,
                                'current_user_id': user.user_id(),
-                               'source_key': source_key,
+                               'room_key': room_key,
                                'weight': 1,
-                               'initial_message': SourceUpdater(source).get_source_message()
+                               'initial_message': RoomUpdater(room).get_room_message()
                                }
             template = jinja_environment.get_template('demo-room.html')
             self.response.out.write(template.render(template_values))
@@ -196,105 +196,105 @@ class NavRoomPage(webapp2.RequestHandler):
         user = users.get_current_user()
 
         if user:
-            source_key = self.request.get('g')
-            if not source_key:
-                source_key = user.user_id()
-                source = Room(key_name = source_key,
+            room_key = self.request.get('g')
+            if not room_key:
+                room_key = user.user_id()
+                room = Room(key_name = room_key,
                             current_user = user)
-                source.put()
+                room.put()
             else:
-                source = Room.get_by_key_name(source_key)
+                room = Room.get_by_key_name(room_key)
 
-            if source:
-                #Check if the crowdee already exists for this user and source.
+            if room:
+                #Check if the crowdee already exists for this user and room.
                 crowdeeQuery = Crowdee.all()
                 crowdeeQuery.filter("user =", user)
-                crowdeeQuery.filter("source =", source_key)
+                crowdeeQuery.filter("room =", room_key)
                 crowdee = crowdeeQuery.get()
                 #If the crowdee doesn't exist...
                 if not crowdee:
-                    #Create the crowdee for the user and source.
+                    #Create the crowdee for the user and room.
                     crowdee = Crowdee(user = user,
-                                      source = source_key,
-                                      channel = source_key + "_" + user.user_id(),
+                                      room = room_key,
+                                      channel = room_key + "_" + user.user_id(),
                                       direction = "None",
                                       weight = 1)
                     crowdee.put()
                 
-                token = channel.create_channel(source_key + "_" + user.user_id())
+                token = channel.create_channel(room_key + "_" + user.user_id())
                 template_values = {'token': token,
                                    'current_user_id': user.user_id(),
-                                   'source_key': source_key,
+                                   'room_key': room_key,
                                    'weight': 1,
-                                   'initial_message': SourceUpdater(source).get_source_message()
+                                   'initial_message': RoomUpdater(room).get_room_message()
                                    }
                 #Add tokbox tokens if they exist.
-                if source.session_id:
+                if room.session_id:
                     template_values.update({'tokbox_api_key': tokbox_api_key,
-                                            'tokbox_session_id': source.session_id,
-                                            'tokbox_token': source.sub_token
+                                            'tokbox_session_id': room.session_id,
+                                            'tokbox_token': room.sub_token
                                            })
                 template = jinja_environment.get_template('nav-room-base.html')
                 self.response.out.write(template.render(template_values))
             else:
-                self.response.out.write('No such source')
+                self.response.out.write('No such room')
         else:
             self.redirect(users.create_login_url(self.request.uri))
 
 class OpenedPage(webapp2.RequestHandler):
     def post(self):
-        source = SourceFromRequest(self.request).get_source()
-        SourceUpdater(source).get_existing_state()
+        room = RoomFromRequest(self.request).get_room()
+        RoomUpdater(room).get_existing_state()
 
-class OpenedSourcePage(webapp2.RequestHandler):
+class OpenedRoomPage(webapp2.RequestHandler):
     def post(self):
-        source = SourceFromRequest(self.request).get_source()
-        SourceUpdater(source).get_existing_state_for_source()
+        room = RoomFromRequest(self.request).get_room()
+        RoomUpdater(room).get_existing_state_for_room()
 
-class SourceFromRequest():
-    source = None
+class RoomFromRequest():
+    room = None
 
     def __init__(self, request):
         user = users.get_current_user()
-        source_key = request.get('g')
-        if user and source_key:
-            self.source = Room.get_by_key_name(source_key)
+        room_key = request.get('g')
+        if user and room_key:
+            self.room = Room.get_by_key_name(room_key)
 
-    def get_source(self):
-        return self.source
+    def get_room(self):
+        return self.room
     
 class MovePage(webapp2.RequestHandler):
 
     def post(self):
-        source = SourceFromRequest(self.request).get_source()
+        room = RoomFromRequest(self.request).get_room()
         user = users.get_current_user()
         direction = self.request.get('d')
-        if source and user:
-            SourceUpdater(source).make_move(direction)
+        if room and user:
+            RoomUpdater(room).make_move(direction)
 
-class SourceUpdater():
-    source = None
+class RoomUpdater():
+    room = None
 
-    def __init__(self, source):
-        self.source = source
+    def __init__(self, room):
+        self.room = room
         
-    def get_source_message(self):
-        sourceUpdate = {
+    def get_room_message(self):
+        roomUpdate = {
                         'user_id': users.get_current_user().user_id(),
                         'name': "None",
                         'direction': None,
                         'weight': 1
                        }
-        return json.dumps(sourceUpdate)
+        return json.dumps(roomUpdate)
     
-    def get_source_message_for_source(self):
-        sourceUpdate = {
+    def get_room_message_for_room(self):
+        roomUpdate = {
                         'initialize': True
                        }
-        return json.dumps(sourceUpdate)
+        return json.dumps(roomUpdate)
     
     def get_existing_state(self):
-        for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
+        for crowdee in Crowdee.all().filter("room =", self.room.key().name()):
             if crowdee.user != users.get_current_user() and crowdee.direction != "None":
                 message = json.dumps({
                                       'user_id': crowdee.user.user_id(),
@@ -302,11 +302,11 @@ class SourceUpdater():
                                       'direction': crowdee.direction,
                                       'weight': crowdee.weight
                                     })
-                channel.send_message(self.source.key().name() + "_" + users.get_current_user().user_id(), message)
+                channel.send_message(self.room.key().name() + "_" + users.get_current_user().user_id(), message)
     
-    def get_existing_state_for_source(self):
-        if self.source:
-            for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
+    def get_existing_state_for_room(self):
+        if self.room:
+            for crowdee in Crowdee.all().filter("room =", self.room.key().name()):
                 if crowdee.user != users.get_current_user() and crowdee.direction != "None":
                     message = json.dumps({
                                           'user_id': crowdee.user.user_id(),
@@ -314,25 +314,25 @@ class SourceUpdater():
                                           'direction': crowdee.direction,
                                           'weight': crowdee.weight
                                         })
-                    channel.send_message(self.source.key().name(), message)
+                    channel.send_message(self.room.key().name(), message)
 
     def send_update(self, message):
-        channel.send_message(self.source.key().name(), message)
-        for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
+        channel.send_message(self.room.key().name(), message)
+        for crowdee in Crowdee.all().filter("room =", self.room.key().name()):
             if crowdee.user != users.get_current_user():
-                channel.send_message(self.source.key().name() + "_" + crowdee.user.user_id(), message)
+                channel.send_message(self.room.key().name() + "_" + crowdee.user.user_id(), message)
         
     def make_move(self, direction):
-        sourceUpdate = None
+        roomUpdate = None
         aggregate = "Nothing"
         maximum = 0
         crowd_size = 0
         direction_list = {"Forward": 0, "Right": 0, "Left": 0, "Stop": 0}
-        for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
+        for crowdee in Crowdee.all().filter("room =", self.room.key().name()):
             if crowdee.user == users.get_current_user():
                 crowdee.direction = direction
                 crowdee.put()
-                sourceUpdate = {
+                roomUpdate = {
                                 'user_id': users.get_current_user().user_id(),
                                 'name': crowdee.user.nickname(),
                                 'direction': direction,
@@ -341,17 +341,17 @@ class SourceUpdater():
             if crowdee.direction and crowdee.direction != None and crowdee.direction != "None" and crowdee.direction != "Nothing":
                 direction_list[crowdee.direction] += 1
                 crowd_size += 1
-        if not sourceUpdate:
+        if not roomUpdate:
             logging.error("make_move failed: code 1")
             return
         for d in direction_list.keys():
             if direction_list[d] > maximum:
                 maximum = direction_list[d]
                 aggregate = d
-        self.source.direction = aggregate
-        self.source.put()
-        #If the source if the VR, post the aggregate to the VR server.
-        if self.source.key().name() == "vr":
+        self.room.direction = aggregate
+        self.room.put()
+        #If the room if the VR, post the aggregate to the VR server.
+        if self.room.key().name() == "vr":
             if crowd_size != 0:
                 speed = maximum / float(crowd_size)
             else:
@@ -363,14 +363,14 @@ class SourceUpdater():
                     payload=form_data,
                     method=urlfetch.POST)
 
-        self.send_update(json.dumps(sourceUpdate))
+        self.send_update(json.dumps(roomUpdate))
         
     def delete_move(self, user_id):
         aggregate = "Nothing"
         maximum = 0
         crowd_size = 0
         direction_list = {"Forward": 0, "Right": 0, "Left": 0, "Stop": 0}
-        for crowdee in Crowdee.all().filter("source =", self.source.key().name()):
+        for crowdee in Crowdee.all().filter("room =", self.room.key().name()):
             if crowdee.direction and crowdee.direction != None and crowdee.direction != "None" and crowdee.direction != "Nothing":
                 direction_list[crowdee.direction] += 1
                 crowd_size += 1
@@ -378,10 +378,10 @@ class SourceUpdater():
             if direction_list[d] > maximum:
                 maximum = direction_list[d]
                 aggregate = d
-        self.source.direction = aggregate
-        self.source.put()
-        #If the source if the VR, post the aggregate to the VR server.
-        if self.source.key().name() == "vr":
+        self.room.direction = aggregate
+        self.room.put()
+        #If the room if the VR, post the aggregate to the VR server.
+        if self.room.key().name() == "vr":
             if crowd_size != 0:
                 speed = maximum / crowd_size
             else:
@@ -392,18 +392,18 @@ class SourceUpdater():
             urlfetch.fetch(url=url,
                     payload=form_data,
                     method=urlfetch.POST)
-        sourceUpdate = {
+        roomUpdate = {
                            'user_id': user_id,
                            'delete': True
                        }
-        self.send_update(json.dumps(sourceUpdate))
+        self.send_update(json.dumps(roomUpdate))
         
 class GetDirection(webapp2.RequestHandler):
     def get(self):
         #self.response.out.write("400")
-        source = Room.all()
+        room = Room.all()
         direction = "None"
-        for s in source:
+        for s in room:
             if(s.direction):
                 direction = s.direction
         self.response.out.write(direction)
@@ -412,10 +412,10 @@ class GetDirection(webapp2.RequestHandler):
         
 class GetDemoDirection(webapp2.RequestHandler):
     def get(self):
-        source = Room.get_by_key_name("demo")
+        room = Room.get_by_key_name("demo")
         direction = "None"
-        if(source.direction):
-            direction = source.direction
+        if(room.direction):
+            direction = room.direction
         self.response.out.write(direction)
 
 class ChannelDisconnect(webapp2.RequestHandler):
@@ -424,11 +424,11 @@ class ChannelDisconnect(webapp2.RequestHandler):
         user_crowd = Crowdee.all().filter("channel =", channel_token)
         #Although there should only be one user, it will still be received as a list.
         for user_crowdee in user_crowd:
-            source = Room.get_by_key_name(user_crowdee.source)
+            room = Room.get_by_key_name(user_crowdee.room)
             user_id = user_crowdee.user.user_id()
             user_crowdee.delete()
-            if source:
-                SourceUpdater(source).delete_move(user_id)
+            if room:
+                RoomUpdater(room).delete_move(user_id)
 
 class ChannelConnect(webapp2.RequestHandler):
     def post(self):
