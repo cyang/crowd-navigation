@@ -33,6 +33,7 @@ class NavPub2Page(webapp2.RequestHandler):
         #Redirect the user if they aren't logged in.
         if not user:
             self.redirect(users.create_login_url(self.request.uri))
+            return
         
         #Setup tokbox tokens.
         tokbox_session_id = opentok_sdk.create_session().session_id
@@ -68,6 +69,7 @@ class NavPub2WithPlaybackPage(webapp2.RequestHandler):
         #Redirect the user if they aren't logged in.
         if not user:
             self.redirect(users.create_login_url(self.request.uri))
+            return
         
         #Setup tokbox tokens.
         tokbox_session_id = opentok_sdk.create_session().session_id
