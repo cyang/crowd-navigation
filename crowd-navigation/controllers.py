@@ -241,6 +241,44 @@ class NavRoomPage(webapp2.RequestHandler):
         else:
             self.redirect(users.create_login_url(self.request.uri))
 
+class RoomResource(webapp2.RequestHandler):
+    
+    def post(self):
+        user = users.get_current_user()
+
+        if not user:
+            #Handle the user not being logged in. TODO
+            return
+        
+        #Setup tokbox tokens.
+        tokbox_session_id = opentok_sdk.create_session().session_id
+        tokbox_token = opentok_sdk.generate_token(tokbox_session_id)
+        sub_tokbox_token = opentok_sdk.generate_token(tokbox_session_id, OpenTokSDK.RoleConstants.SUBSCRIBER)
+        
+        #Create the room.
+        room_key = user.user_id()
+        room = Room(key_name = room_key,
+                    current_user = user,
+                    session_id = tokbox_session_id,
+                    pub_token = tokbox_token,
+                    sub_token = sub_tokbox_token
+                   )
+        room.put()
+        
+        #Create the channel token.
+        token = channel.create_channel(room_key)
+        
+        #Respond with room information.
+        room_data = {'token': token,
+                     'tokbox_api_key': tokbox_api_key,
+                     'tokbox_session_id': tokbox_session_id,
+                     'tokbox_token': tokbox_token,
+                     'room_key': room_key,
+                     'initial_message': RoomUpdater(room).get_room_message_for_room(),
+                    }
+        self.response.out.write(json.dumps(room_data))
+
+
 class OpenedPage(webapp2.RequestHandler):
     def post(self):
         room = RoomFromRequest(self.request).get_room()
