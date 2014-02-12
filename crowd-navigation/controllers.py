@@ -12,7 +12,7 @@ from google.appengine.api import channel
 import OpenTokSDK
 
 from config import tokbox_api_key, tokbox_api_secret
-from models import Crowdee, Source
+from models import Crowdee, Room
 
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader([os.path.dirname(__file__), os.path.dirname(__file__) + "/templates"]),
@@ -42,7 +42,7 @@ class NavPub2Page(webapp2.RequestHandler):
         
         #Create the source.
         source_key = user.user_id()
-        source = Source(key_name = source_key,
+        source = Room(key_name = source_key,
                         current_user = user,
                         session_id = tokbox_session_id,
                         pub_token = tokbox_token,
@@ -78,7 +78,7 @@ class NavPub2WithPlaybackPage(webapp2.RequestHandler):
         
         #Create the source.
         source_key = user.user_id()
-        source = Source(key_name = source_key,
+        source = Room(key_name = source_key,
                         current_user = user,
                         session_id = tokbox_session_id,
                         pub_token = tokbox_token,
@@ -119,9 +119,9 @@ class VirtualRealityPage(webapp2.RequestHandler):
 
         if user:
             source_key = "vr"
-            source = Source.get_by_key_name(source_key)
+            source = Room.get_by_key_name(source_key)
             if not source:
-                source = Source(key_name = source_key,
+                source = Room(key_name = source_key,
                             current_user = user)
                 source.put()
 
@@ -158,9 +158,9 @@ class DemoPage(webapp2.RequestHandler):
 
         if user:
             source_key = "demo"
-            source = Source.get_by_key_name(source_key)
+            source = Room.get_by_key_name(source_key)
             if not source:
-                source = Source(key_name = source_key,
+                source = Room(key_name = source_key,
                             current_user = user)
                 source.put()
 
@@ -199,11 +199,11 @@ class NavRoomPage(webapp2.RequestHandler):
             source_key = self.request.get('g')
             if not source_key:
                 source_key = user.user_id()
-                source = Source(key_name = source_key,
+                source = Room(key_name = source_key,
                             current_user = user)
                 source.put()
             else:
-                source = Source.get_by_key_name(source_key)
+                source = Room.get_by_key_name(source_key)
 
             if source:
                 #Check if the crowdee already exists for this user and source.
@@ -258,7 +258,7 @@ class SourceFromRequest():
         user = users.get_current_user()
         source_key = request.get('g')
         if user and source_key:
-            self.source = Source.get_by_key_name(source_key)
+            self.source = Room.get_by_key_name(source_key)
 
     def get_source(self):
         return self.source
@@ -401,18 +401,18 @@ class SourceUpdater():
 class GetDirection(webapp2.RequestHandler):
     def get(self):
         #self.response.out.write("400")
-        source = Source.all()
+        source = Room.all()
         direction = "None"
         for s in source:
             if(s.direction):
                 direction = s.direction
         self.response.out.write(direction)
-        #direction = Source.all().fetch(1).direction()
+        #direction = Room.all().fetch(1).direction()
         #return direction
         
 class GetDemoDirection(webapp2.RequestHandler):
     def get(self):
-        source = Source.get_by_key_name("demo")
+        source = Room.get_by_key_name("demo")
         direction = "None"
         if(source.direction):
             direction = source.direction
@@ -424,7 +424,7 @@ class ChannelDisconnect(webapp2.RequestHandler):
         user_crowd = Crowdee.all().filter("channel =", channel_token)
         #Although there should only be one user, it will still be received as a list.
         for user_crowdee in user_crowd:
-            source = Source.get_by_key_name(user_crowdee.source)
+            source = Room.get_by_key_name(user_crowdee.source)
             user_id = user_crowdee.user.user_id()
             user_crowdee.delete()
             if source:

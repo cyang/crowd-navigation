@@ -7,7 +7,7 @@ class Crowdee(db.Model):
     channel = db.StringProperty()
     weight = db.IntegerProperty()
 
-class Source(db.Model):
+class Room(db.Model):
     current_user = db.UserProperty()
     direction = db.StringProperty()
     session_id = db.StringProperty()
