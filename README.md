@@ -1,4 +1,4 @@
 crowd-navigation
 ================
 
-Concept demo for VIP crowd navigation
+VIP crowd navigation
