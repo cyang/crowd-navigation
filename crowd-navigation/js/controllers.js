@@ -10,6 +10,18 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location) {
 	$scope.room_key = null;
 	$scope.crowd = [];
 	
+	Room.enter({}, function(crowdee_data)
+	    {
+			$scope.room_key = crowdee_data.room_key;
+			$scope.user_id = crowdee_data.user_id;
+			$scope.user_weight = crowdee_data.user_weight;
+			$scope.tokbox_api_key = crowdee_data.tokbox_api_key;
+			$scope.tokbox_session_id = crowdee_data.tokbox_session_id;
+			$scope.tokbox_token = crowdee_data.tokbox_token;
+			$scope.channel_token = crowdee_data.channel_token;
+	    }
+    );
+	
 	$scope.keyDown = function($event)
     {
         //Check if the key was an arrow key.

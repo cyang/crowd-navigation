@@ -326,11 +326,10 @@ class CrowdeeRoomResource(webapp2.RequestHandler):
         
         #Compile the crowdee data.
         crowdee_data = {
-                        'token': token,
-                        'current_user_id': user.user_id(),
+                        'channel_token': token,
+                        'user_id': user.user_id(),
                         'room_key': room_key,
-                        'weight': 1,
-                        'initial_message': RoomUpdater(room).get_room_message(),
+                        'user_weight': 1,
                         'tokbox_api_key': tokbox_api_key,
                         'tokbox_session_id': room.session_id,
                         'tokbox_token': room.sub_token,
