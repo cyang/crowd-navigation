@@ -1,6 +1,8 @@
 'use strict';
 
-app.controller("NavRoomCtrl", function ($scope) {
+app.controller("NavRoomCtrl", function ($scope, $location) {
+	$scope.location = $location.path()
+	
 	$scope.user_id = null;
 	$scope.user_weight = null;
 	$scope.user_direction = "Nothing";
