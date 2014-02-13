@@ -12,6 +12,7 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location) {
 	
 	Room.enter({}, function(crowdee_data)
 	    {
+			//Extract the data to scope variables.
 			$scope.room_key = crowdee_data.room_key;
 			$scope.user_id = crowdee_data.user_id;
 			$scope.user_weight = crowdee_data.user_weight;
@@ -19,6 +20,8 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location) {
 			$scope.tokbox_session_id = crowdee_data.tokbox_session_id;
 			$scope.tokbox_token = crowdee_data.tokbox_token;
 			$scope.channel_token = crowdee_data.channel_token;
+			
+			
 	    }
     );
 	
