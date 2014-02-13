@@ -328,6 +328,7 @@ class CrowdeeRoomResource(webapp2.RequestHandler):
         crowdee_data = {
                         'channel_token': token,
                         'user_id': user.user_id(),
+                        'user_name': user.nickname(),
                         'room_key': room_key,
                         'user_weight': 1,
                         'tokbox_api_key': tokbox_api_key,

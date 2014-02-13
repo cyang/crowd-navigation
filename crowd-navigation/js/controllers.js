@@ -8,20 +8,31 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location) {
 	$scope.user_direction = "Nothing";
 	$scope.aggregate_direction = "Nothing";
 	$scope.room_key = null;
-	$scope.crowd = [];
+	$scope.crowd = {};
 	
 	Room.enter({}, function(crowdee_data)
 	    {
 			//Extract the data to scope variables.
 			$scope.room_key = crowdee_data.room_key;
 			$scope.user_id = crowdee_data.user_id;
+			$scope.user_name = crowdee_data.user_name;
 			$scope.user_weight = crowdee_data.user_weight;
 			$scope.tokbox_api_key = crowdee_data.tokbox_api_key;
 			$scope.tokbox_session_id = crowdee_data.tokbox_session_id;
 			$scope.tokbox_token = crowdee_data.tokbox_token;
 			$scope.channel_token = crowdee_data.channel_token;
 			
-			
+			//Add the user to the crowd.
+			crowd[$scope.user_id] = {"name": $scope.user_name, "weight": $scope.user_weight, "direction": $scope.user_direction};
+	    }
+    );
+	
+	Room.crowd({}, function(crowd)
+	    {
+			//Set the crowd.
+			angular.forEach(crowd, function(crowdee, crowdee_id){
+			    $scope.crowd[crowdee_id] = {"name": crowdee.name, "weight": $crowdee.weight, "direction": $crowdee.direction};
+			});
 	    }
     );
 	
