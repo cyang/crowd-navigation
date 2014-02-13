@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller("NavRoomCtrl", function ($scope, $location) {
+app.controller("CrowdeeRoomCtrl", function ($scope, $location) {
 	$scope.location = $location.path()
 	
 	$scope.user_id = null;
@@ -40,6 +40,6 @@ app.controller("NavRoomCtrl", function ($scope, $location) {
     };
 });
 
-app.controller("NavPubCtrl", function ($scope) {
+app.controller("HostRoomCtrl", function ($scope) {
 	
 });

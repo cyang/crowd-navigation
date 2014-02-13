@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block body_tag %}<body ng-controller="NavRoomCtrl" ng-keydown="keyDown($event)">{% endblock body_tag %}
+{% block body_tag %}<body ng-controller="CrowdeeRoomCtrl" ng-keydown="keyDown($event)">{% endblock body_tag %}
 {% block content %}
 {% block script %}{% endblock script %} 
 
@@ -45,7 +45,7 @@
             </div>
             <div class="small-5 columns">
 	            <div class="panel break-word">
-		            <p>Room Link: <span id="room_key">http://crowd-navigation.appspot.com/nav-room/?g=(( room_key ))</span></p>
+		            <p>Room Link: <span id="room_key">http://crowd-navigation.appspot.com/room/{{room_key}}</span></p>
 		        </div>
             </div>
         </div>
