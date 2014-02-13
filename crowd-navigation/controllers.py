@@ -242,6 +242,7 @@ class NavRoomPage(webapp2.RequestHandler):
             self.redirect(users.create_login_url(self.request.uri))
 
 class RoomPage(webapp2.RequestHandler):
+    
     def get(self):
         user = users.get_current_user()
 
@@ -251,7 +252,8 @@ class RoomPage(webapp2.RequestHandler):
         else:
             self.redirect(users.create_login_url(self.request.uri))
 
-class RoomResource(webapp2.RequestHandler):
+
+class HostRoomResource(webapp2.RequestHandler):
     
     def post(self):
         user = users.get_current_user()
@@ -287,58 +289,55 @@ class RoomResource(webapp2.RequestHandler):
                      'initial_message': RoomUpdater(room).get_room_message_for_room(),
                     }
         self.response.out.write(json.dumps(room_data))
-        
-class CrowdeeResource(webapp2.RequestHandler):
+
+
+class CrowdeeRoomResource(webapp2.RequestHandler):
     
-    def post(self):
+    def put(self, room_key):
         user = users.get_current_user()
 
         if not user:
             #Handle the user not being logged in. TODO
             return
         
-        room_key = self.request.get('g')
-        if not room_key:
-            room_key = user.user_id()
-            room = Room(key_name = room_key,
-                        current_user = user)
-            room.put()
-        else:
-            room = Room.get_by_key_name(room_key)
+        #Get the room.
+        room = Room.get_by_key_name(room_key)
 
-        if room:
-            #Check if the crowdee already exists for this user and room.
-            crowdeeQuery = Crowdee.all()
-            crowdeeQuery.filter("user =", user)
-            crowdeeQuery.filter("room =", room_key)
-            crowdee = crowdeeQuery.get()
-            #If the crowdee doesn't exist...
-            if not crowdee:
-                #Create the crowdee for the user and room.
-                crowdee = Crowdee(user = user,
-                                  room = room_key,
-                                  channel = room_key + "_" + user.user_id(),
-                                  direction = "None",
-                                  weight = 1)
-                crowdee.put()
-            
-            token = channel.create_channel(room_key + "_" + user.user_id())
-            template_values = {'token': token,
-                               'current_user_id': user.user_id(),
-                               'room_key': room_key,
-                               'weight': 1,
-                               'initial_message': RoomUpdater(room).get_room_message()
-                               }
-            #Add tokbox tokens if they exist.
-            if room.session_id:
-                template_values.update({'tokbox_api_key': tokbox_api_key,
-                                        'tokbox_session_id': room.session_id,
-                                        'tokbox_token': room.sub_token
-                                       })
-            template = jinja_environment.get_template('nav-room-base.html')
-            self.response.out.write(template.render(template_values))
-        else:
-            self.response.out.write('No such room')
+        if not room:
+            #Handle the room not existing.
+            return
+        
+        #Check if the crowdee already exists for this user and room.
+        crowdeeQuery = Crowdee.all()
+        crowdeeQuery.filter("user =", user)
+        crowdeeQuery.filter("room =", room_key)
+        crowdee = crowdeeQuery.get()
+        #If the crowdee doesn't exist...
+        if not crowdee:
+            #Create the crowdee for the user and room.
+            crowdee = Crowdee(user = user,
+                              room = room_key,
+                              channel = room_key + "_" + user.user_id(),
+                              direction = "None",
+                              weight = 1)
+            crowdee.put()
+        
+        token = channel.create_channel(room_key + "_" + user.user_id())
+        
+        #Compile the crowdee data.
+        crowdee_data = {
+                        'token': token,
+                        'current_user_id': user.user_id(),
+                        'room_key': room_key,
+                        'weight': 1,
+                        'initial_message': RoomUpdater(room).get_room_message(),
+                        'tokbox_api_key': tokbox_api_key,
+                        'tokbox_session_id': room.session_id,
+                        'tokbox_token': room.sub_token,
+                       }
+        
+        #Respond with the json.
+        self.response.out.write(json.dumps(crowdee_data))
 
 
 class OpenedPage(webapp2.RequestHandler):
