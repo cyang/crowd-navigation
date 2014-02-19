@@ -2,11 +2,11 @@
 
 var services = angular.module('services', ['ngResource']);
 
-services.factory('Room', ['$resource',
+services.factory('CrowdeeRoom', ['$resource',
     function($resource){
-		return $resource('/room', {}, {
+		return $resource('/crowdee-room/:room_id', {}, {
 	    	create: {method: 'POST'},
-			enter: {method: 'GET'}
+			enter: {method: 'PUT', params:{room_id:'room_id'}}
 	    });
     }
 ]);
@@ -17,14 +17,14 @@ services.factory('Channel', [
 			open: function(token){
 				var channel = new goog.appengine.Channel(token);
 		        var handler = {
-		            'onopen': onOpened,
-		            'onmessage': onMessage,
+		            'onopen': function() {},//onOpened,
+		            'onmessage': function() {},//onMessage,
 		            'onerror': function() {},
 		            'onclose': function() {}
 		        };
 		        var socket = channel.open(handler);
-		        socket.onopen = onOpened;
-		        socket.onmessage = onMessage;
+		        //socket.onopen = onOpened;
+		        //socket.onmessage = onMessage;
 			}
 		}
 	}
