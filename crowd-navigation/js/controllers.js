@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, Room) {
-	$scope.location = $location.path()
+app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, CrowdeeRoom) {
+	$scope.room_id = $location.path().split("/")[2];
 	
 	$scope.user_id = null;
 	$scope.user_weight = null;
@@ -17,7 +17,7 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, Room) {
         //onMessage({data: '(( initial_message ))'});
     };
 	
-	Room.enter({}, function(crowdee_data)
+	CrowdeeRoom.enter({room_id: $scope.room_id}, function(crowdee_data)
 	    {
 			//Extract the data to scope variables.
 			$scope.room_key = crowdee_data.room_key;
@@ -30,9 +30,9 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, Room) {
 			$scope.channel_token = crowdee_data.channel_token;
 			
 			//Add the user to the crowd.
-			crowd[$scope.user_id] = {"name": $scope.user_name, "weight": $scope.user_weight, "direction": $scope.user_direction};
+			$scope.crowd[$scope.user_id] = {"name": $scope.user_name, "weight": $scope.user_weight, "direction": $scope.user_direction};
 			
-			initialize();
+			$scope.initialize();
 			
 			//TODO - Connect channel
 	    }

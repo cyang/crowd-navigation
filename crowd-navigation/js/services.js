@@ -6,7 +6,7 @@ services.factory('CrowdeeRoom', ['$resource',
     function($resource){
 		return $resource('/crowdee-room/:room_id', {}, {
 	    	create: {method: 'POST'},
-			enter: {method: 'PUT', params:{room_id:'room_id'}}
+			enter: {method: 'PUT', params:{room_id:'-1'}}
 	    });
     }
 ]);
