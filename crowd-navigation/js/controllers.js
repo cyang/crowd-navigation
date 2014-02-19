@@ -10,6 +10,27 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location) {
 	$scope.room_key = null;
 	$scope.crowd = {};
 	
+	openChannel = function(token)
+    {
+        var channel = new goog.appengine.Channel(token);
+        var handler = {
+            'onopen': onOpened,
+            'onmessage': onMessage,
+            'onerror': function() {},
+            'onclose': function() {}
+        };
+        var socket = channel.open(handler);
+        socket.onopen = onOpened;
+        socket.onmessage = onMessage;
+    };
+    
+    initialize = function()
+    {
+        openChannel($scope.token);
+        //document.onkeydown = changeDirection;
+        //onMessage({data: '(( initial_message ))'});
+    };
+	
 	Room.enter({}, function(crowdee_data)
 	    {
 			//Extract the data to scope variables.
@@ -24,6 +45,10 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location) {
 			
 			//Add the user to the crowd.
 			crowd[$scope.user_id] = {"name": $scope.user_name, "weight": $scope.user_weight, "direction": $scope.user_direction};
+			
+			initialize();
+			
+			//TODO - Connect channel
 	    }
     );
 	

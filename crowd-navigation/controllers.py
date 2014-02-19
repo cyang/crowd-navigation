@@ -243,7 +243,7 @@ class NavRoomPage(webapp2.RequestHandler):
 
 class RoomPage(webapp2.RequestHandler):
     
-    def get(self):
+    def get(self, room_id):
         user = users.get_current_user()
 
         if user:
