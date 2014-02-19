@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller("CrowdeeRoomCtrl", function ($scope, $location) {
+app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, Room) {
 	$scope.location = $location.path()
 	
 	$scope.user_id = null;
@@ -9,24 +9,10 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location) {
 	$scope.aggregate_direction = "Nothing";
 	$scope.room_key = null;
 	$scope.crowd = {};
-	
-	openChannel = function(token)
-    {
-        var channel = new goog.appengine.Channel(token);
-        var handler = {
-            'onopen': onOpened,
-            'onmessage': onMessage,
-            'onerror': function() {},
-            'onclose': function() {}
-        };
-        var socket = channel.open(handler);
-        socket.onopen = onOpened;
-        socket.onmessage = onMessage;
-    };
     
-    initialize = function()
+    $scope.initialize = function()
     {
-        openChannel($scope.token);
+        Channel.open($scope.token);
         //document.onkeydown = changeDirection;
         //onMessage({data: '(( initial_message ))'});
     };
@@ -52,14 +38,14 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location) {
 	    }
     );
 	
-	Room.crowd({}, function(crowd)
+	/*Room.crowd({}, function(crowd)
 	    {
 			//Set the crowd.
 			angular.forEach(crowd, function(crowdee, crowdee_id){
 			    $scope.crowd[crowdee_id] = {"name": crowdee.name, "weight": $crowdee.weight, "direction": $crowdee.direction};
 			});
 	    }
-    );
+    );*/
 	
 	$scope.keyDown = function($event)
     {
