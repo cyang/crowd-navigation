@@ -13,15 +13,17 @@ services.factory('CrowdeeRoom', ['$resource',
 ]);
 
 services.factory('Channel', [
-	function(){
-		return{
-			open: function(token, onOpened, onMessage){
+	function()
+	{
+		return {
+			open: function(token, onOpened, onMessage)
+			{
 				var channel = new goog.appengine.Channel(token);
 		        var handler = {
 		            'onopen': onOpened,
 		            'onmessage': onMessage,
-		            'onerror': function() {},
-		            'onclose': function() {}
+		            'onerror': function(){},
+		            'onclose': function(){}
 		        };
 		        var socket = channel.open(handler);
 		        socket.onopen = onOpened;
