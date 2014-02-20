@@ -355,7 +355,9 @@ class RoomFromRequest():
 
     def __init__(self, request):
         user = users.get_current_user()
-        room_key = request.get('g')
+        room_key = request.get('room_id')
+        if not room_key:
+            room_key = request.get('g') #TODO - Remove with old page
         if user and room_key:
             self.room = Room.get_by_key_name(room_key)
 
