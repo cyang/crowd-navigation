@@ -10,11 +10,20 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, CrowdeeR
 	$scope.room_key = null;
 	$scope.crowd = {};
     
-    $scope.initialize = function()
+    $scope.onOpened = function()
     {
-        Channel.open($scope.token);
-        //document.onkeydown = changeDirection;
-        //onMessage({data: '(( initial_message ))'});
+        sendMessage('/opened');
+    };
+    
+    $scope.onMessage = function(m)
+    {
+        message = JSON.parse(m.data);
+        user_id = message.user_id;
+        name = message.name;
+        direction = message.direction;
+        weight = message.weight;
+        $scope.crowd[user_id] = {"name": name, "direction": direction, "weight": weight};
+        //updateRoom();
     };
 	
 	CrowdeeRoom.enter({room_id: $scope.room_id}, function(crowdee_data)
@@ -32,9 +41,7 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, CrowdeeR
 			//Add the user to the crowd.
 			$scope.crowd[$scope.user_id] = {"name": $scope.user_name, "weight": $scope.user_weight, "direction": $scope.user_direction};
 			
-			$scope.initialize();
-			
-			//TODO - Connect channel
+			Channel.open($scope.token, $scope.onOpened, $scope.onMessage);
 	    }
     );
 	
