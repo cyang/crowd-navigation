@@ -5,7 +5,7 @@ var services = angular.module('services', ['ngResource']);
 services.factory('CrowdeeRoom', ['$resource',
     function($resource)
     {
-		return $resource('/crowdee-room/:room_id', {}, {
+		return $resource('/crowdee-room', {}, {
 	    	create: {method: 'POST'},
 			enter: {method: 'PUT', params:{room_id: '@room_id'}}
 	    });
@@ -15,9 +15,9 @@ services.factory('CrowdeeRoom', ['$resource',
 services.factory('Channel', ['$resource',
 	function($resource)
 	{
-		var Channel = $resource('/channel/:command/:value', {},
+		var Channel = $resource('/channel/:command', {},
 				{
-					send: {method: 'POST', params:{command: '@command', direction: '@value'}},
+					send: {method: 'POST', params:{command: '@command', room_id: '@room_id', direction: '@value'}},
 				}
 		);
 		Channel.open = function(token, onOpened, onMessage)

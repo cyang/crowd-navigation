@@ -243,7 +243,7 @@ class NavRoomPage(webapp2.RequestHandler):
 
 class RoomPage(webapp2.RequestHandler):
     
-    def get(self, room_id):
+    def get(self):
         user = users.get_current_user()
 
         if user:
@@ -293,7 +293,7 @@ class HostRoomResource(webapp2.RequestHandler):
 
 class CrowdeeRoomResource(webapp2.RequestHandler):
     
-    def put(self, room_key):
+    def put(self):
         user = users.get_current_user()
 
         if not user:
@@ -301,6 +301,7 @@ class CrowdeeRoomResource(webapp2.RequestHandler):
             return
         
         #Get the room.
+        room_key = self.request.get('room_id')
         room = Room.get_by_key_name(room_key)
 
         if not room:

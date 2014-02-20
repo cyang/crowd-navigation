@@ -1,7 +1,8 @@
 'use strict';
 
 app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, CrowdeeRoom) {
-	$scope.room_id = $location.path().split("/")[2];
+	$scope.url_query = $location.search();
+	$scope.room_id = $scope.url_query.room_id;
 	
 	$scope.user_id = null;
 	$scope.user_weight = null;
@@ -12,7 +13,7 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, CrowdeeR
     
     $scope.onOpened = function()
     {
-        Channel.send({command: 'opened'});
+        Channel.send({command: 'opened', room_id: $scope.room_id});
     };
     
     $scope.onMessage = function(m)
