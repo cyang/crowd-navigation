@@ -7,7 +7,7 @@ services.factory('CrowdeeRoom', ['$resource',
     {
 		return $resource('/crowdee-room/:room_id', {}, {
 	    	create: {method: 'POST'},
-			enter: {method: 'PUT', params:{room_id:'@room_id'}}
+			enter: {method: 'PUT', params:{room_id: '@room_id'}}
 	    });
     }
 ]);
@@ -15,7 +15,11 @@ services.factory('CrowdeeRoom', ['$resource',
 services.factory('Channel', ['$resource',
 	function($resource)
 	{
-		var Channel = $resource('/channel/:command/:parameter', {}, {});
+		var Channel = $resource('/channel/:command/:value', {},
+				{
+					send: {method: 'POST', params:{command: '@command', direction: '@value'}},
+				}
+		);
 		Channel.open = function(token, onOpened, onMessage)
 		{
 			var channel = new goog.appengine.Channel(token);

@@ -12,7 +12,7 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, CrowdeeR
     
     $scope.onOpened = function()
     {
-        sendMessage('/opened');
+        Channel.send({command: 'opened'});
     };
     
     $scope.onMessage = function(m)
@@ -41,7 +41,8 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, CrowdeeR
 			//Add the user to the crowd.
 			$scope.crowd[$scope.user_id] = {"name": $scope.user_name, "weight": $scope.user_weight, "direction": $scope.user_direction};
 			
-			Channel.open($scope.token, $scope.onOpened, $scope.onMessage);
+			//Open the channel.
+			Channel.open($scope.channel_token, $scope.onOpened, $scope.onMessage);
 	    }
     );
 	
