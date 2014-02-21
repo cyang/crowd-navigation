@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, CrowdeeRoom) {
+app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, Room) {
 	$scope.url_query = $location.search();
 	$scope.room_id = $scope.url_query.room_id;
 	
