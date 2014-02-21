@@ -253,9 +253,10 @@ class RoomPage(webapp2.RequestHandler):
             self.redirect(users.create_login_url(self.request.uri))
 
 
-class HostRoomResource(webapp2.RequestHandler):
-    
+class RoomResource(webapp2.RequestHandler):
+
     def post(self):
+        """Used by the host to create the room."""
         user = users.get_current_user()
 
         if not user:
@@ -290,10 +291,8 @@ class HostRoomResource(webapp2.RequestHandler):
                     }
         self.response.out.write(json.dumps(room_data))
 
-
-class CrowdeeRoomResource(webapp2.RequestHandler):
-    
     def put(self):
+        """Called by the crowdee to get the existing room information."""
         user = users.get_current_user()
 
         if not user:
