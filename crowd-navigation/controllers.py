@@ -292,7 +292,7 @@ class RoomResource(webapp2.RequestHandler):
         self.response.out.write(json.dumps(room_data))
 
     def put(self):
-        """Called by the crowdee to get the existing room information."""
+        """Used by the crowdee to enter the existing room information."""
         user = users.get_current_user()
 
         if not user:

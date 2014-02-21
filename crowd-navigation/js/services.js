@@ -2,10 +2,10 @@
 
 var services = angular.module('services', ['ngResource']);
 
-services.factory('CrowdeeRoom', ['$resource',
+services.factory('Room', ['$resource',
     function($resource)
     {
-		return $resource('/crowdee-room', {}, {
+		return $resource('/room-resource', {}, {
 	    	create: {method: 'POST'},
 			enter: {method: 'PUT', params:{room_id: '@room_id'}}
 	    });

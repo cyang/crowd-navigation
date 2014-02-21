@@ -27,7 +27,7 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, CrowdeeR
         //updateRoom();
     };
 	
-	CrowdeeRoom.enter({room_id: $scope.room_id}, function(crowdee_data)
+	Room.enter({room_id: $scope.room_id}, function(crowdee_data)
 	    {
 			//Extract the data to scope variables.
 			$scope.room_key = crowdee_data.room_key;
