@@ -19,11 +19,11 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, Room) {
     $scope.onMessage = function(m)
     {
         message = JSON.parse(m.data);
-        user_id = message.user_id;
+        crowdee_id = message.user_id;
         name = message.name;
         direction = message.direction;
         weight = message.weight;
-        $scope.crowd[user_id] = {"name": name, "direction": direction, "weight": weight};
+        $scope.crowd[crowdee_id] = {"name": name, "direction": direction, "weight": weight};
         //updateRoom();
     };
 	
@@ -79,8 +79,7 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, Room) {
             //Down arrow.
         	$scope.user_direction = "Stop";
         }
-        //local.direction = d;
-        //crowd[local.current_user_id] = {"direction": local.direction, "weight": local.weight}
+        $scope.crowd[$scope.user_id]['direction'] = $scope.user_direction;
         //updateRoom();
         //sendMessage('/direction', 'd=' + d);
     };
