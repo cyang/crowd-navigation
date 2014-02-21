@@ -17,7 +17,7 @@ services.factory('Channel', ['$resource',
 	{
 		var Channel = $resource('/channel/:command', {},
 				{
-					send: {method: 'POST', params:{command: '@command', room_id: '@room_id', direction: '@value'}},
+					send: {method: 'POST', params:{command: '@command', room_id: '@room_id', direction: '@direction'}},
 				}
 		);
 		Channel.open = function(token, onOpened, onMessage)

@@ -369,7 +369,9 @@ class MovePage(webapp2.RequestHandler):
     def post(self):
         room = RoomFromRequest(self.request).get_room()
         user = users.get_current_user()
-        direction = self.request.get('d')
+        direction = self.request.get('direction')
+        if not direction:
+            direction = self.request.get('d') #TODO - Remove with old page
         if room and user:
             RoomUpdater(room).make_move(direction)
 

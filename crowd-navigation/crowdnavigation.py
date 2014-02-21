@@ -19,6 +19,7 @@ application = webapp2.WSGIApplication([
                                       ('/room-resource', controllers.RoomResource),
                                       ('/opened', controllers.OpenedPage),
                                       ('/channel/opened', controllers.OpenedPage),
+                                      ('/channel/move', controllers.MovePage),
                                       ('/opened-room', controllers.OpenedRoomPage),
                                       ('/direction', controllers.MovePage),
                                       ('/getdirection', controllers.GetDirection),
