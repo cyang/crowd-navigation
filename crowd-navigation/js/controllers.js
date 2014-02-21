@@ -13,17 +13,22 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, Room) {
     
     $scope.onOpened = function()
     {
-        Channel.send({command: 'opened', room_id: $scope.room_id});
+        Channel.send({command: "opened", room_id: $scope.room_id});
     };
     
-    $scope.onMessage = function(m)
+    $scope.onMessage = function(crowdee)
     {
-        message = JSON.parse(m.data);
-        crowdee_id = message.user_id;
-        name = message.name;
-        direction = message.direction;
-        weight = message.weight;
-        $scope.crowd[crowdee_id] = {"name": name, "direction": direction, "weight": weight};
+        //If it's a delete message...
+        alert('check');
+        if("delete" in crowdee)
+        {
+            //Delete the crowdee from the crowd.
+            delete $scope.crowd[crowdee.user_id];
+            return;
+        }
+        //Update the crowd with the crowdee information.
+        $scope.crowd[crowdee.user_id] = {"name": crowdee.name, "direction": crowdee.direction, "weight": crowdee.weight};
+        //alert(direction);
         //updateRoom();
     };
 	
@@ -81,7 +86,7 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, Room) {
         }
         $scope.crowd[$scope.user_id]['direction'] = $scope.user_direction;
         //updateRoom();
-        //sendMessage('/direction', 'd=' + d);
+        Channel.send({command: 'move', room_id: $scope.room_id, direction: $scope.user_direction});
     };
 });
 
