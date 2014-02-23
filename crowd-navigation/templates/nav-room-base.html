@@ -41,21 +41,25 @@
 				    <h2>Direction: <span id="direction">Nothing</span></h2>
 				    <h2>Aggregate: <span id="aggregate">Nothing</span></h2>
                 </div>
+                <div class="panel">
+		            <p>All Directions: <div id="all_directions">Nothing</div></p>
+		        </div>
             </div>
             <div class="small-5 columns">
 	            <div class="panel break-word">
 		            <p>Room Link: <span id="room_key">http://crowd-navigation.appspot.com/nav-room?g=(( room_key ))</span></p>
 		        </div>
+		        <div class="panel">
+		            <h2>Instructions</h2>
+		            {% block instructions %}
+                    <p>Use the arrow keys to specify the direction you think the user should be headed in.</p>
+                    <p>Your input will be aggregated with other users' input to provide feedback to the user.</p>
+                    <p>If the arrow keys are not changing your displayed direction click somewhere on the screen (not on the video stream of map) to regain focus on the webpage.</p>
+                    {% endblock instructions %}
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="small-7 columns">
-        <div class="panel">
-            <p>All Directions: <div id="all_directions">Nothing</div></p>
-        </div>
-    </div>
-</div>
 {% endblock content %}

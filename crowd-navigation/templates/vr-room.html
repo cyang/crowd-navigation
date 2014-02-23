@@ -1,3 +1,8 @@
 {% extends "nav-room-base.html" %}
 {% block script %}{% include "nav-room-script-vr.html" %}{% endblock script %}
 {% block room_title %}VR Room{% endblock room_title %}
+{% block instructions %}
+<p>Use the arrow keys to specify the direction you think the virtual avatar should be headed in.</p>
+<p>Your input will be aggregated with other users' input to provide direction to the virtual avatar. The avatar reacts each input command, even rapid ones. To insure the avatar doesn't react unexpected don't input many commands too quickly.</p>
+<p>If the arrow keys are not changing your displayed direction click somewhere on the screen (not on the video stream of map) to regain focus on the webpage.</p>
+{% endblock instructions %}
