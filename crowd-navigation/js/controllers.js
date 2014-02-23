@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, Room) {
+app.controller("CrowdeeRoomCtrl", function ($scope, $window, $location, Channel, Room) {
 	$scope.url_query = $location.search();
 	$scope.room_id = $scope.url_query.room_id;
 	
@@ -11,6 +11,20 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, Room) {
 	$scope.room_key = null;
 	$scope.crowd = {};
     
+	$scope.openChannel = function()
+	{
+        var channel = new goog.appengine.Channel($scope.channel_token);
+        var handler = {
+            'onopen': $scope.onOpened,
+            'onmessage': $scope.onMessage,
+            'onerror': function(){},
+            'onclose': function(){}
+        };
+        var socket = channel.open(handler);
+        socket.onopen = $scope.onOpened;
+        socket.onmessage = $scope.onMessage;
+	};
+	
     $scope.onOpened = function()
     {
         Channel.send({command: "opened", room_id: $scope.room_id});
@@ -19,7 +33,6 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, Room) {
     $scope.onMessage = function(crowdee)
     {
         //If it's a delete message...
-        alert('check');
         if("delete" in crowdee)
         {
             //Delete the crowdee from the crowd.
@@ -48,7 +61,7 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, Room) {
 			$scope.crowd[$scope.user_id] = {"name": $scope.user_name, "weight": $scope.user_weight, "direction": $scope.user_direction};
 			
 			//Open the channel.
-			Channel.open($scope.channel_token, $scope.onOpened, $scope.onMessage);
+			$scope.openChannel();
 	    }
     );
 	
@@ -89,6 +102,7 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $location, Channel, Room) {
         Channel.send({command: 'move', room_id: $scope.room_id, direction: $scope.user_direction});
     };
 });
+
 
 app.controller("HostRoomCtrl", function ($scope) {
 	

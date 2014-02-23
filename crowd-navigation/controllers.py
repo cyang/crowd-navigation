@@ -465,7 +465,6 @@ class RoomUpdater():
             urlfetch.fetch(url=url,
                     payload=form_data,
                     method=urlfetch.POST)
-
         self.send_update(json.dumps(roomUpdate))
         
     def delete_move(self, user_id):

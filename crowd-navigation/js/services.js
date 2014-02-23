@@ -20,7 +20,7 @@ services.factory('Channel', ['$resource',
 					send: {method: 'POST', params:{command: '@command', room_id: '@room_id', direction: '@direction'}},
 				}
 		);
-		Channel.open = function(token, onOpened, onMessage)
+		/*Channel.open = function(token, onOpened, onMessage)
 		{
 			var channel = new goog.appengine.Channel(token);
 	        var handler = {
@@ -32,7 +32,7 @@ services.factory('Channel', ['$resource',
 	        var socket = channel.open(handler);
 	        socket.onopen = onOpened;
 	        socket.onmessage = onMessage;
-		};
+		};*/
 		return Channel;
 	}
 ]);
