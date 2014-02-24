@@ -10,6 +10,7 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $window, $location, Channel,
 	$scope.aggregate_direction = "Nothing";
 	$scope.room_key = null;
 	$scope.crowd = {};
+	$scope.test = 0;
     
 	$scope.openChannel = function()
 	{
@@ -94,13 +95,14 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $window, $location, Channel,
 	    var max_direction = "Stop";
 	    angular.forEach(direction_list, function(value, direction)
         {
-            if(value > max_value)
+            if(value > max_value && direction != "Nothing")
             {
                 max_value = value;
                 max_direction = direction;
             }
         });
-	    $scope.aggregate_direction = direction;
+	    $scope.aggregate_direction = max_direction;
+	    $scope.$apply(); //TODO - Change function so $apply is unnecessary.
 	}
 	
 	$scope.keyDown = function($event)
