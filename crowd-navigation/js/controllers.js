@@ -43,7 +43,7 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $window, $location, Channel,
         //Update the crowd with the crowdee information.
         $scope.crowd[crowdee.user_id] = {"name": crowdee.name, "direction": crowdee.direction, "weight": crowdee.weight};
         $scope.$apply(); //TODO - Replace with directive.
-        //updateRoom();
+        $scope.aggregateDirections();
     };
 	
 	Room.enter({room_id: $scope.room_id}, function(crowdee_data)
@@ -74,6 +74,34 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $window, $location, Channel,
 			});
 	    }
     );*/
+	
+	//Aggregates the directions of the crowd for the user's display.
+	$scope.aggregateDirections = function()
+	{
+	    var direction_list = {}
+	    angular.forEach($scope.crowd, function(crowdee)
+	    {
+            if(direction_list.hasOwnProperty(crowdee.direction))
+            {
+                direction_list[crowdee.direction] += crowdee.weight; 
+            }
+            else
+            {
+                direction_list[crowdee.direction] = crowdee.weight;
+            }
+        });
+	    var max_value = 0;
+	    var max_direction = "Stop";
+	    angular.forEach(direction_list, function(value, direction)
+        {
+            if(value > max_value)
+            {
+                max_value = value;
+                max_direction = direction;
+            }
+        });
+	    $scope.aggregate_direction = direction;
+	}
 	
 	$scope.keyDown = function($event)
     {
