@@ -30,10 +30,11 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $window, $location, Channel,
         Channel.send({command: "opened", room_id: $scope.room_id});
     };
     
-    $scope.onMessage = function(crowdee)
+    $scope.onMessage = function(message)
     {
+        var crowdee = JSON.parse(message.data);
         //If it's a delete message...
-        if("delete" in crowdee)
+        if(crowdee.hasOwnProperty("delete"))
         {
             //Delete the crowdee from the crowd.
             delete $scope.crowd[crowdee.user_id];
