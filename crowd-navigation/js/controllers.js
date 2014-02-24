@@ -32,7 +32,7 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $window, $location, Channel,
     
     $scope.onMessage = function(message)
     {
-        var crowdee = JSON.parse(message.data);
+        var crowdee = angular.fromJson(message.data);
         //If it's a delete message...
         if(crowdee.hasOwnProperty("delete"))
         {
@@ -42,7 +42,7 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $window, $location, Channel,
         }
         //Update the crowd with the crowdee information.
         $scope.crowd[crowdee.user_id] = {"name": crowdee.name, "direction": crowdee.direction, "weight": crowdee.weight};
-        //alert(direction);
+        $scope.$apply(); //TODO - Replace with directive.
         //updateRoom();
     };
 	
