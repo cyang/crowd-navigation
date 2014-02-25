@@ -8,7 +8,7 @@ services.factory('Room', ['$resource',
 		return $resource('/room-resource', {}, {
 	    	create: {method: 'POST'},
 			enter: {method: 'PUT', params:{room_id: '@room_id'}},
-	    	query: {method: 'GET', params:{query: 'true'}}
+	    	query: {method: 'GET', params:{query: 'true'}, isArray:true}
 	    });
     }
 ]);
