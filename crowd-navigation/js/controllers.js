@@ -138,3 +138,8 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $window, $location, Channel,
 app.controller("HostRoomCtrl", function ($scope) {
 	
 });
+
+
+app.controller("HomePageCtrl", function ($scope, Room) {
+    $scope.room_list = Room.query();
+});
