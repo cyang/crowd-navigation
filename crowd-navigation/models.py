@@ -1,3 +1,5 @@
+import json
+
 from google.appengine.ext import db
 
 class Crowdee(db.Model):
@@ -13,3 +15,18 @@ class Room(db.Model):
     session_id = db.StringProperty()
     pub_token = db.StringProperty()
     sub_token = db.StringProperty()
+    
+    @classmethod
+    def all_basic_json(cls):
+        room_list = cls.all()
+        room_dict_list = []
+        for room in room_list:
+            room_dict_list.append(room.basic_dict())
+        return json.dumps(room.basic_dict())
+    
+    def basic_dict(self):
+        room_basic_dict = {
+                              "host_name": self.current_user.nickname(),
+                              "host_id": self.current_user.user_id(),
+                          }
+        return room_basic_dict
