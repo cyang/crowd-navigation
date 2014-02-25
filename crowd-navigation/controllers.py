@@ -254,6 +254,12 @@ class RoomPage(webapp2.RequestHandler):
 
 
 class RoomResource(webapp2.RequestHandler):
+    
+    def get(self):
+        """Used to get room data."""
+        #If this is a query request...
+        if self.request.get('query'):
+            self.response.out.write(Room.all_basic_json())
 
     def post(self):
         """Used by the host to create the room."""
