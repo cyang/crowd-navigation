@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% block body_tag %}<body ng-controller="HomePageCtrl">{% endblock body_tag %}
 {% block content %}
 <div class="row">
      <div class="large-12 columns">
@@ -27,6 +28,13 @@
 				        </div>
 				    </div>
 				</div>
+				<div class="row">
+                    <div class="small-12 columns">
+                        <div class="panel">
+                            <a ng-repeat="room in room_list" href="/room?room_id={{room.host_id}}" class="small button expand">{{room.host_name}}</a>
+                        </div>
+                    </div>
+                </div>
 	        </div>
 		    <div class="small-9 columns">
 		        <div class="panel">
