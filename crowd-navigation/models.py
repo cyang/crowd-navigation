@@ -22,7 +22,7 @@ class Room(db.Model):
         room_dict_list = []
         for room in room_list:
             room_dict_list.append(room.basic_dict())
-        return json.dumps(room.basic_dict())
+        return json.dumps(room_dict_list)
     
     def basic_dict(self):
         room_basic_dict = {
