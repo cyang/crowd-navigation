@@ -25,7 +25,7 @@ class Room(db.Model):
         return json.dumps(room_dict_list)
     
     def basic_dict(self):
-        if self.key() == "vr":
+        if self.key().name() == "vr":
             room_basic_dict = {
                                   "host_name": "VR",
                                   "host_id": "vr",
