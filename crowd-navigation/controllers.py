@@ -537,6 +537,12 @@ class ChannelDisconnect(webapp2.RequestHandler):
             user_crowdee.delete()
             if room:
                 RoomUpdater(room).delete_move(user_id)
+        #TODO - This is a terrible way to do the room deletion for several reasons. Replace.
+        room_list = Room.all()
+        #Although there should only be one user, it will still be received as a list.
+        for room in room_list:
+            if room.current_user.user_id() == channel_token:
+                room.delete()
 
 class ChannelConnect(webapp2.RequestHandler):
     def post(self):
