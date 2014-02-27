@@ -58,7 +58,8 @@ services.factory('OpenTok', function()
         }
     }
     
-    function streamCreatedHandler(event) {
+    function streamCreatedHandler(event)
+    {
         subscribeToStreams(event.streams);
     }
     

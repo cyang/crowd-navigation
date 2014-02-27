@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller("CrowdeeRoomCtrl", function ($scope, $window, $location, Channel, Room) {
+app.controller("CrowdeeRoomCtrl", function ($scope, $window, $location, Channel, Room, OpenTok) {
 	$scope.url_query = $location.search();
 	$scope.room_id = $scope.url_query.room_id;
 	
@@ -64,6 +64,9 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $window, $location, Channel,
 			
 			//Open the channel.
 			$scope.openChannel();
+			
+			//Open the OpenTok stream.
+			OpenTok.subscribe();
 	    }
     );
 	
