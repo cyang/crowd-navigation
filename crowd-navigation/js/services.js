@@ -75,6 +75,21 @@ services.factory('OpenTok', function()
             session.addEventListener("streamCreated", 
                                      streamCreatedHandler);
             return session
+        },
+        publish: function(api_key, session_id, token)
+        {
+            function sessionConnectedHandler (event) {
+                session.publish(publisher);
+            }
+            
+            var publisherProperties = {width: 480, height:360, name:"Nav stream"};
+            var publisher = TB.initPublisher(api_key, "tokbox_subscription", publisherProperties);
+            var session = TB.initSession(session_id);
+             
+            session.connect(api_key, token);
+            session.addEventListener("sessionConnected", 
+                                     sessionConnectedHandler);
+            return session
         }
     }
 });
