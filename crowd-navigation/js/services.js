@@ -40,35 +40,35 @@ services.factory('Channel', ['$resource',
 
 //OpenTok service
 services.factory('OpenTok', function()
-{
-    function sessionConnectedHandler(event)
-    {
-        subscribeToStreams(event.streams);
-    }
-    
-    function subscribeToStreams(streams)
-    {
-        for (var i = 0; i < streams.length; i++)
-        {
-            var stream = streams[i];
-            if (stream.connection.connectionId != session.connection.connectionId)
-            {
-                session.subscribe(stream, "tokbox_subscription", {width:$('#tokbox_container').width(), height:$('#tokbox_container').height()});
-            }
-        }
-    }
-    
-    function streamCreatedHandler(event)
-    {
-        subscribeToStreams(event.streams);
-    }
-    
+{   
     return {
         subscribe: function(api_key, session_id, token)
         {
-            var session = TB.initSession(sessionId);
+            function sessionConnectedHandler(event)
+            {
+                subscribeToStreams(event.streams);
+            }
             
-            session.connect(apiKey, token);
+            function streamCreatedHandler(event)
+            {
+                subscribeToStreams(event.streams);
+            }
+            
+            function subscribeToStreams(streams)
+            {
+                for (var i = 0; i < streams.length; i++)
+                {
+                    var stream = streams[i];
+                    if (stream.connection.connectionId != session.connection.connectionId)
+                    {
+                        session.subscribe(stream, "tokbox_subscription", {width:$('#tokbox_container').width(), height:$('#tokbox_container').height()});
+                    }
+                }
+            }
+            
+            var session = TB.initSession(session_id);
+            
+            session.connect(api_key, token);
             session.addEventListener("sessionConnected", 
                                      sessionConnectedHandler);
             
