@@ -129,7 +129,7 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $window, $location, Channel,
 });
 
 
-app.controller("HostRoomCtrl", function ($scope) {
+app.controller("HostRoomCtrl", function ($scope, Channel, Room, OpenTok) {
     $scope.user_id = null;
     $scope.aggregate_direction = "Nothing";
     $scope.room_key = null;
@@ -183,6 +183,9 @@ app.controller("HostRoomCtrl", function ($scope) {
                         
             //Open the channel.
             $scope.openChannel();
+            
+            //Start publishing on OpenTok.
+            $scope.opentok_session = OpenTok.publish($scope.tokbox_api_key, $scope.tokbox_session_id, $scope.tokbox_token);
         }
     );
     
