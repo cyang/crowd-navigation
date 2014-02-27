@@ -203,6 +203,12 @@ class NavRoomPage(webapp2.RequestHandler):
                             current_user = user)
                 room.put()
             else:
+                if room_key == "vr":
+                    self.redirect("/vr-room")
+                    return
+                if room_key == "demo":
+                    self.redirect("/demo")
+                    return
                 room = Room.get_by_key_name(room_key)
 
             if room:
