@@ -66,7 +66,7 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $window, $location, Channel,
 			$scope.openChannel();
 			
 			//Open the OpenTok stream.
-			OpenTok.subscribe($scope.tokbox_api_key, $scope.tokbox_session_id, $scope.tokbox_token);
+			$scope.opentok_session = OpenTok.subscribe($scope.tokbox_api_key, $scope.tokbox_session_id, $scope.tokbox_token);
 	    }
     );
 	

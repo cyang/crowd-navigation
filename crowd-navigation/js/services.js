@@ -74,6 +74,7 @@ services.factory('OpenTok', function()
             
             session.addEventListener("streamCreated", 
                                      streamCreatedHandler);
+            return session
         }
     }
 });
