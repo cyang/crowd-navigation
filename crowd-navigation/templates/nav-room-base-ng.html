@@ -48,8 +48,9 @@
                 </div>
             </div>
             <div class="small-5 columns">
-	            <div class="panel break-word">
-		            <p>Room Link: <span id="room_key">http://crowd-navigation.appspot.com/room?room_id{{room_key}}</span></p>
+	            <div class="panel">
+		            <h3>Room Link</h3>
+		            <input type="text" id="room_key" readonly="readonly" value="http://crowd-navigation.appspot.com/room?room_id={{room_key}}">
 		        </div>
             </div>
         </div>
@@ -59,20 +60,19 @@
 <div class="row">
     <div class="small-7 columns">
         <div class="panel">
-            <h2>All Directions</h2>
-				<table>
-				    <tr>
-                        <th>Name</th>
-                        <th>Direction</th>
-                        <th>Weight</th>
-                    </tr>
-				    <tr ng-repeat="crowdee in crowd">
-				        <td>{{crowdee.name}}</td>
-				        <td>{{crowdee.direction}}</td>
-				        <td>{{crowdee.weight}}</td>
-				    </tr>
-				</table>
-            </p>
+            <h3>All Directions</h3>
+			<table>
+			    <tr>
+                    <th>Name</th>
+                    <th>Direction</th>
+                    <th>Weight</th>
+                </tr>
+			    <tr ng-repeat="crowdee in crowd">
+			        <td>{{crowdee.name}}</td>
+			        <td>{{crowdee.direction}}</td>
+			        <td>{{crowdee.weight}}</td>
+			    </tr>
+			</table>
         </div>
     </div>
 </div>
