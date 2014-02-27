@@ -120,7 +120,7 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $window, $location, Channel,
         	$scope.user_direction = "Stop";
         }
         $scope.crowd[$scope.user_id]['direction'] = $scope.user_direction;
-        //updateRoom();
+        $scope.aggregateDirections();
         Channel.send({command: 'move', room_id: $scope.room_id, direction: $scope.user_direction});
     };
 });
