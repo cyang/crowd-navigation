@@ -1,16 +1,21 @@
 footer
 {
-  text-align: center;
-  line-height: $footer-height;
-  background: $primary-color;
+    text-align: center;
+    line-height: $footer-height;
+    background: $primary-color;
 }
 
 .break-word
 {
-	word-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .center
 {
-	text-align: center;
+    text-align: center;
+}
+
+.fi-general
+{
+    font-size: 20pt;
 }
