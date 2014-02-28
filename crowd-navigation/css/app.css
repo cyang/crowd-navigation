@@ -9143,6 +9143,7 @@ footer {
 
 /* line 19, ../sass/_crowd.scss */
 .fi-general {
+  vertical-align: -17%;
   font-size: 20pt;
 }
 
