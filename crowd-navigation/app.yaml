@@ -17,6 +17,9 @@ handlers:
 - url: /media
   static_dir: media
   
+- url: /font
+  static_dir: font
+  
 - url: /.*
   script: crowdnavigation.application
 
