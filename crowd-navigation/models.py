@@ -8,6 +8,8 @@ class Crowdee(db.Model):
     direction = db.StringProperty()
     channel = db.StringProperty()
     weight = db.IntegerProperty()
+    active = db.BooleanProperty(default=True)
+    last_modified = db.DateTimeProperty(auto_now=True)
 
 class Room(db.Model):
     current_user = db.UserProperty()
@@ -15,6 +17,8 @@ class Room(db.Model):
     session_id = db.StringProperty()
     pub_token = db.StringProperty()
     sub_token = db.StringProperty()
+    active = db.BooleanProperty(default=True)
+    last_modified = db.DateTimeProperty(auto_now=True)
     
     @classmethod
     def all_basic_json(cls):

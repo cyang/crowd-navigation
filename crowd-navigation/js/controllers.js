@@ -11,6 +11,14 @@ app.controller("CrowdeeRoomCtrl", function ($scope, $window, $location, Channel,
 	$scope.room_key = null;
 	$scope.crowd = {};
 	$scope.test = 0;
+	
+	/*$scope.getTextToCopy = function() {
+        return "ngClip is awesome!";
+    }
+    
+    $scope.doSomething = function () {
+        console.log("NgClip...");
+    }*/
     
 	$scope.openChannel = function()
 	{
