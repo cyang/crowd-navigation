@@ -105,8 +105,39 @@ class RoutingPage(webapp2.RequestHandler):
 
 class VirtualRealityPubPage(webapp2.RequestHandler):
     def get(self):
-        template = jinja_environment.get_template('vr-pub.html')
-        self.response.out.write(template.render())
+        user = users.get_current_user()
+        
+        #Redirect the user if they aren't logged in.
+        if not user:
+            self.redirect(users.create_login_url(self.request.uri))
+            return
+        
+        #Setup tokbox tokens.
+        tokbox_session_id = opentok_sdk.create_session().session_id
+        tokbox_token = opentok_sdk.generate_token(tokbox_session_id)
+        sub_tokbox_token = opentok_sdk.generate_token(tokbox_session_id, OpenTokSDK.RoleConstants.SUBSCRIBER)
+        
+        #Create the room.
+        room_key = "vr"
+        room = Room(key_name = room_key,
+                        current_user = user,
+                        session_id = tokbox_session_id,
+                        pub_token = tokbox_token,
+                        sub_token = sub_tokbox_token
+                       )
+        room.put()
+        
+        #Display the template.
+        token = channel.create_channel(room_key)
+        template_values = {'token': token,
+                           'tokbox_api_key': tokbox_api_key,
+                           'tokbox_session_id': tokbox_session_id,
+                           'tokbox_token': tokbox_token,
+                           'room_key': room_key,
+                           'initial_message': RoomUpdater(room).get_room_message_for_room(),
+                           }
+        template = jinja_environment.get_template('nav-pub-with-playback.html')
+        self.response.out.write(template.render(template_values))
 
 class VirtualRealityPubPlaybackPage(webapp2.RequestHandler):
     def get(self):
@@ -155,41 +186,38 @@ class VirtualRealityPage(webapp2.RequestHandler):
 class DemoPage(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
-
-        if user:
-            room_key = "demo"
-            room = Room.get_by_key_name(room_key)
-            if not room:
-                room = Room(key_name = room_key,
-                            current_user = user)
-                room.put()
-
-            #Check if the crowdee already exists for this user and room.
-            crowdeeQuery = Crowdee.all()
-            crowdeeQuery.filter("user =", user)
-            crowdeeQuery.filter("room =", room_key)
-            crowdee = crowdeeQuery.get()
-            #If the crowdee doesn't exist...
-            if not crowdee:
-                #Create the crowdee for the user and room.
-                crowdee = Crowdee(user = user,
-                                  room = room_key,
-                                  channel = room_key + "_" + user.user_id(),
-                                  direction = "None",
-                                  weight = 1)
-                crowdee.put()
-            
-            token = channel.create_channel(room_key + "_" + user.user_id())
-            template_values = {'token': token,
-                               'current_user_id': user.user_id(),
-                               'room_key': room_key,
-                               'weight': 1,
-                               'initial_message': RoomUpdater(room).get_room_message()
-                               }
-            template = jinja_environment.get_template('demo-room.html')
-            self.response.out.write(template.render(template_values))
-        else:
+        
+        #Redirect the user if they aren't logged in.
+        if not user:
             self.redirect(users.create_login_url(self.request.uri))
+            return
+        
+        #Setup tokbox tokens.
+        tokbox_session_id = opentok_sdk.create_session().session_id
+        tokbox_token = opentok_sdk.generate_token(tokbox_session_id)
+        sub_tokbox_token = opentok_sdk.generate_token(tokbox_session_id, OpenTokSDK.RoleConstants.SUBSCRIBER)
+        
+        #Create the room.
+        room_key = user.user_id()
+        room = Room(key_name = room_key,
+                        current_user = user,
+                        session_id = tokbox_session_id,
+                        pub_token = tokbox_token,
+                        sub_token = sub_tokbox_token
+                       )
+        room.put()
+        
+        #Display the template.
+        token = channel.create_channel(room_key)
+        template_values = {'token': token,
+                           'tokbox_api_key': tokbox_api_key,
+                           'tokbox_session_id': tokbox_session_id,
+                           'tokbox_token': tokbox_token,
+                           'room_key': room_key,
+                           'initial_message': RoomUpdater(room).get_room_message_for_room(),
+                           }
+        template = jinja_environment.get_template('nav-room-base-ng.html')
+        self.response.out.write(template.render(template_values))
 
 class NavRoomPage(webapp2.RequestHandler):
     def get(self):
