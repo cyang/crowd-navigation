@@ -33,16 +33,19 @@ class Room(db.Model):
             room_basic_dict = {
                                   "host_name": "VR",
                                   "host_id": "vr",
+                                  "active": self.active,
                               }
             return room_basic_dict
         if self.key().name() == "demo":
             room_basic_dict = {
                                   "host_name": "Demo",
                                   "host_id": "demo",
+                                  "active": self.active,
                               }
             return room_basic_dict
         room_basic_dict = {
                               "host_name": self.current_user.nickname(),
                               "host_id": self.current_user.user_id(),
+                              "active": self.active,
                           }
         return room_basic_dict

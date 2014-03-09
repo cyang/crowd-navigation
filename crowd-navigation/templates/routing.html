@@ -25,7 +25,7 @@
 				        </div>
                         <div class="panel">
                             <h3>Open Streams</h3>
-                            <a ng-repeat="room in room_list" href="/nav-room?g={{room.host_id}}" class="small button expand">{{room.host_name}}</a>
+                            <a ng-repeat="room in room_list | filter:{active: true}" href="/nav-room?g={{room.host_id}}" class="small button expand">{{room.host_name}}</a>
                             <h4 ng-if="room_list.length == 0">None</h4>
                         </div>
                     </div>
