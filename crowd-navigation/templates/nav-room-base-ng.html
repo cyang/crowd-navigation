@@ -46,6 +46,21 @@
 				    <h2>Direction: {{user_direction}}</h2>
 				    <h2>Aggregate: {{aggregate_direction}}</h2>
                 </div>
+                <div class="panel">
+		            <h3>All Directions</h3>
+		            <table>
+		                <tr>
+		                    <th>Name</th>
+		                    <th>Direction</th>
+		                    <th>Weight</th>
+		                </tr>
+		                <tr ng-repeat="crowdee in crowd">
+		                    <td>{{crowdee.name}}</td>
+		                    <td>{{crowdee.direction}}</td>
+		                    <td>{{crowdee.weight}}</td>
+		                </tr>
+		            </table>
+		        </div>
             </div>
             <div class="small-5 columns">
 	            <div class="panel">
@@ -59,28 +74,21 @@
                         </div>
 			        </div>
 		        </div>
+		        <div class="panel">
+                    <h3>Instructions</h3>
+                    <p ng-if="room_id != 'vr' && room_id != 'demo'">Use the arrow keys to specify the direction you think the user should be headed in. The up arrow key is forward, left is left, right is right, and down is stop.</p>
+                    <p ng-if="room_id != 'vr' && room_id != 'demo'">Your input will be aggregated with other users' input to provide feedback to the user.</p>
+                    <p ng-if="room_id != 'vr' && room_id != 'demo'">If the arrow keys are not changing your displayed direction click somewhere on the screen (not on the video stream or map) to regain focus on the webpage.</p>
+                    <p ng-if="room_id == 'demo'">Use the arrow keys to specify the direction you think the user should be headed in. The up arrow key is forward, left is left, right is right, and down is stop.</p>
+					<p ng-if="room_id == 'demo'">Your input will be aggregated with other users'. Since this is a demo with a looped video, the feedback will not be given to any real user.</p>
+					<p ng-if="room_id == 'demo'">If the arrow keys are not changing your displayed direction click somewhere on the screen (not on the video stream or map) to regain focus on the webpage.</p>
+                    <p ng-if="room_id == 'vr'">Use the arrow keys to specify the direction you think the virtual avatar should be headed in. The up arrow key is to move forward, left is to turn left, right is to turn right, and down is to stop.</p>
+					<p ng-if="room_id == 'vr'">Your input will be aggregated with other users' input to provide direction to the virtual avatar. The avatar reacts each input command, even rapid ones. To insure the avatar doesn't react unexpected don't input many commands too quickly. The doors in the virtual environment open automatically when you approach them.</p>
+					<p ng-if="room_id == 'vr'">If the arrow keys are not changing your displayed direction click somewhere on the screen (not on the video stream or map) to regain focus on the webpage.</p>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="small-7 columns">
-        <div class="panel">
-            <h3>All Directions</h3>
-			<table>
-			    <tr>
-                    <th>Name</th>
-                    <th>Direction</th>
-                    <th>Weight</th>
-                </tr>
-			    <tr ng-repeat="crowdee in crowd">
-			        <td>{{crowdee.name}}</td>
-			        <td>{{crowdee.direction}}</td>
-			        <td>{{crowdee.weight}}</td>
-			    </tr>
-			</table>
-        </div>
-    </div>
-</div>
 {% endblock content %}
