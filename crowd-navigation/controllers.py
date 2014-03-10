@@ -105,39 +105,8 @@ class RoutingPage(webapp2.RequestHandler):
 
 class VirtualRealityPubPage(webapp2.RequestHandler):
     def get(self):
-        user = users.get_current_user()
-        
-        #Redirect the user if they aren't logged in.
-        if not user:
-            self.redirect(users.create_login_url(self.request.uri))
-            return
-        
-        #Setup tokbox tokens.
-        tokbox_session_id = opentok_sdk.create_session().session_id
-        tokbox_token = opentok_sdk.generate_token(tokbox_session_id)
-        sub_tokbox_token = opentok_sdk.generate_token(tokbox_session_id, OpenTokSDK.RoleConstants.SUBSCRIBER)
-        
-        #Create the room.
-        room_key = "vr"
-        room = Room(key_name = room_key,
-                        current_user = user,
-                        session_id = tokbox_session_id,
-                        pub_token = tokbox_token,
-                        sub_token = sub_tokbox_token
-                       )
-        room.put()
-        
-        #Display the template.
-        token = channel.create_channel(room_key)
-        template_values = {'token': token,
-                           'tokbox_api_key': tokbox_api_key,
-                           'tokbox_session_id': tokbox_session_id,
-                           'tokbox_token': tokbox_token,
-                           'room_key': room_key,
-                           'initial_message': RoomUpdater(room).get_room_message_for_room(),
-                           }
-        template = jinja_environment.get_template('nav-pub-with-playback.html')
-        self.response.out.write(template.render(template_values))
+        template = jinja_environment.get_template('vr-pub.html')
+        self.response.out.write(template.render())
 
 class VirtualRealityPubPlaybackPage(webapp2.RequestHandler):
     def get(self):
