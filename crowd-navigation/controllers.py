@@ -545,7 +545,7 @@ class ChannelDisconnect(webapp2.RequestHandler):
                 RoomUpdater(room).delete_move(user_id)
         room_list = Room.all()
         for room in room_list:
-            if room.current_user.user_id() == channel_token:
+            if room.key().name() == channel_token:
                 room.active = False
                 room.put()
 
