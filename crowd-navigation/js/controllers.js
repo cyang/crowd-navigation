@@ -228,6 +228,19 @@ app.controller("HostRoomCtrl", function ($scope, Channel, Room, OpenTok) {
 });
 
 
-app.controller("HomePageCtrl", function ($scope, Room) {
-    $scope.room_list = Room.query();
+app.controller("HomePageCtrl", function($scope, Room) {
+    Room.query({}, function(room_list)
+    {
+        function staticFilter(room, index, array) {
+            if(room.host_id == 'vr' || room.host_id == 'demo')
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        $scope.room_list = room_list.filter(staticFilter);
+    });
 });
