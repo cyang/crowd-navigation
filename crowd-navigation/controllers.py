@@ -98,9 +98,9 @@ class NavPub2WithPlaybackPage(webapp2.RequestHandler):
         template = jinja_environment.get_template('nav-pub-with-playback.html')
         self.response.out.write(template.render(template_values))
 
-class RoutingPage(webapp2.RequestHandler):
+class LandingPage(webapp2.RequestHandler):
     def get(self):
-        template = jinja_environment.get_template('routing.html')
+        template = jinja_environment.get_template('landing.html')
         self.response.out.write(template.render())
 
 class VirtualRealityPubPage(webapp2.RequestHandler):

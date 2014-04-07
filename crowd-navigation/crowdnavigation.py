@@ -6,7 +6,7 @@ import controllers
 debug = os.environ.get('SERVER_SOFTWARE', '').startswith('Dev')
 
 application = webapp2.WSGIApplication([
-                                      ('/', controllers.RoutingPage),
+                                      ('/', controllers.LandingPage),
                                       ('/nav-room', controllers.NavRoomPage),
                                       ('/nav-pub2', controllers.NavPub2WithPlaybackPage),
                                       ('/nav-pub2-with-playback', controllers.NavPub2WithPlaybackPage),
