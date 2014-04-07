@@ -28,6 +28,7 @@
                             <a ng-repeat="room in room_list | filter:{active: true}" href="/room?room_id={{room.host_id}}" class="small button expand">{{room.host_name}}</a>
                             <a href="/vr-room" class="small button expand">VR Demo</a>
                             <a href="/demo" class="small button expand">Static Demo</a>
+                            <!--<h4 ng-if="(room_list | filter:{active: true}).length == 0">None</h4>-->
                         </div>
                     </div>
                 </div>
