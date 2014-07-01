@@ -510,7 +510,7 @@ class RoomUpdater():
                            'user_id': user_id,
                            'delete': True
                        }
-        self.send_update(json.dumps(roomUpdate)) #test 1
+        self.send_update(json.dumps(roomUpdate)) #test 1 another commmit test
         
 class GetDirection(webapp2.RequestHandler):
     def get(self):
