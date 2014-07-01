@@ -1,8 +1,8 @@
 application: crowd-navigation
 version: 1-3c
 runtime: python27
+threadsafe: true
 api_version: 1
-threadsafe: no
 
 handlers:
 - url: /css
@@ -22,6 +22,10 @@ handlers:
   
 - url: /.*
   script: crowdnavigation.application
+  
+# Endpoints handler
+- url: /_ah/spi/.*
+  script: crowdnavigation_api.APPLICATION
 
 inbound_services:
 - channel_presence
@@ -32,3 +36,8 @@ libraries:
 
 - name: markupsafe
   version: latest
+  
+- name: pycrypto
+  version: latest
+- name: endpoints
+  version: 1.0
