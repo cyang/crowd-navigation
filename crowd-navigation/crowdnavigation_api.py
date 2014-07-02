@@ -21,9 +21,9 @@ STORED_GREETINGS = GreetingCollection(items=[
     Greeting(message='goodbye world!'),
 ])
 
-@endpoints.api(name='helloworld', version='v1')
-class HelloWorldApi(remote.Service):
-    """Helloworld API v1."""
+@endpoints.api(name='crowdnavigation', version='v1')
+class CrowdNavigationApi(remote.Service):
+    """CrowdNavigation API v1."""
 
     @endpoints.method(message_types.VoidMessage, GreetingCollection,
                       path='hellogreeting', http_method='GET',
@@ -46,4 +46,4 @@ class HelloWorldApi(remote.Service):
                                               (request.id,))
                                               
                                               
-APPLICATION = endpoints.api_server([HelloWorldApi])
+APPLICATION = endpoints.api_server([CrowdNavigationApi])
