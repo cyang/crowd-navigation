@@ -1,3 +1,10 @@
+"""Hello World API implemented using Google Cloud Endpoints.
+
+Defined here are the ProtoRPC messages needed to define Schemas for methods
+as well as those methods defined in an API.
+"""
+
+
 import endpoints
 from protorpc import messages
 from protorpc import message_types
@@ -21,9 +28,21 @@ STORED_GREETINGS = GreetingCollection(items=[
     Greeting(message='goodbye world!'),
 ])
 
+
 @endpoints.api(name='crowdnavigation', version='v1')
 class CrowdNavigationApi(remote.Service):
     """CrowdNavigation API v1."""
+
+    MULTIPLY_METHOD_RESOURCE = endpoints.ResourceContainer(
+            Greeting,
+            times=messages.IntegerField(2, variant=messages.Variant.INT32,
+                                        required=True))
+
+    @endpoints.method(MULTIPLY_METHOD_RESOURCE, Greeting,
+                      path='hellogreeting/{times}', http_method='POST',
+                      name='greetings.multiply')
+    def greetings_multiply(self, request):
+        return Greeting(message=request.message * request.times)
 
     @endpoints.method(message_types.VoidMessage, GreetingCollection,
                       path='hellogreeting', http_method='GET',
@@ -44,6 +63,6 @@ class CrowdNavigationApi(remote.Service):
         except (IndexError, TypeError):
             raise endpoints.NotFoundException('Greeting %s not found.' %
                                               (request.id,))
-                                              
-                                              
+
+
 APPLICATION = endpoints.api_server([CrowdNavigationApi])
