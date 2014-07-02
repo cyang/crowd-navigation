@@ -19,10 +19,14 @@ handlers:
   
 - url: /font
   static_dir: font 
+
   
 # Endpoints handler
 - url: /_ah/spi/.*
   script: crowdnavigation_api.APPLICATION
+
+- url: /.*
+  script: crowdnavigation.application
 
 inbound_services:
 - channel_presence
