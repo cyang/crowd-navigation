@@ -10,6 +10,12 @@ from protorpc import messages
 from protorpc import message_types
 from protorpc import remote
 
+WEB_CLIENT_ID = '246059165794-qnm4vhb8rcp716d79pgkvmb6a313007k.apps.googleusercontent.com'
+"""ANDROID_CLIENT_ID = 'replace this with your Android client ID'"""
+IOS_CLIENT_ID = '246059165794-ce2eaiv38sr40eva3ojfcspu179h3d4t.apps.googleusercontent.com'
+ANDROID_AUDIENCE = WEB_CLIENT_ID
+
+
 package = 'Hello'
 
 
@@ -29,7 +35,10 @@ STORED_GREETINGS = GreetingCollection(items=[
 ])
 
 
-@endpoints.api(name='crowdnavigation', version='v1')
+@endpoints.api(name='crowdnavigation', version='v1',
+            allowed_client_ids=[WEB_CLIENT_ID, IOS_CLIENT_ID, endpoints.API_EXPLORER_CLIENT_ID],
+            audiences=[ANDROID_AUDIENCE],
+            scopes=[endpoints.EMAIL_SCOPE])
 class CrowdNavigationApi(remote.Service):
     """CrowdNavigation API v1."""
 
@@ -63,6 +72,15 @@ class CrowdNavigationApi(remote.Service):
         except (IndexError, TypeError):
             raise endpoints.NotFoundException('Greeting %s not found.' %
                                               (request.id,))
+    @endpoints.method(message_types.VoidMessage, Greeting,
+                          path='hellogreeting/authed', http_method='POST',
+                          name='greetings.authed')
+    def greeting_authed(self, request):
+        current_user = endpoints.get_current_user()
+        email = (current_user.email() if current_user is not None
+                 else 'Anonymous')
+        return Greeting(message='hello %s' % (email,))
+    
 
 
 APPLICATION = endpoints.api_server([CrowdNavigationApi])
