@@ -19,6 +19,9 @@ ANDROID_AUDIENCE = WEB_CLIENT_ID
 package = 'Hello'
 
 
+class DirectionMessage(messages.Message):
+    state = messages.StringField(1, required=True)
+
 class Greeting(messages.Message):
     """Greeting that stores a message."""
     message = messages.StringField(1)
@@ -41,6 +44,17 @@ STORED_GREETINGS = GreetingCollection(items=[
             scopes=[endpoints.EMAIL_SCOPE])
 class CrowdNavigationApi(remote.Service):
     """CrowdNavigation API v1."""
+
+    @endpoints.method(DirectionMessage, DirectionMessage,
+                  path='direction', http_method='POST',
+                  name='direction.get')
+    def getDirection(self):
+        room = Room.all()
+        direction = "None"
+        for s in room:
+            if(s.direction):
+                direction = s.direction
+        return direction
 
     MULTIPLY_METHOD_RESOURCE = endpoints.ResourceContainer(
             Greeting,
@@ -80,7 +94,8 @@ class CrowdNavigationApi(remote.Service):
         email = (current_user.email() if current_user is not None
                  else 'Anonymous')
         return Greeting(message='hello %s' % (email,))
-    
+
+
 
 
 APPLICATION = endpoints.api_server([CrowdNavigationApi])
